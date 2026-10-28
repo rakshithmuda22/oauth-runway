@@ -1,0 +1,93 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://login.xero.com/identity/connect/authorize?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "pass",
+    "result": "Endpoint is live and rejects an unregistered client_id (HTTP 200 after 1 redirect): \"…, please visit our Status Page . Error: unauthorized_client Unknown client or client not enabled Error code: 500 Status page Security noticeboard Terms of use …\"",
+    "at": "2026-10-28T16:34:10.494Z"
+  },
+  {
+    "check": "OAuth / OIDC metadata document",
+    "method": "GET https://identity.xero.com/.well-known/openid-configuration",
+    "status": "pass",
+    "result": "Metadata published. PKCE methods: S256. Grant types: authorization_code, client_credentials, refresh_token. Token auth: client_secret_basic, client_secret_post.",
+    "at": "2026-10-28T16:34:10.247Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://developer.xero.com/app/manage",
+    "status": "pass",
+    "result": "Reachable (HTTP 200): \"Xero\".",
+    "at": "2026-10-28T16:34:10.314Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://developer.xero.com/documentation/guides/oauth2/auth-flow",
+    "status": "pass",
+    "result": "HTTP 200: \"The standard authorization code flow — Xero Developer\"",
+    "at": "2026-10-28T16:34:10.654Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://developer.xero.com/documentation/guides/oauth2/limits",
+    "status": "pass",
+    "result": "HTTP 200: \"OAuth 2.0 API limits — Xero Developer\"",
+    "at": "2026-10-28T16:34:10.632Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://developer.xero.com/pricing",
+    "status": "pass",
+    "result": "HTTP 200: \"Pricing — Xero Developer\"",
+    "at": "2026-10-28T16:34:10.524Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://developer.xero.com/documentation/guides/oauth2/scopes",
+    "status": "pass",
+    "result": "HTTP 200: \"Scopes — Xero Developer\"",
+    "at": "2026-10-28T16:34:10.706Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://developer.xero.com/documentation/xero-app-store/app-partner-guides/building-and-growing-your-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Building and growing your app — Xero Developer\"",
+    "at": "2026-10-28T16:34:10.900Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints",
+    "status": "pass",
+    "result": "HTTP 200: \"Certification checkpoints — Xero Developer\"",
+    "at": "2026-10-28T16:34:10.877Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://developer.xero.com/documentation/getting-started-guide/",
+    "status": "pass",
+    "result": "HTTP 200: \"Getting started guide — Xero Developer\"",
+    "at": "2026-10-28T16:34:10.741Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:34:10.865Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/white-labeling-authentication",
+    "status": "pass",
+    "result": "HTTP 200: \"White-labeling authentication | Composio\"",
+    "at": "2026-10-28T16:34:10.919Z"
+  },
+  {
+    "check": "Source [s10] still online",
+    "method": "GET https://identity.xero.com/.well-known/openid-configuration",
+    "status": "pass",
+    "result": "HTTP 200",
+    "at": "2026-10-28T16:34:10.746Z"
+  }
+]

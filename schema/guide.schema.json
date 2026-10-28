@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OAuth Runway guide",
+  "description": "One provider's path from 'no OAuth app' to 'production-ready OAuth app'. Every factual claim cites a source id; probe results live in `tested` and are written by code, not by the model.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["slug", "app", "composio", "verdict", "phases", "requirements", "scopes", "oauth", "limits", "blockers", "agent_handoff", "sources", "uncertain"],
+  "properties": {
+    "slug": { "type": "string", "description": "lowercase-kebab id, e.g. google-workspace" },
+    "app": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "website", "category", "developer_portal_url", "docs_url"],
+      "properties": {
+        "name": { "type": "string" },
+        "website": { "type": "string" },
+        "category": { "type": "string", "description": "e.g. CRM, Email & Calendar, Accounting, Social, Dev tools" },
+        "developer_portal_url": { "type": "string", "description": "Where the OAuth app is created" },
+        "docs_url": { "type": "string", "description": "The provider's main OAuth documentation page" }
+      }
+    },
+    "composio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["toolkit_slug", "managed_oauth", "note"],
+      "properties": {
+        "toolkit_slug": { "type": "string", "description": "Composio toolkit slug, or empty string if none" },
+        "managed_oauth": { "type": "string", "enum": ["available", "bring-your-own", "not-listed"] },
+        "note": { "type": "string", "description": "When a developer would still bring their own app even if managed is available" }
+      }
+    },
+    "verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tier", "difficulty", "headline", "summary", "time_to_first_connection", "time_to_production", "hands_on_effort", "approval_wait", "cost", "confidence"],
+      "properties": {
+        "tier": {
+          "type": "string",
+          "enum": ["self-serve", "self-serve-with-review", "approval-gated", "partner-only"],
+          "description": "self-serve: usable by any user with no review. self-serve-with-review: works immediately for you/test users, review needed to go wide. approval-gated: provider must approve before real users can connect. partner-only: requires a partner program, contract or paid tier."
+        },
+        "difficulty": { "type": "integer", "description": "1 (minutes, no review) to 5 (weeks, audits, business verification)" },
+        "headline": { "type": "string", "description": "One sentence a developer can act on" },
+        "summary": { "type": "string", "description": "2-4 sentences: what makes this provider easy or hard" },
+        "time_to_first_connection": { "type": "string", "description": "Hands-on time until the developer's own account connects in dev/test mode" },
+        "time_to_production": { "type": "string", "description": "Calendar time until arbitrary users can connect, including waits" },
+        "hands_on_effort": { "type": "string", "description": "Total active work, excluding waiting" },
+        "approval_wait": { "type": "string", "description": "What review exists, what triggers it, and how long it typically takes; 'None' if none" },
+        "cost": { "type": "string", "description": "Fees, paid tiers, audits; 'Free' if free" },
+        "confidence": { "type": "string", "enum": ["high", "medium", "low"] }
+      }
+    },
+    "phases": {
+      "type": "array",
+      "description": "Ordered phases, e.g. Register -> Configure -> Test -> Review -> Launch",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "goal", "duration", "is_wait", "steps"],
+        "properties": {
+          "name": { "type": "string" },
+          "goal": { "type": "string" },
+          "duration": { "type": "string" },
+          "is_wait": { "type": "boolean", "description": "True when the phase is mostly waiting on the provider" },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["title", "detail", "owner", "agent_help", "link", "sources"],
+              "properties": {
+                "title": { "type": "string" },
+                "detail": { "type": "string" },
+                "owner": { "type": "string", "enum": ["agent", "you", "agent+you", "provider"] },
+                "agent_help": { "type": "string", "description": "What an agent can do for this step; empty if nothing" },
+                "link": { "type": "string", "description": "Deep link to the console page or doc for this step; empty if none" },
+                "sources": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item", "needed_for", "detail", "sources"],
+        "properties": {
+          "item": { "type": "string" },
+          "needed_for": { "type": "string", "enum": ["development", "production", "public-listing"] },
+          "detail": { "type": "string" },
+          "sources": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "scopes": {
+      "type": "array",
+      "description": "The scopes an agent integration typically needs and what they trigger",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["scope", "purpose", "sensitivity", "review_impact", "sources"],
+        "properties": {
+          "scope": { "type": "string" },
+          "purpose": { "type": "string" },
+          "sensitivity": { "type": "string", "enum": ["basic", "sensitive", "restricted", "admin"] },
+          "review_impact": { "type": "string" },
+          "sources": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "oauth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorize_url", "token_url", "discovery_url", "pkce", "refresh_tokens", "redirect_uri_rules", "sources"],
+      "properties": {
+        "authorize_url": { "type": "string" },
+        "token_url": { "type": "string" },
+        "discovery_url": { "type": "string", "description": "OIDC/OAuth metadata URL, or empty string" },
+        "pkce": { "type": "string", "description": "required / supported / not supported / unknown, with detail" },
+        "refresh_tokens": { "type": "string", "description": "Whether issued, how to request, lifetime, rotation" },
+        "redirect_uri_rules": { "type": "string", "description": "HTTPS, exact match, localhost, wildcard rules" },
+        "sources": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["limit", "applies_when", "how_to_lift", "sources"],
+        "properties": {
+          "limit": { "type": "string" },
+          "applies_when": { "type": "string" },
+          "how_to_lift": { "type": "string" },
+          "sources": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["blocker", "symptom", "fix", "sources"],
+        "properties": {
+          "blocker": { "type": "string" },
+          "symptom": { "type": "string", "description": "Error text or behaviour the developer will see" },
+          "fix": { "type": "string" },
+          "sources": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "agent_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent_can", "you_must"],
+      "properties": {
+        "agent_can": { "type": "array", "items": { "type": "string" } },
+        "you_must": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "url", "kind", "supports"],
+        "properties": {
+          "id": { "type": "string", "description": "s1, s2, ..." },
+          "title": { "type": "string" },
+          "url": { "type": "string" },
+          "kind": { "type": "string", "enum": ["official-docs", "official-policy", "official-blog", "composio", "community"] },
+          "supports": { "type": "string", "description": "Which claim(s) this source backs" }
+        }
+      }
+    },
+    "uncertain": {
+      "type": "array",
+      "description": "Claims that could not be confirmed from an official source, or that conflict between sources",
+      "items": { "type": "string" }
+    }
+  }
+}

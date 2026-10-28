@@ -1,0 +1,30 @@
+{
+  "name": "oauth-runway",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Know how long it takes before your users can connect an app: OAuth app setup and approval guides, plus a live agent that researches any app.",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build && wrangler dev",
+    "build": "node scripts/build-library.ts",
+    "probe": "node scripts/probe-library.ts",
+    "generate": "node --env-file=.dev.vars scripts/generate.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && vitest run",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "engines": {
+    "node": ">=23.6"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261028.1",
+    "@types/node": "^26.6.5",
+    "ajv": "^8.20.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.12",
+    "wrangler": "^4.154.0"
+  }
+}

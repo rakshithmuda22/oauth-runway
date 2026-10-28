@@ -1,0 +1,79 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://api.notion.com/v1/oauth/authorize?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "info",
+    "result": "Endpoint is live (HTTP 200 after 1 redirect) but renders in the browser with JavaScript, so its client check can't be seen without a real browser session.",
+    "at": "2026-10-28T16:34:01.173Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://app.notion.com/developers/connections",
+    "status": "pass",
+    "result": "Reachable (HTTP 200): \"Notion\".",
+    "at": "2026-10-28T16:34:01.109Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://developers.notion.com/docs/authorization",
+    "status": "pass",
+    "result": "HTTP 200: \"Authorization - Notion Docs\"",
+    "at": "2026-10-28T16:34:01.519Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://developers.notion.com/guides/get-started/public-connections.md",
+    "status": "pass",
+    "result": "HTTP 200",
+    "at": "2026-10-28T16:34:01.662Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://developers.notion.com/guides/get-started",
+    "status": "pass",
+    "result": "HTTP 200: \"Overview - Notion Docs\"",
+    "at": "2026-10-28T16:34:02.497Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://developers.notion.com/guides/get-started/marketplace-listing.md",
+    "status": "pass",
+    "result": "HTTP 200",
+    "at": "2026-10-28T16:34:01.548Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://developers.notion.com/reference/capabilities.md",
+    "status": "pass",
+    "result": "HTTP 200",
+    "at": "2026-10-28T16:34:01.464Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://developers.notion.com/reference/refresh-a-token.md",
+    "status": "pass",
+    "result": "HTTP 200",
+    "at": "2026-10-28T16:34:01.853Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://developers.notion.com/reference/request-limits",
+    "status": "pass",
+    "result": "HTTP 200: \"Request limits - Notion Docs\"",
+    "at": "2026-10-28T16:34:01.562Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:34:01.798Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://docs.composio.dev/docs/auth-configuration/programmatic-auth-configs",
+    "status": "pass",
+    "result": "HTTP 200: \"Programmatic auth configs | Composio\"",
+    "at": "2026-10-28T16:34:01.791Z"
+  }
+]

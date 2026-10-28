@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "oauth-runway",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/guide/*", "/g/*"]
+  },
+  "kv_namespaces": [{ "binding": "GUIDES", "id": "9d91bd2ae69c4be19f206dc4e72321d3" }],
+  "vars": {
+    "MODEL": "claude-opus-5-5",
+    "DAILY_LIMIT_PER_IP": "3",
+    "DAILY_LIMIT_TOTAL": "40"
+  },
+  "observability": { "enabled": true }
+  // Secret (not in this file): wrangler secret put ANTHROPIC_API_KEY
+}

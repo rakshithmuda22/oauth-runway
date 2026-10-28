@@ -1,0 +1,324 @@
+{
+  "slug": "microsoft-365",
+  "app": {
+    "name": "Microsoft 365 (Outlook mail and calendar via Microsoft Graph)",
+    "website": "https://www.microsoft.com/microsoft-365",
+    "category": "Email & Calendar",
+    "developer_portal_url": "https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade",
+    "docs_url": "https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow"
+  },
+  "composio": {
+    "toolkit_slug": "OUTLOOK",
+    "managed_oauth": "available",
+    "note": "With Composio's managed app, users consent to Composio's app instead of yours, you share quota with other Composio customers, and trigger polling is limited to every 15 minutes or slower. Bring your own Entra app to show your own name and verified-publisher badge on the consent prompt, to choose exact Graph scopes, and to get a dedicated quota. It's also the app that customer tenant admins will grant admin consent to and that enterprise security teams will review."
+  },
+  "verdict": {
+    "tier": "self-serve-with-review",
+    "difficulty": 3,
+    "headline": "Register a multitenant Entra app in minutes, with no Microsoft review. Before launch, get publisher verification and expect many work tenants to require admin consent for Mail.Read and Calendars.* under Microsoft's default consent policy.",
+    "summary": "There's no app review: any multitenant app can request delegated Graph permissions straight away, and personal Outlook.com accounts can consent themselves. The friction sits in each customer's tenant. Microsoft's managed default consent policy, the default for new tenants, blocks end-user consent to Mail.Read, Mail.ReadWrite, Calendars.Read/ReadWrite, Files.Read.All and similar, so a tenant admin must grant consent. Publisher verification (free, via a verified Microsoft AI Cloud Partner Program account) adds the blue badge and avoids the unverified-publisher block that many tenants enforce.",
+    "time_to_first_connection": "15-30 minutes: register the app, add the redirect URI and a client secret, then connect your own account.",
+    "time_to_production": "Same day if you skip publisher verification. Otherwise 1 day to about 2 weeks: Microsoft says verification takes minutes once the Partner Program account is verified, but that account verification can take days (estimate). Each customer tenant may also need its admin to consent.",
+    "hands_on_effort": "About 1-3 hours for registration and config, plus a few hours for Partner Center enrollment, domain setup and publisher verification.",
+    "approval_wait": "No Microsoft app review. Publisher verification is instant once prerequisites are met, but the Partner Program account verification it depends on has an unpublished turnaround. Per-tenant admin consent depends on each customer's admin.",
+    "cost": "Free. No charge for app registration or publisher verification, and no license required.",
+    "confidence": "high"
+  },
+  "phases": [
+    {
+      "name": "Register",
+      "goal": "Create a multitenant app registration with a redirect URI and credential",
+      "duration": "15-30 minutes",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Create the app registration",
+          "detail": "In the Entra admin center, go to App registrations > New registration. For a SaaS agent, choose 'Multiple Entra ID tenants', or 'Any Entra ID Tenant + Personal Microsoft accounts' to also support Outlook.com. Single tenant only works for your own org. Register with a work or school account, because apps registered with a personal Microsoft account can't be publisher verified.",
+          "owner": "you",
+          "agent_help": "Recommend the account type for your audience and note the trade-offs, such as no query parameters in redirect URIs when personal accounts are enabled.",
+          "link": "https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade",
+          "sources": ["s1", "s2", "s3"]
+        },
+        {
+          "title": "Add the Web redirect URIs",
+          "detail": "Under Authentication, add a Web platform redirect URI. It must use HTTPS (http is allowed only for localhost) and is case-sensitive. Limits are 256 URIs (100 if personal accounts are enabled) and 256 characters each. Wildcards aren't supported when personal accounts are enabled.",
+          "owner": "agent+you",
+          "agent_help": "Generate the URI list, check each against the rules, or add them through Microsoft Graph application APIs if you authorize the agent.",
+          "link": "https://learn.microsoft.com/en-us/entra/identity-platform/reply-url",
+          "sources": ["s2"]
+        },
+        {
+          "title": "Create a client secret and calendar its expiry",
+          "detail": "Go to Certificates & secrets > New client secret. The maximum lifetime is 24 months and Microsoft recommends under 12. The value is shown only once. Microsoft recommends certificates rather than secrets in production.",
+          "owner": "you",
+          "agent_help": "Set up an expiry reminder and a rotation runbook. Store the secret in your secret manager.",
+          "link": "https://learn.microsoft.com/en-us/entra/identity-platform/how-to-add-credentials",
+          "sources": ["s7"]
+        },
+        {
+          "title": "Declare delegated Graph permissions",
+          "detail": "Under API permissions, add the delegated permissions you need: offline_access, User.Read, Mail.Read or Mail.ReadWrite, Mail.Send, and Calendars.ReadWrite. These are requested on behalf of the signed-in user. Application permissions (no user present) always need admin consent, so avoid them unless you're building a daemon.",
+          "owner": "agent+you",
+          "agent_help": "Map agent tools to the least-privileged delegated permissions and flag which ones fall under the default admin-consent block.",
+          "link": "https://learn.microsoft.com/en-us/graph/permissions-reference",
+          "sources": ["s4", "s5", "s8"]
+        }
+      ]
+    },
+    {
+      "name": "Connect to Composio",
+      "goal": "Use your Entra app in Composio's Outlook toolkit",
+      "duration": "10-20 minutes",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Register Composio's callback as a redirect URI",
+          "detail": "Add https://backend.composio.dev/api/v3/toolkits/auth/callback as a Web redirect URI. Use the exact URI the Composio dashboard shows for your auth config, because some toolkits still show the legacy https://backend.composio.dev/api/v1/auth-apps/add.",
+          "owner": "agent+you",
+          "agent_help": "Read the redirect URI from the Composio dashboard or API and diff it against the app registration.",
+          "link": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+          "sources": ["s10", "s11", "s12", "s2"]
+        },
+        {
+          "title": "Create a custom auth config in Composio",
+          "detail": "Create an Auth Config for the Outlook toolkit with OAuth2, the Application (client) ID and the secret value. Set your scopes, including offline_access so Microsoft issues a refresh token, then use the ac_... ID in your sessions.",
+          "owner": "agent+you",
+          "agent_help": "Write the SDK or API call and wire the auth config ID into your code. You provide the secret securely.",
+          "link": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+          "sources": ["s10", "s8"]
+        },
+        {
+          "title": "Test with a work account and a personal account",
+          "detail": "Connect from your own tenant and from an outside tenant that uses the default consent policy. If Mail.Read is requested, expect a 'Need admin approval' prompt in the outside tenant.",
+          "owner": "agent",
+          "agent_help": "Run both flows, record the exact prompts and errors, and confirm refresh works.",
+          "link": "",
+          "sources": ["s5", "s4"]
+        }
+      ]
+    },
+    {
+      "name": "Verify publisher",
+      "goal": "Get the blue verified badge so tenant consent policies allow your app",
+      "duration": "Minutes once prerequisites exist; days if you're new to Partner Center (estimate)",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Enroll and verify in the Microsoft AI Cloud Partner Program",
+          "detail": "You need a Partner One ID for the partner global account, not a location ID, and that account must pass Partner Center verification. The email domain used must match the app's publisher domain or a DNS-verified custom domain in the tenant; *.onmicrosoft.com isn't allowed.",
+          "owner": "you",
+          "agent_help": "Prepare the business details checklist and the DNS records for the custom domain.",
+          "link": "https://partner.microsoft.com/membership",
+          "sources": ["s3"]
+        },
+        {
+          "title": "Set the publisher domain and add the Partner One ID",
+          "detail": "In the app's Branding & properties, set a verified publisher domain and enter the Partner One ID. The person doing this needs Application Administrator or Cloud Application Administrator in Entra, Partner Admin or Account Admin in Partner Center, and must sign in with MFA.",
+          "owner": "you",
+          "agent_help": "Check that the roles and domain prerequisites are in place before you start.",
+          "link": "https://learn.microsoft.com/en-us/entra/identity-platform/publisher-verification-overview",
+          "sources": ["s3"]
+        }
+      ]
+    },
+    {
+      "name": "Customer tenant rollout",
+      "goal": "Get each organization's admin to consent where user consent is blocked",
+      "duration": "Depends on each customer",
+      "is_wait": true,
+      "steps": [
+        {
+          "title": "Ship an admin-consent path",
+          "detail": "Under Microsoft's managed default policy, users can't consent to Mail.Read*, Calendars.*, Files.Read.All, Sites.Read.All, Contacts.ReadWrite and similar permissions. A tenant admin must grant consent, or the tenant must enable the admin consent workflow so users can request it.",
+          "owner": "agent+you",
+          "agent_help": "Draft the admin-facing docs and the admin consent URL, and explain the 'Need admin approval' screen to support.",
+          "link": "https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/manage-app-consent-policies",
+          "sources": ["s5", "s4"]
+        },
+        {
+          "title": "Customer admin grants consent",
+          "detail": "The customer's Global Admin or a role with consent rights approves the app for their tenant. Existing grants are unaffected when they later change policy.",
+          "owner": "you",
+          "agent_help": "",
+          "link": "",
+          "sources": ["s4"]
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "item": "Entra tenant and work or school account",
+      "needed_for": "development",
+      "detail": "At least the Application Developer role. A personal Microsoft account can register apps, but those apps can't be publisher verified.",
+      "sources": ["s1", "s3"]
+    },
+    {
+      "item": "HTTPS redirect URI",
+      "needed_for": "development",
+      "detail": "HTTPS is required, except http://localhost during development.",
+      "sources": ["s2"]
+    },
+    {
+      "item": "Client secret or certificate",
+      "needed_for": "production",
+      "detail": "Secret lifetime is at most 24 months (under 12 recommended). Certificates are recommended for production.",
+      "sources": ["s7"]
+    },
+    {
+      "item": "Verified Partner Program account and custom domain",
+      "needed_for": "production",
+      "detail": "Needed for publisher verification, which many tenants' consent policies require. Free.",
+      "sources": ["s3", "s4"]
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "offline_access",
+      "purpose": "Get refresh tokens",
+      "sensitivity": "basic",
+      "review_impact": "None. Without it, no refresh_token is returned.",
+      "sources": ["s8"]
+    },
+    {
+      "scope": "User.Read",
+      "purpose": "Sign-in and basic profile",
+      "sensitivity": "basic",
+      "review_impact": "User-consentable.",
+      "sources": ["s1"]
+    },
+    {
+      "scope": "Mail.Read",
+      "purpose": "Read the user's mail",
+      "sensitivity": "sensitive",
+      "review_impact": "Not admin-restricted by definition, but excluded from user consent under Microsoft's managed default policy, so tenant admin consent is needed in tenants on that default. Personal accounts can consent themselves.",
+      "sources": ["s5", "s4"]
+    },
+    {
+      "scope": "Mail.ReadWrite",
+      "purpose": "Read, draft, move and delete mail",
+      "sensitivity": "sensitive",
+      "review_impact": "Same as Mail.Read: blocked for user consent under the managed default policy.",
+      "sources": ["s5"]
+    },
+    {
+      "scope": "Mail.Send",
+      "purpose": "Send mail as the user",
+      "sensitivity": "sensitive",
+      "review_impact": "Not on the managed policy's exclusion list, so users can consent where user consent is allowed.",
+      "sources": ["s5"]
+    },
+    {
+      "scope": "Calendars.ReadWrite",
+      "purpose": "Read and write calendar events",
+      "sensitivity": "sensitive",
+      "review_impact": "Blocked for user consent under the managed default policy, so tenant admin consent is needed.",
+      "sources": ["s5"]
+    },
+    {
+      "scope": "Mail.Read (application permission)",
+      "purpose": "Read all mailboxes without a signed-in user",
+      "sensitivity": "admin",
+      "review_impact": "Application permissions always require admin consent. Avoid them for per-user agents.",
+      "sources": ["s5"]
+    }
+  ],
+  "oauth": {
+    "authorize_url": "https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize (tenant = common, organizations, consumers or a tenant ID)",
+    "token_url": "https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token",
+    "discovery_url": "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration",
+    "pkce": "Supported (S256 and plain). Recommended for all clients including confidential ones; required for SPAs.",
+    "refresh_tokens": "Issued only when offline_access is requested. Default lifetime is 90 days (24 hours for SPA redirect URIs). Each use returns a new refresh token; the old one isn't revoked, but you should replace it. Tokens can be revoked early by the user, by an admin, or by a password reset in some cases.",
+    "redirect_uri_rules": "HTTPS only, except http://localhost (port ignored for matching) and http://127.0.0.1, which must be added through the manifest. Case-sensitive. A URI without a path gets a trailing slash appended. Not supported: special characters ! $ ' ( ) , ;, IDNs, query parameters or wildcards when personal accounts are enabled, and [::1]. At most 256 URIs (100 with personal accounts), 256 characters each. Mismatch returns AADSTS50011.",
+    "sources": ["s8", "s9", "s6", "s2"]
+  },
+  "limits": [
+    {
+      "limit": "Client secret expires after at most 24 months",
+      "applies_when": "Always",
+      "how_to_lift": "Can't be extended. Rotate before expiry or switch to a certificate or federated credential.",
+      "sources": ["s7"]
+    },
+    {
+      "limit": "End users can't consent to Mail.Read*, Calendars.*, Files.Read.All, Sites.Read.All, Contacts.ReadWrite, Tasks.*, Chat.Read and IMAP/POP/EWS access",
+      "applies_when": "The tenant uses 'Let Microsoft manage your consent settings', the default for new tenants",
+      "how_to_lift": "Tenant admin grants consent or enables the admin consent workflow. You can't lift it from your side.",
+      "sources": ["s5"]
+    },
+    {
+      "limit": "Users can't consent to unverified multitenant apps registered after November 8, 2020",
+      "applies_when": "The tenant has risk-based step-up consent enabled or allows consent only for verified publishers",
+      "how_to_lift": "Complete publisher verification.",
+      "sources": ["s3", "s4"]
+    },
+    {
+      "limit": "Refresh tokens last 24 hours for SPA redirect URIs",
+      "applies_when": "Redirect URI registered as the spa type",
+      "how_to_lift": "Use a Web (confidential) redirect URI on a server, such as Composio's callback.",
+      "sources": ["s6"]
+    }
+  ],
+  "blockers": [
+    {
+      "blocker": "Redirect URI mismatch",
+      "symptom": "AADSTS50011: The reply URL specified in the request does not match the reply URLs configured for the application",
+      "fix": "Add the exact URI (case-sensitive, trailing slash) to the application object, not the service principal.",
+      "sources": ["s2"]
+    },
+    {
+      "blocker": "User consent blocked by tenant policy",
+      "symptom": "'Need admin approval' screen, or an error that the user isn't authorized to consent",
+      "fix": "Have a tenant admin grant consent, or ask the tenant to enable the admin consent workflow. Publisher verification helps with 'verified publishers only' policies.",
+      "sources": ["s4", "s5", "s8"]
+    },
+    {
+      "blocker": "Expired client secret",
+      "symptom": "invalid_client at the token endpoint and every connection fails at once",
+      "fix": "Create a new secret, update the Composio auth config, and set a rotation reminder.",
+      "sources": ["s7", "s8"]
+    },
+    {
+      "blocker": "No refresh token",
+      "symptom": "Token response lacks refresh_token, so the agent loses access after about an hour",
+      "fix": "Request the offline_access scope.",
+      "sources": ["s8"]
+    }
+  ],
+  "agent_handoff": {
+    "agent_can": [
+      "Pick the account type and least-privileged delegated Graph permissions, and flag the ones that need admin consent",
+      "Generate and validate the redirect URI list, including Composio's callback",
+      "Create the Composio auth config through its API and test flows against a default-policy tenant",
+      "Draft admin-consent instructions and the admin consent URL for customers",
+      "Set up secret-expiry monitoring and a rotation runbook"
+    ],
+    "you_must": [
+      "Sign in to the Entra admin center (with MFA) and register the app",
+      "Create and store the client secret or upload a certificate",
+      "Enroll in and verify the Microsoft AI Cloud Partner Program and accept the Microsoft identity platform terms",
+      "Add the DNS records for the custom publisher domain",
+      "Coordinate with customer tenant admins to grant consent"
+    ]
+  },
+  "sources": [
+    {"id": "s1", "title": "How to register an app in Microsoft Entra ID", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app", "kind": "official-docs", "supports": "Registration steps, supported account types, Application Developer role"},
+    {"id": "s2", "title": "Redirect URI (reply URL) best practices and limitations", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/reply-url", "kind": "official-docs", "supports": "HTTPS rule, localhost exceptions, counts and length limits, wildcard and query rules, AADSTS50011"},
+    {"id": "s3", "title": "Publisher verification overview", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/publisher-verification-overview", "kind": "official-docs", "supports": "Partner Program requirements, domain rules, roles, MFA, free, verified in minutes, November 2020 unverified multitenant consent restriction"},
+    {"id": "s4", "title": "Configure how users consent to applications", "url": "https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/configure-user-consent", "kind": "official-docs", "supports": "Default user consent for mailbox access, verified-publisher consent policies, admin consent workflow"},
+    {"id": "s5", "title": "Manage app consent policies", "url": "https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/manage-app-consent-policies", "kind": "official-docs", "supports": "Microsoft-managed default policy (default for new tenants) and its list of permissions excluded from user consent"},
+    {"id": "s6", "title": "Refresh tokens in the Microsoft identity platform", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/refresh-tokens", "kind": "official-docs", "supports": "90-day default lifetime, 24 hours for SPAs, refresh token replacement, revocation"},
+    {"id": "s7", "title": "Add and manage app credentials in Microsoft Entra ID", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/how-to-add-credentials", "kind": "official-docs", "supports": "Client secret maximum of 24 months, under 12 recommended, shown once, certificates recommended"},
+    {"id": "s8", "title": "Microsoft identity platform and OAuth 2.0 authorization code flow", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow", "kind": "official-docs", "supports": "Endpoints, tenant values, PKCE, offline_access needed for refresh token, admin-restricted scopes, error codes"},
+    {"id": "s9", "title": "OpenID configuration (common endpoint)", "url": "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration", "kind": "official-docs", "supports": "Discovery URL and endpoint values"},
+    {"id": "s10", "title": "When to use your own developer credentials (Composio)", "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app", "kind": "composio", "supports": "Managed vs custom auth config, branding, shared quota, 15-minute polling, steps"},
+    {"id": "s11", "title": "White-labeling authentication (Composio)", "url": "https://docs.composio.dev/docs/authentication/white-labeling-authentication", "kind": "composio", "supports": "Composio callback https://backend.composio.dev/api/v3/toolkits/auth/callback"},
+    { "id": "s12", "title": "Programmatic auth configs (Composio)", "url": "https://docs.composio.dev/docs/authentication/programmatic-auth-configs", "kind": "composio", "supports": "Some toolkit defaults still use the legacy https://backend.composio.dev/api/v1/auth-apps/add redirect URI" }
+  ],
+  "uncertain": [
+    "We couldn't confirm what share of existing (non-new) tenants run the Microsoft-managed consent policy. Older tenants may still allow user consent for all apps or only for verified publishers, so test against your target customers.",
+    "Microsoft's docs don't publish how long Partner Center (AI Cloud Partner Program) account verification takes. The 'days to about 2 weeks' estimate is ours.",
+    "We didn't read per-permission 'Admin consent required' values from the Graph permissions reference (the page was too large to fetch fully). The claim that delegated Mail.Read and Mail.Send aren't admin-restricted rests on Microsoft's statement that users can by default consent to mailbox access.",
+    "Microsoft says the managed policy's exclusion list changes automatically with its recommendations (with notice). The list in this guide reflects the page as fetched in October 2026.",
+    "Composio's docs confirm that some toolkit defaults still use the legacy https://backend.composio.dev/api/v1/auth-apps/add callback, but not which one the OUTLOOK toolkit shows. Always copy the URI from the dashboard."
+  ]
+}

@@ -1,0 +1,366 @@
+{
+  "slug": "quickbooks",
+  "app": {
+    "name": "QuickBooks Online (Intuit)",
+    "website": "https://quickbooks.intuit.com",
+    "category": "Accounting",
+    "developer_portal_url": "https://developer.intuit.com/app/developer/dashboard",
+    "docs_url": "https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0"
+  },
+  "composio": {
+    "toolkit_slug": "QUICKBOOKS",
+    "managed_oauth": "available",
+    "note": "Composio's managed QuickBooks app is fine for prototyping, but users see a Composio-branded consent screen and share Composio's quota, and managed auth enforces a 15-minute minimum polling interval. Bring your own app when you need your own branding, custom scopes, dedicated quota, or control over Intuit's App Partner Program tier and CorePlus API metering (metered per app and aggregated per workspace)."
+  },
+  "verdict": {
+    "tier": "approval-gated",
+    "difficulty": 3,
+    "headline": "Sandbox keys work instantly, but production keys are hidden until Intuit approves your app assessment questionnaire, so submit it as soon as your app details and policies are ready.",
+    "summary": "OAuth itself is conventional: one accounting scope, 1-hour access tokens, 100-day rolling refresh tokens. Every app that touches real QuickBooks companies, even a private unlisted one, must complete a compliance questionnaire and be approved before production credentials appear, and then faces an annual security review. Since 2025 the Intuit App Partner Program meters 'CorePlus' read calls: the free Builder tier is hard-capped at 500,000 per month and calls beyond that are blocked. Paid tiers start at USD 300/month.",
+    "time_to_first_connection": "20-40 minutes (developer account, app, sandbox company)",
+    "time_to_production": "Roughly 1-3 weeks (estimate): about 1 day to prepare app details, EULA and privacy policy and the questionnaire, then an unpublished Intuit review time.",
+    "hands_on_effort": "2-6 hours: production app details, EULA/privacy policy URLs, questionnaire, production redirect URI and token-handling hardening. Estimate.",
+    "approval_wait": "The production key questionnaire must be approved before production client ID/secret are shown, and Intuit may follow up with questions or required changes. No SLA is published. An annual security assessment follows. Upgrades to Gold/Platinum tiers are reviewed; Silver is automatic once you add a payment method.",
+    "cost": "Builder tier free (500,000 CorePlus calls/month, then blocked; Core write calls unmetered). Silver USD 300/month with 1M CorePlus credits and USD 3.50 per 1,000 extra (UK GBP 225 / GBP 2.60; Canada CAD 425 / CAD 4.85). Gold/Platinum per Intuit's rate card. Sandbox calls are not metered.",
+    "confidence": "medium"
+  },
+  "phases": [
+    {
+      "name": "Register and test in sandbox",
+      "goal": "Create the app and connect a sandbox company with development keys.",
+      "duration": "20-40 minutes",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Create an Intuit Developer account and app",
+          "detail": "Sign up at developer.intuit.com, provide your company address for the workspace, and create an app with the QuickBooks Online Accounting scope.",
+          "owner": "you",
+          "agent_help": "",
+          "link": "https://developer.intuit.com/app/developer/dashboard",
+          "sources": ["s1", "s5"]
+        },
+        {
+          "title": "Copy development keys",
+          "detail": "Go to My Hub > App dashboard > your app > Keys and credentials > Development and turn on Show credentials. Development keys work only with sandbox companies; production keys work only with live companies.",
+          "owner": "you",
+          "agent_help": "Agent can store the keys in .env or a secret manager and keep sandbox and production configs separate.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/get-started/get-client-id-and-client-secret",
+          "sources": ["s2"]
+        },
+        {
+          "title": "Add the sandbox redirect URI",
+          "detail": "Go to Settings > Redirect URIs > Development > Add URI. Sandbox redirect URIs may use http://localhost; production redirect URIs are a separate list.",
+          "owner": "agent+you",
+          "agent_help": "Agent gives you the exact URI (including trailing slash and casing) to paste.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/set-redirect-uri",
+          "sources": ["s3"]
+        }
+      ]
+    },
+    {
+      "name": "Connect to Composio",
+      "goal": "Point a Composio auth config at your own Intuit app and prove a sandbox connection.",
+      "duration": "15-30 minutes",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Create a custom auth config in Composio",
+          "detail": "In the Composio dashboard choose Create Auth Config, select the QuickBooks toolkit with OAuth2, paste your client ID and secret and scope com.intuit.quickbooks.accounting, save, and keep the auth config ID (ac_...). Use development keys first, then make a second config (or swap keys) for production.",
+          "owner": "agent+you",
+          "agent_help": "Agent writes the session code passing auth_configs={'quickbooks': 'ac_...'} and keeps separate sandbox and production configs.",
+          "link": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+          "sources": ["s8"]
+        },
+        {
+          "title": "Register Composio's callback in both URI lists",
+          "detail": "Add https://backend.composio.dev/api/v3/toolkits/auth/callback (or the exact URI the Composio dashboard shows; some toolkits still show the legacy https://backend.composio.dev/api/v1/auth-apps/add) under Development and, later, Production. The redirect_uri must match including casing, scheme and trailing '/'.",
+          "owner": "agent+you",
+          "agent_help": "Agent checks both portal entries against the Composio value character-for-character.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/set-redirect-uri",
+          "sources": ["s9", "s8", "s1", "s3"]
+        },
+        {
+          "title": "Connect, disconnect and reconnect a sandbox company",
+          "detail": "Authorize, capture the realmId returned on the callback, make an accounting call, then disconnect and reconnect. Intuit asks you to do this before going live to catch expired-token, invalid_grant and CSRF errors.",
+          "owner": "agent",
+          "agent_help": "Agent runs the Composio flow, queries CompanyInfo/Invoice with the realmId, and exercises refresh and revoke paths.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/go-live/publish-app/platform-requirements",
+          "sources": ["s1", "s4"]
+        }
+      ]
+    },
+    {
+      "name": "Prepare production details",
+      "goal": "Fill everything Intuit asks for before the questionnaire.",
+      "duration": "2-4 hours",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Publish a EULA and privacy policy",
+          "detail": "Production app details need URLs for your end-user license agreement and privacy policy. Intuit requires you to state how customer data is used, whether it is shared across customers (only aggregated and anonymized), and to comply with GDPR/CCPA/PIPEDA as applicable.",
+          "owner": "agent+you",
+          "agent_help": "Agent drafts the EULA and privacy policy covering AI-agent data use, retention and sub-processors (including Composio), and can publish them as pages on your site; you approve the legal text.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/go-live/publish-app/platform-requirements",
+          "sources": ["s7", "s4"]
+        },
+        {
+          "title": "Enter production app details",
+          "detail": "Under Keys and credentials > Production, fill in host domain, launch URL, disconnect URL, app categories, regulated-industry declarations and hosting locations. If your agent runs on another platform (e.g., Composio), Intuit asks you to describe that platform and its instructions.",
+          "owner": "agent+you",
+          "agent_help": "Agent assembles all values, including Composio's role as the integration platform, into a copy-paste sheet; you enter them while signed in.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/get-started/get-client-id-and-client-secret",
+          "sources": ["s7", "s4"]
+        },
+        {
+          "title": "Add the production redirect URI",
+          "detail": "Under Settings > Redirect URIs > Production, add an HTTPS URI. IP addresses and localhost are not allowed.",
+          "owner": "agent+you",
+          "agent_help": "Agent provides the exact Composio callback string.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/set-redirect-uri",
+          "sources": ["s3"]
+        }
+      ]
+    },
+    {
+      "name": "Questionnaire and approval",
+      "goal": "Get production client ID and secret.",
+      "duration": "~1 hour to complete; review time unpublished (estimate several days to 2 weeks)",
+      "is_wait": true,
+      "steps": [
+        {
+          "title": "Complete the app assessment questionnaire",
+          "detail": "In Production, open the Compliance tab and start the questionnaire. It covers what your app does, data usage, security, business disclosures (complaints, lawsuits, government requests; this applies to freelancers too) and sanctions screening. Regulated industries (lending, payments, insurance, investments) get extra requirements.",
+          "owner": "agent+you",
+          "agent_help": "Agent drafts every answer from your architecture and policies (token storage, encryption, 24/7 support channel, breach history); you review, attest and submit.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/go-live/publish-app/platform-requirements",
+          "sources": ["s4", "s7"]
+        },
+        {
+          "title": "Wait for Intuit's approval",
+          "detail": "Production credentials become visible only after the questionnaire is approved. Intuit may come back with questions or required changes.",
+          "owner": "provider",
+          "agent_help": "Agent can draft replies and implement requested changes.",
+          "link": "",
+          "sources": ["s2", "s4"]
+        },
+        {
+          "title": "Swap in production keys",
+          "detail": "Copy the production client ID and secret into the production Composio auth config. Production keys do not work against sandbox.",
+          "owner": "you",
+          "agent_help": "Agent updates environment configs and runs a smoke test against a real (or trial) company.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/get-started/get-client-id-and-client-secret",
+          "sources": ["s2"]
+        }
+      ]
+    },
+    {
+      "name": "Operate in production",
+      "goal": "Stay within the partner tier and keep compliance.",
+      "duration": "Ongoing",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Watch CorePlus usage and pick a tier",
+          "detail": "All apps start in Builder (free, 500,000 CorePlus calls per calendar month, then CorePlus calls are blocked). Reads such as queries, company info and reports are CorePlus; most creates and updates are Core and unmetered. Usage is aggregated across all production apps in a workspace. Subscribe to Silver with a payment method to lift the cap within an hour.",
+          "owner": "agent+you",
+          "agent_help": "Agent can cache reads, prefer webhooks over polling and CDC, and chart the Analytics tab numbers; you add the payment method if needed.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/get-started/partner-faq",
+          "sources": ["s5"]
+        },
+        {
+          "title": "Pass the annual security review",
+          "detail": "All apps undergo an annual security review. Store client secrets and tokens securely, report breaches immediately, and keep 99.95% availability and a support channel.",
+          "owner": "agent+you",
+          "agent_help": "Agent prepares evidence (encryption at rest, secret storage, logging of intuit_tid) and drafts responses.",
+          "link": "https://developer.intuit.com/app/developer/qbo/docs/go-live/publish-app/platform-requirements",
+          "sources": ["s4"]
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "item": "Intuit Developer account with workspace company address",
+      "needed_for": "development",
+      "detail": "Your address determines region pricing. The App Partner Program covers partners in the US, UK, Australia and Canada (excluding Quebec).",
+      "sources": ["s5"]
+    },
+    {
+      "item": "Sandbox company and development keys",
+      "needed_for": "development",
+      "detail": "Development keys work only with sandbox companies.",
+      "sources": ["s2"]
+    },
+    {
+      "item": "EULA and privacy policy URLs, host domain, launch and disconnect URLs",
+      "needed_for": "production",
+      "detail": "Entered in production app details before the questionnaire.",
+      "sources": ["s7"]
+    },
+    {
+      "item": "Approved app assessment questionnaire",
+      "needed_for": "production",
+      "detail": "Required for all apps connecting to production companies, including private, unlisted apps.",
+      "sources": ["s2", "s4"]
+    },
+    {
+      "item": "HTTPS production redirect URI (no IPs)",
+      "needed_for": "production",
+      "detail": "A separate list from sandbox URIs.",
+      "sources": ["s3"]
+    },
+    {
+      "item": "Support channel and 24/7 availability",
+      "needed_for": "production",
+      "detail": "99.95% availability and a way for customers to reach you.",
+      "sources": ["s4"]
+    },
+    {
+      "item": "Payment method (Silver tier or above)",
+      "needed_for": "production",
+      "detail": "Needed only if you exceed 500,000 CorePlus calls per month or want paid-tier benefits.",
+      "sources": ["s5"]
+    },
+    {
+      "item": "Silver tier or higher for an App Marketplace listing",
+      "needed_for": "public-listing",
+      "detail": "Builder-tier listings are subject to removal; a listing is optional for Gold/Platinum eligibility.",
+      "sources": ["s5"]
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "com.intuit.quickbooks.accounting",
+      "purpose": "Full Accounting API: invoices, customers, vendors, bills, payments, reports.",
+      "sensitivity": "sensitive",
+      "review_impact": "The single scope most agents need; covered by the standard production questionnaire. Reads are metered as CorePlus calls.",
+      "sources": ["s1", "s5"]
+    },
+    {
+      "scope": "openid profile email",
+      "purpose": "Identify the connecting user (OpenID Connect / Intuit SSO).",
+      "sensitivity": "basic",
+      "review_impact": "No extra review; OAuth endpoints are not metered.",
+      "sources": ["s6", "s1", "s5"]
+    },
+    {
+      "scope": "com.intuit.quickbooks.payment",
+      "purpose": "QuickBooks Payments API (charges, tokens).",
+      "sensitivity": "restricted",
+      "review_impact": "Classified as a Payments/Money Movement app: PCI requirements, token encryption, reCAPTCHA, and regulated-industry review.",
+      "sources": ["s4"]
+    }
+  ],
+  "oauth": {
+    "authorize_url": "https://appcenter.intuit.com/connect/oauth2",
+    "token_url": "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer",
+    "discovery_url": "https://developer.api.intuit.com/.well-known/openid_configuration",
+    "pkce": "Not documented. The discovery document lists no code_challenge methods, and auth is client_secret_basic or client_secret_post. Authorization requests must open in a browser.",
+    "refresh_tokens": "Always issued. Access token 3,600 s (60 minutes). Refresh token has a rolling 100-day expiry (x_refresh_token_expires_in 8,640,000 s) and a hard five-year lifespan (x_refresh_token_hard_expires_in, returned when you send x-include-refresh-token-hard-expires-in: true). Always store the latest refresh_token from each response. Exchange an authorization code only once, because repeated exchanges may invalidate tokens. Revoke at https://developer.api.intuit.com/v2/oauth2/tokens/revoke.",
+    "redirect_uri_rules": "Must exactly match a registered URI, including casing, http scheme and trailing '/'. There are separate Development and Production lists. Sandbox allows http://localhost; production must be HTTPS, with no IP addresses.",
+    "sources": ["s1", "s3", "s6"]
+  },
+  "limits": [
+    {
+      "limit": "500,000 CorePlus API calls per calendar month; further CorePlus calls blocked",
+      "applies_when": "Builder tier (default, free)",
+      "how_to_lift": "Subscribe to Silver (USD 300/mo) with a payment method; the cap lifts within one hour.",
+      "sources": ["s5"]
+    },
+    {
+      "limit": "Production keys unavailable",
+      "applies_when": "Questionnaire not completed and approved",
+      "how_to_lift": "Complete production app details and the questionnaire, then wait for approval.",
+      "sources": ["s2", "s4"]
+    },
+    {
+      "limit": "Refresh token expires after 100 days without use; hard maximum 5 years",
+      "applies_when": "Always",
+      "how_to_lift": "Refresh at least every 100 days; after 5 years the user must re-authorize.",
+      "sources": ["s1"]
+    },
+    {
+      "limit": "Intuit may audit high-frequency apps and apply extra throttling",
+      "applies_when": "Apps calling the APIs frequently",
+      "how_to_lift": "Use webhooks instead of frequent CDC polling, and tell Intuit about seasonal peaks.",
+      "sources": ["s4"]
+    }
+  ],
+  "blockers": [
+    {
+      "blocker": "Production credentials hidden",
+      "symptom": "Keys and credentials > Production shows the questionnaire instead of a client ID and secret.",
+      "fix": "Complete and submit the questionnaire, then wait for approval.",
+      "sources": ["s2"]
+    },
+    {
+      "blocker": "Wrong key set for the environment",
+      "symptom": "Auth or API calls fail when development keys are used against a real company, or production keys against sandbox.",
+      "fix": "Use development keys with sandbox and production keys with live companies; keep two auth configs.",
+      "sources": ["s2"]
+    },
+    {
+      "blocker": "Redirect URI mismatch",
+      "symptom": "Authorization fails because redirect_uri differs in casing, scheme or trailing slash, or isn't in the Production list.",
+      "fix": "Register the exact Composio callback in both the Development and Production lists.",
+      "sources": ["s1", "s3"]
+    },
+    {
+      "blocker": "Builder-tier CorePlus cap hit",
+      "symptom": "Read/query/report calls start returning API errors late in the month.",
+      "fix": "Subscribe to Silver, cut read volume (caching, webhooks), or wait for the reset on the 1st.",
+      "sources": ["s5"]
+    },
+    {
+      "blocker": "Stale refresh token",
+      "symptom": "invalid_grant on refresh; the user must reconnect.",
+      "fix": "Persist the newest refresh_token from every token response and refresh before 100 days.",
+      "sources": ["s1", "s4"]
+    },
+    {
+      "blocker": "Double code exchange",
+      "symptom": "Tokens invalidated right after connect.",
+      "fix": "Exchange each authorization code exactly once.",
+      "sources": ["s1"]
+    }
+  ],
+  "agent_handoff": {
+    "agent_can": [
+      "Draft the EULA and privacy policy (AI data use, retention, Composio as sub-processor) and publish them",
+      "Prepare all production app-detail values and draft every questionnaire answer",
+      "Configure sandbox and production Composio auth configs and verify redirect URIs exactly",
+      "Run connect, disconnect and reconnect tests on a sandbox company, including refresh and revoke",
+      "Reduce CorePlus read volume with caching and webhooks, and monitor usage",
+      "Prepare evidence for the annual security review"
+    ],
+    "you_must": [
+      "Create the Intuit Developer account and workspace (company address)",
+      "Copy development and production client secrets",
+      "Approve the legal text and attest to and submit the questionnaire (business disclosures, sanctions, breach history)",
+      "Respond to Intuit reviewer follow-ups",
+      "Add a payment method and subscribe to Silver if you exceed the Builder cap",
+      "Accept the updated Intuit Developer Terms of Service"
+    ]
+  },
+  "sources": [
+    { "id": "s1", "title": "Set up OAuth 2.0 (QuickBooks Online)", "url": "https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0", "kind": "official-docs", "supports": "Accounting scope, authorize/token endpoints, exact redirect matching, realmId, single code exchange, 60-min access, 100-day rolling refresh, 5-year hard lifespan, revoke endpoint, browser requirement" },
+    { "id": "s2", "title": "Get the Client ID and Client Secret for your app", "url": "https://developer.intuit.com/app/developer/qbo/docs/get-started/get-client-id-and-client-secret", "kind": "official-docs", "supports": "Separate dev/production credentials; production keys only after questionnaire approval" },
+    { "id": "s3", "title": "Set app redirect URIs", "url": "https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/set-redirect-uri", "kind": "official-docs", "supports": "Separate sandbox/production URI lists, localhost for sandbox, HTTPS only and no IPs in production" },
+    { "id": "s4", "title": "Publishing requirements and guidelines", "url": "https://developer.intuit.com/app/developer/qbo/docs/go-live/publish-app/platform-requirements", "kind": "official-policy", "supports": "Questionnaire for all production apps incl. private, data-usage rules, 24/7 availability, annual security review, regulated industries, Payments PCI rules, throttling audits, pre-launch reconnect testing" },
+    { "id": "s5", "title": "Intuit App Partner Program FAQ (last updated 2026-10-02)", "url": "https://developer.intuit.com/app/developer/qbo/docs/get-started/partner-faq", "kind": "official-policy", "supports": "Builder/Silver/Gold/Platinum tiers, 500k CorePlus cap and blocking, Core vs CorePlus, Silver USD 300 + USD 3.50/1k example, UK/CA prices, workspace aggregation, sandbox not metered, listing tier rules, regional availability" },
+    { "id": "s6", "title": "Intuit OpenID discovery document (production)", "url": "https://developer.api.intuit.com/.well-known/openid_configuration", "kind": "official-docs", "supports": "Authorize, token, revocation endpoints; supported auth methods; no PKCE methods listed" },
+    { "id": "s7", "title": "Codat: QuickBooks Online app assessment questionnaire", "url": "https://docs.codat.io/integrations/accounting/quickbooksonline/qbo-app-assessment-questionnaire", "kind": "community", "supports": "Production app-detail fields (EULA, privacy policy, host domain, launch/disconnect URLs, categories, regulated industries, hosting) and Compliance tab questionnaire location" },
+    { "id": "s8", "title": "Composio: Custom app vs managed app", "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app", "kind": "composio", "supports": "Custom auth config steps; reasons to bring your own app (branding, scopes, dedicated quota, 15-min polling minimum)" },
+    { "id": "s9", "title": "Composio: White-labeling authentication", "url": "https://docs.composio.dev/docs/authentication/white-labeling-authentication", "kind": "composio", "supports": "Composio OAuth callback https://backend.composio.dev/api/v3/toolkits/auth/callback" }
+  ],
+  "uncertain": [
+    "Intuit publishes no turnaround for questionnaire approval. The 1-3 week time-to-production is an estimate.",
+    "The production app-detail fields (EULA, privacy policy, host domain, launch/disconnect URLs) come from a third-party guide (Codat). Intuit's official field list was not loaded.",
+    "The scope name com.intuit.quickbooks.payment was not confirmed on a page fetched in this research. Only the Payments API requirements were.",
+    "The partner-program footer says the program is available to partners in the US, UK, Australia and Canada (excluding Quebec). It is unclear whether developers based elsewhere (e.g., India) can get production keys or which pricing applies to them. Confirm with Intuit before committing.",
+    "Gold and Platinum fees and overage rates were not on the FAQ page. Third-party reports (Gold ~USD 1,700/mo, Platinum ~USD 4,500/mo) were not verified against Intuit's pricing table.",
+    "Marketplace listing rules are slightly inconsistent in the FAQ: Builder listings must subscribe to Silver to avoid delisting, but a footnote says listing is 'available to Gold and Platinum partners'.",
+    "When you bring your own app, CorePlus metering and tier fees apply to your workspace. It is not documented how Composio's managed app absorbs these costs or whether it imposes limits.",
+    "Per-minute throttling limits (requests per realm) were not verified; the rest-api-features page did not load."
+  ]
+}

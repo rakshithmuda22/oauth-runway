@@ -1,0 +1,114 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://accounts.spotify.com/authorize?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "pass",
+    "result": "Endpoint is live. It asks the user to sign in first (accounts.spotify.com); the client is only validated after login, so a bad client ID or redirect URI shows up as an error after sign-in.",
+    "at": "2026-10-28T16:34:09.323Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://developer.spotify.com/dashboard",
+    "status": "pass",
+    "result": "Reachable (HTTP 200): \"spotify-for-developers\".",
+    "at": "2026-10-28T16:34:09.160Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+    "status": "pass",
+    "result": "HTTP 200: \"Quota modes | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.190Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide",
+    "status": "pass",
+    "result": "HTTP 200: \"February 2026 Web API Dev Mode Changes - Migration Guide | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.211Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://developer.spotify.com/documentation/web-api/concepts/redirect_uri",
+    "status": "pass",
+    "result": "HTTP 200: \"Redirect URIs | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.189Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow",
+    "status": "pass",
+    "result": "HTTP 200: \"Authorization Code with PKCE Flow | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.219Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+    "status": "pass",
+    "result": "HTTP 200: \"Authorization Code Flow | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.292Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+    "status": "pass",
+    "result": "HTTP 200: \"Refreshing tokens | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.300Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://developer.spotify.com/documentation/web-api/concepts/scopes",
+    "status": "pass",
+    "result": "HTTP 200: \"Scopes | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.307Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://developer.spotify.com/documentation/web-api/concepts/apps",
+    "status": "pass",
+    "result": "HTTP 200: \"Apps | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.319Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://developer.spotify.com/documentation/web-api/concepts/rate-limits",
+    "status": "pass",
+    "result": "HTTP 200: \"Rate Limits | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.334Z"
+  },
+  {
+    "check": "Source [s10] still online",
+    "method": "GET https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api",
+    "status": "pass",
+    "result": "HTTP 200: \"Introducing some changes to our Web API | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.395Z"
+  },
+  {
+    "check": "Source [s11] still online",
+    "method": "GET https://developer.spotify.com/blog/2025-04-15-updating-the-criteria-for-web-api-extended-access",
+    "status": "pass",
+    "result": "HTTP 200: \"Updating the Criteria for Web API Extended Access | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.401Z"
+  },
+  {
+    "check": "Source [s12] still online",
+    "method": "GET https://developer.spotify.com/policy",
+    "status": "pass",
+    "result": "HTTP 200: \"Spotify Developer Policy | Spotify for Developers\"",
+    "at": "2026-10-28T16:34:09.406Z"
+  },
+  {
+    "check": "Source [s13] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:34:09.519Z"
+  },
+  {
+    "check": "Source [s14] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/white-labeling-authentication",
+    "status": "pass",
+    "result": "HTTP 200: \"White-labeling authentication | Composio\"",
+    "at": "2026-10-28T16:34:09.514Z"
+  }
+]

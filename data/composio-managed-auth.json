@@ -1,0 +1,762 @@
+{
+ "source": "https://docs.composio.dev/toolkits/managed-auth",
+ "captured_at": "2026-10-28",
+ "managed": [
+  {
+   "name": "Aircall",
+   "slug": "AIRCALL"
+  },
+  {
+   "name": "Airtable",
+   "slug": "AIRTABLE"
+  },
+  {
+   "name": "Apaleo",
+   "slug": "APALEO"
+  },
+  {
+   "name": "Asana",
+   "slug": "ASANA"
+  },
+  {
+   "name": "Attio",
+   "slug": "ATTIO"
+  },
+  {
+   "name": "Basecamp",
+   "slug": "BASECAMP"
+  },
+  {
+   "name": "Bitbucket",
+   "slug": "BITBUCKET"
+  },
+  {
+   "name": "Blackbaud",
+   "slug": "BLACKBAUD"
+  },
+  {
+   "name": "Boldsign",
+   "slug": "BOLDSIGN"
+  },
+  {
+   "name": "Box",
+   "slug": "BOX"
+  },
+  {
+   "name": "Cal",
+   "slug": "CAL"
+  },
+  {
+   "name": "Calendly",
+   "slug": "CALENDLY"
+  },
+  {
+   "name": "Canva",
+   "slug": "CANVA"
+  },
+  {
+   "name": "Capsule CRM",
+   "slug": "CAPSULE_CRM"
+  },
+  {
+   "name": "ClickUp",
+   "slug": "CLICKUP"
+  },
+  {
+   "name": "Confluence",
+   "slug": "CONFLUENCE"
+  },
+  {
+   "name": "Contentful",
+   "slug": "CONTENTFUL"
+  },
+  {
+   "name": "Crowdin",
+   "slug": "CROWDIN"
+  },
+  {
+   "name": "Dart",
+   "slug": "DART"
+  },
+  {
+   "name": "Daytona",
+   "slug": "DAYTONA"
+  },
+  {
+   "name": "Dialpad",
+   "slug": "DIALPAD"
+  },
+  {
+   "name": "Discord",
+   "slug": "DISCORD"
+  },
+  {
+   "name": "Discord Bot",
+   "slug": "DISCORDBOT"
+  },
+  {
+   "name": "Dropbox",
+   "slug": "DROPBOX"
+  },
+  {
+   "name": "Dub",
+   "slug": "DUB"
+  },
+  {
+   "name": "Dynamics 365",
+   "slug": "DYNAMICS365"
+  },
+  {
+   "name": "Eventbrite",
+   "slug": "EVENTBRITE"
+  },
+  {
+   "name": "Excel",
+   "slug": "EXCEL"
+  },
+  {
+   "name": "Exist",
+   "slug": "EXIST"
+  },
+  {
+   "name": "Facebook",
+   "slug": "FACEBOOK"
+  },
+  {
+   "name": "Fathom",
+   "slug": "FATHOM"
+  },
+  {
+   "name": "Figma",
+   "slug": "FIGMA"
+  },
+  {
+   "name": "Freeagent",
+   "slug": "FREEAGENT"
+  },
+  {
+   "name": "FreshBooks",
+   "slug": "FRESHBOOKS"
+  },
+  {
+   "name": "GitHub",
+   "slug": "GITHUB"
+  },
+  {
+   "name": "GitLab",
+   "slug": "GITLAB"
+  },
+  {
+   "name": "Gmail",
+   "slug": "GMAIL"
+  },
+  {
+   "name": "Gong",
+   "slug": "GONG"
+  },
+  {
+   "name": "Google Ads",
+   "slug": "GOOGLEADS"
+  },
+  {
+   "name": "Google Analytics",
+   "slug": "GOOGLE_ANALYTICS"
+  },
+  {
+   "name": "Google BigQuery",
+   "slug": "GOOGLEBIGQUERY"
+  },
+  {
+   "name": "Google Calendar",
+   "slug": "GOOGLECALENDAR"
+  },
+  {
+   "name": "Google Classroom",
+   "slug": "GOOGLE_CLASSROOM"
+  },
+  {
+   "name": "Google Docs",
+   "slug": "GOOGLEDOCS"
+  },
+  {
+   "name": "Google Drive",
+   "slug": "GOOGLEDRIVE"
+  },
+  {
+   "name": "Google Maps",
+   "slug": "GOOGLE_MAPS"
+  },
+  {
+   "name": "Google Meet",
+   "slug": "GOOGLEMEET"
+  },
+  {
+   "name": "Google Photos",
+   "slug": "GOOGLEPHOTOS"
+  },
+  {
+   "name": "Google Search Console",
+   "slug": "GOOGLE_SEARCH_CONSOLE"
+  },
+  {
+   "name": "Google Sheets",
+   "slug": "GOOGLESHEETS"
+  },
+  {
+   "name": "Google Slides",
+   "slug": "GOOGLESLIDES"
+  },
+  {
+   "name": "Google Super",
+   "slug": "GOOGLESUPER"
+  },
+  {
+   "name": "Google Tasks",
+   "slug": "GOOGLETASKS"
+  },
+  {
+   "name": "Gorgias",
+   "slug": "GORGIAS"
+  },
+  {
+   "name": "Greenhouse",
+   "slug": "GREENHOUSE"
+  },
+  {
+   "name": "Gumroad",
+   "slug": "GUMROAD"
+  },
+  {
+   "name": "Harvest",
+   "slug": "HARVEST"
+  },
+  {
+   "name": "HubSpot",
+   "slug": "HUBSPOT"
+  },
+  {
+   "name": "Hugging Face",
+   "slug": "HUGGING_FACE"
+  },
+  {
+   "name": "Instagram",
+   "slug": "INSTAGRAM"
+  },
+  {
+   "name": "Intercom",
+   "slug": "INTERCOM"
+  },
+  {
+   "name": "Jira",
+   "slug": "JIRA"
+  },
+  {
+   "name": "Kit",
+   "slug": "KIT"
+  },
+  {
+   "name": "Linear",
+   "slug": "LINEAR"
+  },
+  {
+   "name": "LinkedIn",
+   "slug": "LINKEDIN"
+  },
+  {
+   "name": "Linkhut",
+   "slug": "LINKHUT"
+  },
+  {
+   "name": "Mailchimp",
+   "slug": "MAILCHIMP"
+  },
+  {
+   "name": "Microsoft Teams",
+   "slug": "MICROSOFT_TEAMS"
+  },
+  {
+   "name": "Miro",
+   "slug": "MIRO"
+  },
+  {
+   "name": "Monday",
+   "slug": "MONDAY"
+  },
+  {
+   "name": "Moneybird",
+   "slug": "MONEYBIRD"
+  },
+  {
+   "name": "Mural",
+   "slug": "MURAL"
+  },
+  {
+   "name": "NotebookLM",
+   "slug": "NOTEBOOK_LM"
+  },
+  {
+   "name": "Notion",
+   "slug": "NOTION"
+  },
+  {
+   "name": "Omnisend",
+   "slug": "OMNISEND"
+  },
+  {
+   "name": "OneDrive",
+   "slug": "ONE_DRIVE"
+  },
+  {
+   "name": "Outlook",
+   "slug": "OUTLOOK"
+  },
+  {
+   "name": "PagerDuty",
+   "slug": "PAGERDUTY"
+  },
+  {
+   "name": "Pinterest",
+   "slug": "PINTEREST"
+  },
+  {
+   "name": "Pinterest Ads",
+   "slug": "PINTEREST_ADS"
+  },
+  {
+   "name": "Prisma",
+   "slug": "PRISMA"
+  },
+  {
+   "name": "Productboard",
+   "slug": "PRODUCTBOARD"
+  },
+  {
+   "name": "Pushbullet",
+   "slug": "PUSHBULLET"
+  },
+  {
+   "name": "QuickBooks",
+   "slug": "QUICKBOOKS"
+  },
+  {
+   "name": "Reddit",
+   "slug": "REDDIT"
+  },
+  {
+   "name": "Reddit Ads",
+   "slug": "REDDIT_ADS"
+  },
+  {
+   "name": "Roam",
+   "slug": "ROAM"
+  },
+  {
+   "name": "Salesforce",
+   "slug": "SALESFORCE"
+  },
+  {
+   "name": "Sentry",
+   "slug": "SENTRY"
+  },
+  {
+   "name": "Servicem8",
+   "slug": "SERVICEM8"
+  },
+  {
+   "name": "SharePoint",
+   "slug": "SHARE_POINT"
+  },
+  {
+   "name": "Shippo",
+   "slug": "SHIPPO"
+  },
+  {
+   "name": "Slack",
+   "slug": "SLACK"
+  },
+  {
+   "name": "Slackbot",
+   "slug": "SLACKBOT"
+  },
+  {
+   "name": "Splitwise",
+   "slug": "SPLITWISE"
+  },
+  {
+   "name": "Square",
+   "slug": "SQUARE"
+  },
+  {
+   "name": "Stack Exchange",
+   "slug": "STACK_EXCHANGE"
+  },
+  {
+   "name": "Stripe",
+   "slug": "STRIPE"
+  },
+  {
+   "name": "Supabase",
+   "slug": "SUPABASE"
+  },
+  {
+   "name": "Ticketmaster",
+   "slug": "TICKETMASTER"
+  },
+  {
+   "name": "Ticktick",
+   "slug": "TICKTICK"
+  },
+  {
+   "name": "TikTok Ads",
+   "slug": "TIKTOK_ADS"
+  },
+  {
+   "name": "Timely",
+   "slug": "TIMELY"
+  },
+  {
+   "name": "Todoist",
+   "slug": "TODOIST"
+  },
+  {
+   "name": "Trello",
+   "slug": "TRELLO"
+  },
+  {
+   "name": "Twitch",
+   "slug": "TWITCH"
+  },
+  {
+   "name": "Typeform",
+   "slug": "TYPEFORM"
+  },
+  {
+   "name": "WakaTime",
+   "slug": "WAKATIME"
+  },
+  {
+   "name": "Webex",
+   "slug": "WEBEX"
+  },
+  {
+   "name": "WhatsApp",
+   "slug": "WHATSAPP"
+  },
+  {
+   "name": "Wrike",
+   "slug": "WRIKE"
+  },
+  {
+   "name": "Yandex",
+   "slug": "YANDEX"
+  },
+  {
+   "name": "YNAB",
+   "slug": "YNAB"
+  },
+  {
+   "name": "YouTube",
+   "slug": "YOUTUBE"
+  },
+  {
+   "name": "Zendesk",
+   "slug": "ZENDESK"
+  },
+  {
+   "name": "Zeplin",
+   "slug": "ZEPLIN"
+  },
+  {
+   "name": "Zoho",
+   "slug": "ZOHO"
+  },
+  {
+   "name": "Zoho Bigin",
+   "slug": "ZOHO_BIGIN"
+  },
+  {
+   "name": "Zoho Books",
+   "slug": "ZOHO_BOOKS"
+  },
+  {
+   "name": "Zoho Desk",
+   "slug": "ZOHO_DESK"
+  },
+  {
+   "name": "Zoho Inventory",
+   "slug": "ZOHO_INVENTORY"
+  },
+  {
+   "name": "Zoho Invoice",
+   "slug": "ZOHO_INVOICE"
+  },
+  {
+   "name": "Zoho Mail",
+   "slug": "ZOHO_MAIL"
+  },
+  {
+   "name": "Zoom",
+   "slug": "ZOOM"
+  }
+ ],
+ "bring_your_own": [
+  "ADOBE_MARKETING_AGENT_MCP",
+  "ADROLL",
+  "AHA",
+  "AHREFS",
+  "AHREFS_MCP",
+  "AIROPS_MCP",
+  "ALPACA",
+  "AMPLITUDE_MCP",
+  "APIFY_MCP",
+  "ATLASSIAN_MCP",
+  "AUDIOSCRAPE_MCP",
+  "AWEBER",
+  "AZURE_MONITOR_ACTIVITY_LOG",
+  "BAMBOOHR",
+  "BEEMINDER",
+  "BETTER_STACK_MCP",
+  "BEXIO",
+  "BITLY",
+  "BITWARDEN",
+  "BLACKBOARD",
+  "BORNEO",
+  "BOX_MCP",
+  "BREVO",
+  "BREX",
+  "BUFFER",
+  "CALENDLY_MCP",
+  "CANDID_MCP",
+  "CANVA_MCP",
+  "CANVAS",
+  "CARBON_VOICE_MCP",
+  "CASHFREE_PAYMENTS_MCP",
+  "CIRCLEBACK_MCP",
+  "CLARIFY_MCP",
+  "CLAY_MCP",
+  "CLEVERREACH",
+  "CLICKFUNNELS",
+  "CLICKHOUSE_MCP",
+  "CLICKUP_MCP",
+  "CLIO_MANAGE",
+  "CLOCKIFY",
+  "CLOSE_MCP",
+  "CLOUDFLARE_MCP",
+  "CLOVER",
+  "COINBASE_AGENTS_MCP",
+  "COINBASE_WALLET_MCP",
+  "COMMERCE_LAYER",
+  "COMMON_ROOM_MCP",
+  "CONSENSUS_MCP",
+  "CONSTANT_CONTACT",
+  "CONTACTS_PLUS",
+  "CONTENTSQUARE_MCP",
+  "COUPA",
+  "CRADL_AI",
+  "CRAFT_MCP",
+  "CUSTOMERIO_MCP",
+  "D2LBRIGHTSPACE",
+  "DATABRICKS",
+  "DATADOG",
+  "DATADOG_MCP",
+  "DBT_CLOUD",
+  "DEEL",
+  "DEEPL_MCP",
+  "DEPUTY",
+  "DESCRIPT_MCP",
+  "DEV_CYCLE",
+  "DIGITAL_OCEAN",
+  "DISQUS",
+  "DOCUSIGN",
+  "DRIBBBLE",
+  "DROPBOX_SIGN",
+  "DYNATRACE",
+  "EBAY",
+  "EGNYTE",
+  "EPIC_GAMES",
+  "ERA_CONTEXT_MCP",
+  "ERASER_MCP",
+  "FELLOW_AI_MCP",
+  "FINANCIAL_DATASETS_AI_MCP",
+  "FOLLOW_UP_BOSS",
+  "FREEE",
+  "FRESHSALES",
+  "FRONT",
+  "FUSEAI_MCP",
+  "GAGELIST",
+  "GETRESPONSE",
+  "GLIDE_MCP",
+  "GOCARDLESS_MCP",
+  "GOOGLE_ADMIN",
+  "GOOGLE_ADSENSE",
+  "GOOGLE_CHAT",
+  "GOOGLE_DATA_STUDIO",
+  "GOOGLE_MERCHANT",
+  "GOOGLECONTACTS",
+  "GOOGLEFORMS",
+  "GRAFANA_CLOUD_MCP",
+  "GRANOLA_MCP",
+  "GREPTILE_MCP",
+  "GUSTO",
+  "HALOPSA",
+  "HELP_SCOUT",
+  "HIGGSFIELD_MCP",
+  "HIGHLEVEL_AGENCY",
+  "HIGHLEVEL_LOCATION",
+  "HONEYCOMB_MCP",
+  "IGNAV_FLIGHTS_MCP",
+  "IMPLY_POLARIS",
+  "INFISICAL",
+  "JENTIC_MCP",
+  "JIBBLE",
+  "JOBBER",
+  "JUDGE_ME",
+  "KERNEL_MCP",
+  "KINTONE_REST",
+  "KLAVIYO",
+  "KOMMO",
+  "LAUNCH_DARKLY",
+  "LEGAL_DATA_HUNTER_MCP",
+  "LEVER",
+  "LIGHTSPEED",
+  "LILT_MCP",
+  "LINEAR_MCP",
+  "LINKEDIN_ADS",
+  "LIVECHAT",
+  "LODGIFY",
+  "LONGBRIDGE_MCP",
+  "LUCID_MCP",
+  "MAGIC_PATTERNS_MCP",
+  "MAIL_UP",
+  "MARCOPOLO_MCP",
+  "MATTERPORT",
+  "MEMELORD_MCP",
+  "MERCURY_MCP",
+  "METAADS",
+  "MICROSOFT_ADVERTISING",
+  "MICROSOFT_BOOKINGS",
+  "MICROSOFT_ENTRA_ID",
+  "ONENOTE",
+  "MICROSOFT_POWER_BI",
+  "MICROSOFT_POWERPOINT",
+  "MICROSOFT_TODO",
+  "MICROSOFT_WORD",
+  "MIDPAGE_MCP",
+  "MINTLIFY_MCP",
+  "MOBBIN_MCP",
+  "MODEM_MCP",
+  "MONDAY_MCP",
+  "MONEY_FORWARD",
+  "MONGODB",
+  "MONGODB_MCP",
+  "MOTHERDUCK_MCP",
+  "NEO4J",
+  "NEON",
+  "NEON_MCP",
+  "NETLIFY_MCP",
+  "NETSUITE",
+  "NOTION_MCP",
+  "OCTAGON_MCP",
+  "OTTER_AI_MCP",
+  "PANDADOC_MCP",
+  "PARALLEL_TASK_MCP",
+  "PARMA",
+  "PARTICL_MCP",
+  "PAYPAL",
+  "ZETTLE",
+  "PEEC_AI_MCP",
+  "PERSONIO",
+  "PHOTON_MCP",
+  "PINECONE",
+  "PIPEDRIVE",
+  "PLAID_MCP",
+  "PLAIN_MCP",
+  "PLANETSCALE",
+  "POSTHOG_MCP",
+  "PRODUCTNOW_MCP",
+  "PYLON_MCP",
+  "QUICKNODE_MCP",
+  "QUIRE",
+  "RAILWAY",
+  "RAILWAY_MCP",
+  "RAMP",
+  "RAMP_MCP",
+  "RAZORPAY",
+  "RD_STATION_MARKETING",
+  "READ_AI_MCP",
+  "REBRANDLY",
+  "RECRAFT_MCP",
+  "RECRUITEE",
+  "RELOADLY",
+  "RESEND",
+  "RESEND_MCP",
+  "RILLET",
+  "SALESFORCE_SERVICE_CLOUD",
+  "SCHEDULEONCE",
+  "SCORECARD_MCP",
+  "SEARCHAPI_MCP",
+  "SEMRUSH_MCP",
+  "SENDLOOP",
+  "SEND_PULSE",
+  "SENTRY_MCP",
+  "SERVICENOW",
+  "SERVICETITAN",
+  "SHAREPOINT_GRAPH",
+  "SHOPIFY",
+  "SIDESHOW_MCP",
+  "SIGN_NOW",
+  "SIMPLESCRAPER_MCP",
+  "SMARTSHEET",
+  "SNAPCHAT",
+  "SNOWFLAKE",
+  "SNYK",
+  "SOUNDCLOUD",
+  "SPLICE_MCP",
+  "SPOTIFY",
+  "STATSIG_MCP",
+  "STORYBLOK",
+  "STRIPE_MCP",
+  "STYTCH_MCP",
+  "SUPABASE_MCP",
+  "SUPABASE_READ_MCP",
+  "SURVEY_MONKEY",
+  "SYNTHESIZE_BIO_MCP",
+  "TALLY",
+  "TAVILY_MCP",
+  "THOUGHTSPOT_SPOTTER_MCP",
+  "THREADS",
+  "TICKET_TAILOR_MCP",
+  "TIKTOK",
+  "TINYFISH_MCP",
+  "TODOIST_MCP",
+  "TONEDEN",
+  "TRELLO_MCP",
+  "TWITTER",
+  "VANTAGE_MCP",
+  "VERCEL",
+  "VERCEL_MCP",
+  "VIBE",
+  "VIBE_PROSPECTING_MCP",
+  "VIDIQ_MCP",
+  "VIMEO",
+  "WEBFLOW",
+  "WHOP",
+  "WILD_APRICOT",
+  "WISPR_FLOW_MCP",
+  "WIX",
+  "WIX_MCP",
+  "WORDPRESS_COM",
+  "WORKABLE",
+  "WORKDAY",
+  "X_MCP",
+  "XERO",
+  "ZERNIO_MCP",
+  "ZOHO_CALENDAR",
+  "ZOHO_CAMPAIGNS",
+  "ZOHO_RECRUIT",
+  "ZOHO_SIGN",
+  "ZOHO_WORK_DRIVE",
+  "ZOOM_CHAT",
+  "ZOOMINFO"
+ ]
+}

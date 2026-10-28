@@ -1,0 +1,300 @@
+{
+  "slug": "notion",
+  "app": {
+    "name": "Notion",
+    "website": "https://www.notion.com",
+    "category": "Productivity & Docs",
+    "developer_portal_url": "https://app.notion.com/developers/connections",
+    "docs_url": "https://developers.notion.com/docs/authorization"
+  },
+  "composio": {
+    "toolkit_slug": "NOTION",
+    "managed_oauth": "available",
+    "note": "Managed OAuth means the Notion consent screen and page picker name Composio, and capabilities are Composio's defaults. Bring your own public connection when you want your product name in the page picker, a narrower capability set (fewer capabilities make workspace admins more willing to approve), or your own per-connection rate-limit budget, or when you want to poll more often than Composio's 15-minute managed minimum."
+  },
+  "verdict": {
+    "tier": "self-serve",
+    "difficulty": 2,
+    "headline": "Create a public connection with installation scope 'Any workspace' (you can't change it later), paste its client ID/secret into Composio, and users can connect right away; Marketplace review is optional.",
+    "summary": "Notion public connections use standard OAuth 2.0 and don't need a Marketplace listing to work. The traps are one-way choices: installation scope ('Any workspace' vs 'Selected workspaces only') is fixed at creation and only 'Any workspace' can ever be listed. Changing capabilities later forces every user to re-authenticate. Access is per user and per page: the agent sees only pages the user picks in the page picker.",
+    "time_to_first_connection": "15-30 minutes hands-on (estimate)",
+    "time_to_production": "Same day without a Marketplace listing; +5-10 business days if you also list on the Notion Marketplace",
+    "hands_on_effort": "About 1 hour (estimate); plus 1-2 hours of listing assets if you list",
+    "approval_wait": "None required to let users connect. Marketplace listing (optional) gets a Notion review with a 5-10 business day email response. The docs say the Authorization URL field populates after the connection is 'submitted for review', and that review step is not otherwise documented (see uncertain).",
+    "cost": "Free",
+    "confidence": "medium"
+  },
+  "phases": [
+    {
+      "name": "Create the public connection",
+      "goal": "A public OAuth connection with the right scope, capabilities and redirect URI.",
+      "duration": "10-20 minutes",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Choose public connection, not internal or PAT",
+          "detail": "Internal connections use a static token for one workspace (creator must be a workspace owner); personal access tokens act as one user. A multi-customer agent needs a public connection, which uses OAuth 2.0 and is installable by many users/workspaces.",
+          "owner": "agent",
+          "agent_help": "Agent can confirm the connection type from your distribution plan.",
+          "link": "https://developers.notion.com/guides/get-started",
+          "sources": ["s3", "s1"]
+        },
+        {
+          "title": "Create the connection in the Developer portal",
+          "detail": "Developer portal > create a new public connection. Required: connection name, development workspace, redirect URI(s), installation scope, capabilities. Pick installation scope 'Any workspace'. It is permanent, and 'Selected workspaces only' can never be listed on the Marketplace, so you would have to create a new connection.",
+          "owner": "you",
+          "agent_help": "Agent prepares the field values; you log in and submit the form.",
+          "link": "https://app.notion.com/developers/connections",
+          "sources": ["s1", "s2"]
+        },
+        {
+          "title": "Select minimal capabilities",
+          "detail": "Capabilities replace OAuth scopes: Read content, Update content, Insert content (any combination), Read comments, Insert comments, and user info (none / without email / with email). Request only what the agent's tools use. If you change capabilities later, every user must re-authenticate.",
+          "owner": "agent+you",
+          "agent_help": "Agent maps your tool list (search pages, append blocks, comment) to the capability checkboxes.",
+          "link": "https://developers.notion.com/reference/capabilities",
+          "sources": ["s5"]
+        }
+      ]
+    },
+    {
+      "name": "Connect to Composio",
+      "goal": "Composio uses your Notion connection instead of its managed one.",
+      "duration": "10 minutes",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Copy client ID and secret from the Configuration tab",
+          "detail": "The connection's Configuration tab holds the client ID and client secret (and the Authorization URL once submitted for review). Keep them in environment variables or a secret manager.",
+          "owner": "you",
+          "agent_help": "",
+          "link": "https://app.notion.com/developers/connections",
+          "sources": ["s1"]
+        },
+        {
+          "title": "Create a custom auth config in Composio",
+          "detail": "Composio dashboard > Auth Configs > Create Auth Config > Notion > OAuth2; paste client ID/secret; copy the ac_... id and pass it as auth_configs={\"notion\": \"ac_...\"}.",
+          "owner": "agent+you",
+          "agent_help": "Agent writes the session code; you paste the secret in the dashboard.",
+          "link": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+          "sources": ["s8"]
+        },
+        {
+          "title": "Register Composio's redirect URI",
+          "detail": "Add https://backend.composio.dev/api/v3/toolkits/auth/callback as a redirect URI on the Notion connection. Some toolkits still default to legacy https://backend.composio.dev/api/v1/auth-apps/add, so use the exact URI the Composio dashboard shows. If the connection has more than one redirect URI, the token request must include redirect_uri.",
+          "owner": "agent+you",
+          "agent_help": "Agent can check the dashboard URI against the Notion connection's list and test that the callback completes.",
+          "link": "https://docs.composio.dev/docs/auth-configuration/programmatic-auth-configs",
+          "sources": ["s9", "s1"]
+        }
+      ]
+    },
+    {
+      "name": "Test with your workspace",
+      "goal": "Your account connects, shares pages, and refresh works.",
+      "duration": "15-30 minutes",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Authorize and pick pages",
+          "detail": "Run the connect flow. In Notion's page picker select the pages/databases the agent may use (child pages inherit access; only pages you have full access to appear). If the flow is abandoned after 'Allow', the connection gets no page access.",
+          "owner": "you",
+          "agent_help": "Agent generates the connect link, then calls search to confirm the selected pages are visible.",
+          "link": "",
+          "sources": ["s1"]
+        },
+        {
+          "title": "Verify refresh-token rotation",
+          "detail": "Token responses include access_token and refresh_token. POST https://api.notion.com/v1/oauth/token with grant_type=refresh_token (HTTP Basic with client ID/secret, Notion-Version header) returns a NEW access and refresh token, so always persist the latest pair. Re-authorizing may also return new tokens.",
+          "owner": "agent",
+          "agent_help": "Agent can run a refresh and confirm the stored refresh token was replaced.",
+          "link": "https://developers.notion.com/reference/refresh-a-token",
+          "sources": ["s6", "s1"]
+        }
+      ]
+    },
+    {
+      "name": "Launch (and optional Marketplace listing)",
+      "goal": "Any Notion user can connect; optionally discoverable on the Marketplace.",
+      "duration": "Same day; listing review 5-10 business days",
+      "is_wait": true,
+      "steps": [
+        {
+          "title": "Ship the connect flow to users",
+          "detail": "You can create and use a public connection without listing it. Each user authorizes individually and gets their own token tied to them; teammates must each connect.",
+          "owner": "agent",
+          "agent_help": "Agent can add per-user connect UX and a 'share more pages' prompt for empty results.",
+          "link": "https://developers.notion.com/guides/get-started/public-connections",
+          "sources": ["s3", "s2"]
+        },
+        {
+          "title": "Optional: submit a Marketplace listing",
+          "detail": "Listings > Connections: listing name, description, category, tags, images, logo, linked 'Any workspace' connection. Notion reviews every submission (rejections for brand/trademark, quality, or baseline criteria) and answers by email in 5-10 business days.",
+          "owner": "agent+you",
+          "agent_help": "Agent drafts description, tags and image specs; you upload and submit.",
+          "link": "https://developers.notion.com/guides/get-started/marketplace-listing",
+          "sources": ["s4"]
+        },
+        {
+          "title": "Notion review of the listing",
+          "detail": "Wait for approval or feedback; resubmit if changes are requested. Users can already connect during this wait.",
+          "owner": "provider",
+          "agent_help": "",
+          "link": "",
+          "sources": ["s4"]
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "item": "Notion account with a development workspace",
+      "needed_for": "development",
+      "detail": "Chosen when creating the connection.",
+      "sources": ["s1", "s2"]
+    },
+    {
+      "item": "Redirect URI(s)",
+      "needed_for": "development",
+      "detail": "Configured in the OAuth configuration section; redirect_uri must be sent in the token request if it was sent to authorize or if more than one is registered.",
+      "sources": ["s1"]
+    },
+    {
+      "item": "Installation scope 'Any workspace'",
+      "needed_for": "production",
+      "detail": "Set once at creation, can't be changed. Needed for arbitrary workspaces and for Marketplace eligibility.",
+      "sources": ["s2", "s4"]
+    },
+    {
+      "item": "Listing assets: name, description, category, tags, images, logo",
+      "needed_for": "public-listing",
+      "detail": "Only for the optional Marketplace listing.",
+      "sources": ["s4"]
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "Read content",
+      "purpose": "Search and read pages/databases the user shared.",
+      "sensitivity": "basic",
+      "review_impact": "No OAuth review; shown to the user at authorization.",
+      "sources": ["s5"]
+    },
+    {
+      "scope": "Update content + Insert content",
+      "purpose": "Edit pages and create new pages/blocks.",
+      "sensitivity": "sensitive",
+      "review_impact": "No review; more capabilities make admins less likely to approve. Insert alone does not grant read of created objects.",
+      "sources": ["s5"]
+    },
+    {
+      "scope": "Read comments / Insert comments",
+      "purpose": "Read and reply to discussions.",
+      "sensitivity": "basic",
+      "review_impact": "No review.",
+      "sources": ["s5"]
+    },
+    {
+      "scope": "User information with email addresses",
+      "purpose": "Resolve mentions/assignees to emails; gates List users / Retrieve user.",
+      "sensitivity": "sensitive",
+      "review_impact": "No review; prefer 'without email' unless needed.",
+      "sources": ["s5"]
+    }
+  ],
+  "oauth": {
+    "authorize_url": "https://api.notion.com/v1/oauth/authorize",
+    "token_url": "https://api.notion.com/v1/oauth/token",
+    "discovery_url": "",
+    "pkce": "Not documented on Notion's authorization or token pages; the token endpoint authenticates with HTTP Basic (client ID/secret).",
+    "refresh_tokens": "Issued with the access token. Refreshing (grant_type=refresh_token) returns a new access token and a new refresh token; refresh_token is nullable in the response schema. Access-token lifetime and old-refresh-token invalidation are not stated.",
+    "redirect_uri_rules": "Registered in the Developer portal. Authorize requires response_type=code and owner=user. redirect_uri is required in the token request if it was in the authorize URL or the connection has more than one; otherwise it is not allowed. Denials return error=access_denied to the redirect URI.",
+    "sources": ["s1", "s6"]
+  },
+  "limits": [
+    {
+      "limit": "180 requests/minute per connection (~3/s); 600/min on Business and Enterprise workspaces",
+      "applies_when": "All API calls from one connection; bursts allowed within the minute",
+      "how_to_lift": "Not liftable; handle 429/529 using Retry-After with backoff and jitter.",
+      "sources": ["s7"]
+    },
+    {
+      "limit": "Shared per-workspace limit across all connections; data source queries ~3/s per connection",
+      "applies_when": "Busy workspaces with many integrations, or heavy database querying",
+      "how_to_lift": "Not liftable; cache and batch.",
+      "sources": ["s7"]
+    },
+    {
+      "limit": "Payload: 1000 block elements and 500KB per request; 100 blocks per array; 2000 chars per rich text",
+      "applies_when": "Agent writes long documents",
+      "how_to_lift": "Split writes into multiple append calls.",
+      "sources": ["s7"]
+    }
+  ],
+  "blockers": [
+    {
+      "blocker": "User didn't share the page",
+      "symptom": "Search returns nothing or the agent can't find a page the user can see in Notion.",
+      "fix": "Ask the user to add the page via the page picker or the page's 'Add connections' menu; sharing a parent grants children.",
+      "sources": ["s1", "s3"]
+    },
+    {
+      "blocker": "Wrong installation scope",
+      "symptom": "Can't list on the Marketplace / workspaces outside your allowlist can't install.",
+      "fix": "Create a new connection with 'Any workspace'; scope can't be edited.",
+      "sources": ["s2"]
+    },
+    {
+      "blocker": "Capabilities changed after launch",
+      "symptom": "Existing users lack new permissions until they reconnect.",
+      "fix": "Force a re-authentication flow for all users.",
+      "sources": ["s5"]
+    },
+    {
+      "blocker": "Stale refresh token",
+      "symptom": "Refresh fails after an earlier refresh or re-authorization issued new tokens.",
+      "fix": "Always store the latest refresh_token returned by refresh or re-auth.",
+      "sources": ["s6", "s1"]
+    },
+    {
+      "blocker": "Rate limiting",
+      "symptom": "HTTP 429 with Retry-After",
+      "fix": "Wait Retry-After then back off with jitter.",
+      "sources": ["s7"]
+    }
+  ],
+  "agent_handoff": {
+    "agent_can": [
+      "Choose connection type and map tools to minimal capabilities",
+      "Prepare connection field values and Marketplace listing copy",
+      "Write Composio session code and verify the redirect URI matches",
+      "Test page access, refresh-token rotation and 429 handling"
+    ],
+    "you_must": [
+      "Log in to the Notion Developer portal and create the public connection (choosing 'Any workspace' permanently)",
+      "Copy the client secret into Composio",
+      "Authorize with your own workspace and pick pages",
+      "Upload assets and submit the optional Marketplace listing"
+    ]
+  },
+  "sources": [
+    { "id": "s1", "title": "Notion: Authorization", "url": "https://developers.notion.com/docs/authorization", "kind": "official-docs", "supports": "Public vs internal, endpoints, refresh tokens, redirect_uri rules, page picker, Authorization URL after 'submitted for review'" },
+    { "id": "s2", "title": "Notion: Public connections", "url": "https://developers.notion.com/guides/get-started/public-connections.md", "kind": "official-docs", "supports": "Installation scope (permanent), Marketplace eligibility, per-user tokens" },
+    { "id": "s3", "title": "Notion: Get started", "url": "https://developers.notion.com/guides/get-started", "kind": "official-docs", "supports": "Security review only before Marketplace listing; can use public connection unlisted; connection types" },
+    { "id": "s4", "title": "Notion: List on the Marketplace", "url": "https://developers.notion.com/guides/get-started/marketplace-listing.md", "kind": "official-docs", "supports": "Listing optional, requirements, 5-10 business day review, eligibility" },
+    { "id": "s5", "title": "Notion: Capabilities", "url": "https://developers.notion.com/reference/capabilities.md", "kind": "official-docs", "supports": "Capability list, re-auth on change, minimal-capability advice" },
+    { "id": "s6", "title": "Notion: Refresh a token", "url": "https://developers.notion.com/reference/refresh-a-token.md", "kind": "official-docs", "supports": "Refresh returns new access + refresh token; Basic auth; Notion-Version header" },
+    { "id": "s7", "title": "Notion: Request limits", "url": "https://developers.notion.com/reference/request-limits", "kind": "official-docs", "supports": "180/600 rpm per connection, workspace limit, size limits, 429 handling" },
+    { "id": "s8", "title": "Composio: When to use your own developer credentials", "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app", "kind": "composio", "supports": "Custom auth config steps; branding/scopes/quota/polling reasons" },
+    { "id": "s9", "title": "Composio: Programmatic auth configs", "url": "https://docs.composio.dev/docs/auth-configuration/programmatic-auth-configs", "kind": "composio", "supports": "v3 callback URL and legacy v1 default for some toolkits" }
+  ],
+  "uncertain": [
+    "Notion's authorization page says the Authorization URL 'populates after a public connection is submitted for review' but documents no such review, timeline or criteria; another official page says security review applies only before Marketplace listing. Since Composio builds the authorize URL from the client ID, this likely doesn't block connecting, but we could not confirm it.",
+    "Older Notion docs required company name, website, privacy policy, terms of use and support email to make an integration public; the current Developer portal docs don't list them. The live form may still ask.",
+    "Access-token lifetime and whether the previous refresh token is invalidated on refresh are not stated by Notion.",
+    "PKCE support is not documented.",
+    "Whether a workspace member (non-owner) can install a public connection, or whether admins can block it, is not stated on the fetched pages.",
+    "Time estimates other than the 5-10 business day listing response are our estimates.",
+    "The exact redirect URI the Composio NOTION toolkit expects (v3 vs legacy v1) should be copied from the dashboard."
+  ]
+}

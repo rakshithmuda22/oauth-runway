@@ -1,0 +1,333 @@
+{
+  "slug": "salesforce",
+  "app": {
+    "name": "Salesforce",
+    "website": "https://www.salesforce.com",
+    "category": "CRM",
+    "developer_portal_url": "https://developer.salesforce.com/signup",
+    "docs_url": "https://help.salesforce.com/s/articleView?id=xcloud.remoteaccess_oauth_endpoints.htm&type=5"
+  },
+  "composio": {
+    "toolkit_slug": "SALESFORCE",
+    "managed_oauth": "available",
+    "note": "Composio's managed app is the fastest start. Since September 2025, though, Salesforce blocks users without the 'Approve Uninstalled Connected Apps' permission (System Administrators have it by default) from newly authorizing connected apps that aren't installed in their org, and Composio's Salesforce guide says an org admin may need to install or approve the app before users can connect. Bring your own External Client App when you want your brand on the authorization page, custom scopes or policies, a dedicated quota, or a managed package your customers' admins install and govern."
+  },
+  "verdict": {
+    "tier": "self-serve-with-review",
+    "difficulty": 4,
+    "headline": "Create an External Client App in a free Developer Edition org and test in under an hour. To serve other companies' orgs, package the app in a managed package that each customer admin installs, because new Connected Apps can no longer be created and ECAs only work where they're installed.",
+    "summary": "Salesforce doesn't review OAuth apps unless you list on AppExchange (now AgentExchange). The hard part is per-org distribution. Since Spring '26, customers can't create new Connected Apps without a Support exception. The replacement, External Client Apps (ECAs), is local to its org unless packaged (2GP managed package recommended) and installed in each subscriber org. Separately, since September 2025, non-admin users can't authorize uninstalled connected apps. ECA refresh tokens also now expire after 30 days of inactivity.",
+    "time_to_first_connection": "30-60 minutes: sign up for a Developer Edition, create a local ECA, then wait up to 30 minutes for it to become usable.",
+    "time_to_production": "Single customer org (local ECA built in their org): same day. Many customer orgs through a managed package: about 1-3 weeks to set up Dev Hub, a namespace and a released package version, plus each customer's install time (estimate). Public AgentExchange listing: add about 4-6+ weeks for security review.",
+    "hands_on_effort": "About 1-2 hours for a local ECA. About 1-3 days to build and release a 2GP managed package with a Salesforce DX project. Security review prep, if you list, can take weeks of scanning and fixes.",
+    "approval_wait": "No Salesforce review for private distribution. Each customer org's admin must install the package (ECA) or the connected app. AgentExchange security review applies only if you list publicly: Salesforce cites 1-2 weeks for submission verification plus 3-4 weeks for first testing.",
+    "cost": "Developer Edition and packaging are free. Security review is free for free solutions; a 2023 Salesforce post put it at $999 per attempt for paid solutions. Customers need API access, which is included in Enterprise, Performance, Unlimited and Developer editions and is an add-on for Professional.",
+    "confidence": "medium"
+  },
+  "phases": [
+    {
+      "name": "Register",
+      "goal": "Create an External Client App with OAuth enabled in a dev org",
+      "duration": "30-60 minutes including propagation",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Get a Developer Edition org",
+          "detail": "Sign up for a free Developer Edition. It includes API access and lets you create ECAs, which are available in Professional, Enterprise, Performance, Unlimited and Developer editions. Don't plan on a new Connected App: creation is disabled in the UI and the Metadata API since Spring '26 unless Salesforce Support grants an exception, which Salesforce says will go away.",
+          "owner": "you",
+          "agent_help": "Explain the ECA vs Connected App situation and confirm the org edition supports ECAs and the API.",
+          "link": "https://developer.salesforce.com/signup",
+          "sources": ["s1", "s5", "s13"]
+        },
+        {
+          "title": "Create the External Client App",
+          "detail": "Go to Setup > App Manager > New External Client App. Set the name, API name and contact email. Set Distribution State to Local to use it only in this org, or Packaged if you will distribute it to customer orgs. You can change it later, and it's the only config difference between the two.",
+          "owner": "you",
+          "agent_help": "Prepare all field values in advance. Alternatively, generate the ECA metadata (Salesforce DX project) for you to deploy.",
+          "link": "https://help.salesforce.com/s/articleView?id=xcloud.create_a_local_external_client_app.htm&type=5",
+          "sources": ["s5", "s8"]
+        },
+        {
+          "title": "Configure OAuth settings",
+          "detail": "Enable OAuth and add the callback URLs, one per line: HTTPS or a custom scheme, 2,000 characters total. Select the scopes 'Manage user data via APIs (api)', 'Perform requests at any time (refresh_token, offline_access)' and 'Access the identity URL service'. Keep 'Require Secret for Web Server Flow' on for a server-side client. Optionally require PKCE and enable refresh token rotation.",
+          "owner": "agent+you",
+          "agent_help": "Produce the exact callback list and scope set, and explain each security toggle.",
+          "link": "https://help.salesforce.com/s/articleView?id=xcloud.configure_external_client_app_oauth_settings.htm&type=5",
+          "sources": ["s6", "s3"]
+        },
+        {
+          "title": "Wait for propagation, then copy the consumer key and secret",
+          "detail": "Salesforce says a new ECA can take up to 30 minutes to become usable, and early attempts may fail in the meantime. Copy the consumer key and secret from Settings > OAuth Settings; Salesforce may email a verification code before showing them.",
+          "owner": "provider",
+          "agent_help": "Retry the authorize URL until it stops failing, instead of debugging a config that is just still propagating.",
+          "link": "",
+          "sources": ["s12"]
+        }
+      ]
+    },
+    {
+      "name": "Connect to Composio",
+      "goal": "Point Composio's Salesforce toolkit at your app",
+      "duration": "10-20 minutes",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Add Composio's callback URL",
+          "detail": "Add https://backend.composio.dev/api/v3/toolkits/auth/callback to the ECA's callback URLs. Use the exact URI the Composio dashboard shows for your auth config, because some toolkits still show the legacy https://backend.composio.dev/api/v1/auth-apps/add.",
+          "owner": "agent+you",
+          "agent_help": "Read the redirect URI from the Composio dashboard or API and check it against the ECA callback list.",
+          "link": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+          "sources": ["s16", "s17", "s18", "s6"]
+        },
+        {
+          "title": "Create a custom auth config in Composio",
+          "detail": "Create an Auth Config for the Salesforce toolkit with OAuth2, the consumer key and the consumer secret. Make sure the refresh_token scope is included, then use the ac_... ID in your sessions. Production and Developer Edition orgs log in through login.salesforce.com or My Domain; sandboxes use test.salesforce.com.",
+          "owner": "agent+you",
+          "agent_help": "Write the SDK or API call and handle the login host per org type.",
+          "link": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+          "sources": ["s16", "s10"]
+        },
+        {
+          "title": "Test from your own org",
+          "detail": "Authorize as an admin of the org that owns the ECA, then call a REST endpoint. Orgs without API access return API_DISABLED_FOR_ORG.",
+          "owner": "agent",
+          "agent_help": "Run the flow, query a record, and confirm refresh works.",
+          "link": "",
+          "sources": ["s13"]
+        }
+      ]
+    },
+    {
+      "name": "Distribute to customer orgs",
+      "goal": "Make the app installable in other companies' orgs",
+      "duration": "1-3 days of build plus per-customer install time",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Package the ECA in a managed package",
+          "detail": "Set Distribution State to Packaged and add the ECA to a managed package. Salesforce recommends 2GP with a Dev Hub org and a Salesforce DX project; 1GP also works. Only packaged ECAs can be deployed to other orgs, and secrets stay in the source org. Never delete the ECA from the source org, or OAuth breaks in every subscriber org.",
+          "owner": "agent+you",
+          "agent_help": "Scaffold the Salesforce DX project, ECA metadata and sf CLI commands to create and promote the package version. You authenticate the Dev Hub and register the namespace.",
+          "link": "https://help.salesforce.com/s/articleView?id=xcloud.configure_packageable_external_client_apps.htm&type=5",
+          "sources": ["s8", "s4"]
+        },
+        {
+          "title": "Customer admin installs the package and sets policies",
+          "detail": "Each customer admin installs your package, then sets Permitted Users in the ECA policies. 'Admin approved users are pre-authorized' limits access to assigned profiles or permission sets; switching to it cuts off users who aren't assigned. OAuth policies apply per org and survive your package updates.",
+          "owner": "you",
+          "agent_help": "Write the install guide for admins: install URL, permission set assignment, and the refresh token policy to choose.",
+          "link": "https://help.salesforce.com/s/articleView?id=xcloud.preauth_user_app_access_through_eca.htm&type=5",
+          "sources": ["s9", "s6", "s4"]
+        }
+      ]
+    },
+    {
+      "name": "AgentExchange security review (optional)",
+      "goal": "Public listing on AgentExchange (formerly AppExchange)",
+      "duration": "About 4-6+ weeks",
+      "is_wait": true,
+      "steps": [
+        {
+          "title": "Submit for security review",
+          "detail": "Required only to list publicly. Prerequisites: ISV Partner Program enrollment, a Lightning Ready solution, Partner Console setup, scanner results, and a Developer Edition test org with the package installed. Free solutions pay no fee.",
+          "owner": "agent+you",
+          "agent_help": "Run Salesforce Code Analyzer and the required scanners, document false positives, and assemble the submission materials.",
+          "link": "https://developer.salesforce.com/docs/platform/isvforce/guide/security-review-how-it-works.html",
+          "sources": ["s14", "s15"]
+        },
+        {
+          "title": "Salesforce Product Security tests the solution",
+          "detail": "Salesforce's typical times: 1-2 weeks to verify the submission, 3-4 weeks for the first test, and 2-3 weeks per resubmission.",
+          "owner": "provider",
+          "agent_help": "Triage the report and fix every instance of each issue class before resubmitting.",
+          "link": "",
+          "sources": ["s14"]
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "item": "Developer Edition (or other ECA-capable) org",
+      "needed_for": "development",
+      "detail": "ECAs are available in Professional, Enterprise, Performance, Unlimited and Developer editions. Creating one needs the 'Create, edit, and delete External Client Apps' permission.",
+      "sources": ["s5"]
+    },
+    {
+      "item": "API access in each customer org",
+      "needed_for": "production",
+      "detail": "Included by default in Enterprise, Performance, Unlimited and Developer editions; an add-on for Professional. Users also need the API Enabled permission.",
+      "sources": ["s13"]
+    },
+    {
+      "item": "Managed package (2GP recommended) with Dev Hub and namespace",
+      "needed_for": "production",
+      "detail": "Needed to deploy an ECA to orgs other than the one where it was created.",
+      "sources": ["s8", "s4"]
+    },
+    {
+      "item": "HTTPS callback URL",
+      "needed_for": "development",
+      "detail": "HTTPS or a custom URI scheme. Must match a registered value.",
+      "sources": ["s6"]
+    },
+    {
+      "item": "AgentExchange security review",
+      "needed_for": "public-listing",
+      "detail": "Only to list publicly. Requires ISV Partner Program enrollment. Free for free solutions.",
+      "sources": ["s14"]
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "api",
+      "purpose": "Read and write CRM records through REST and SOAP APIs as the user",
+      "sensitivity": "sensitive",
+      "review_impact": "No Salesforce review. Access is bounded by the user's profile and permission sets in the org.",
+      "sources": ["s3", "s6"]
+    },
+    {
+      "scope": "refresh_token (offline_access)",
+      "purpose": "Long-lived access for a background agent",
+      "sensitivity": "sensitive",
+      "review_impact": "No review. The 30-day idle refresh token TTL applies to ECAs.",
+      "sources": ["s3", "s7"]
+    },
+    {
+      "scope": "openid / id / profile / email",
+      "purpose": "Identify the connected user and org",
+      "sensitivity": "basic",
+      "review_impact": "None.",
+      "sources": ["s3", "s6"]
+    },
+    {
+      "scope": "full",
+      "purpose": "All data the user can access",
+      "sensitivity": "admin",
+      "review_impact": "No formal review, but prefer api plus refresh_token. Customer admins scrutinize broad scopes.",
+      "sources": ["s6"]
+    }
+  ],
+  "oauth": {
+    "authorize_url": "https://login.salesforce.com/services/oauth2/authorize (or https://MyDomain.my.salesforce.com/...; sandboxes use https://test.salesforce.com/...)",
+    "token_url": "https://login.salesforce.com/services/oauth2/token (same host rules)",
+    "discovery_url": "https://login.salesforce.com/.well-known/openid-configuration",
+    "pkce": "Supported, with a PKCE generator endpoint. Can be required per ECA with 'Require Proof Key for Code Exchange (PKCE)'.",
+    "refresh_tokens": "Issued when the refresh_token scope is granted. For ECAs, Salesforce enforces a 30-day idle TTL: a token unused for 30 days expires and the user must re-authorize, and 'valid until revoked' is no longer honored. Refresh token rotation is optional and recommended; reusing a rotated token revokes the current one. Admins can also set absolute expiry policies per org.",
+    "redirect_uri_rules": "Callback must be HTTPS or a custom URI scheme and match one registered value. Multiple URLs are newline-separated, up to 2,000 characters total. All OAuth endpoints require HTTPS.",
+    "sources": ["s10", "s6", "s7"]
+  },
+  "limits": [
+    {
+      "limit": "New Connected Apps can't be created (UI or Metadata API)",
+      "applies_when": "Since Spring '26, in all orgs, except through package installation",
+      "how_to_lift": "Use an External Client App. Salesforce Support can grant a temporary exception, which it says will be removed in future releases.",
+      "sources": ["s1", "s2"]
+    },
+    {
+      "limit": "A local ECA works only in the org where it was created",
+      "applies_when": "Distribution State = Local",
+      "how_to_lift": "Set it to Packaged and distribute it in a managed package that customers install.",
+      "sources": ["s5", "s8", "s4"]
+    },
+    {
+      "limit": "Refresh tokens expire after 30 days of inactivity",
+      "applies_when": "All ECAs once Salesforce enforces the control",
+      "how_to_lift": "Can't be lifted. Refresh at least every 30 days (for example, a scheduled keep-alive) or prompt re-authorization.",
+      "sources": ["s7"]
+    },
+    {
+      "limit": "Non-admin users can't authorize uninstalled connected apps",
+      "applies_when": "Since September 2025, for users without 'Approve Uninstalled Connected Apps' (or 'Use Any API Client' when API Access Control is on). Users who had already authorized the app keep access unless it uses the device flow.",
+      "how_to_lift": "The customer admin installs the app via Setup > Connected Apps OAuth Usage > Install.",
+      "sources": ["s11"]
+    },
+    {
+      "limit": "5 active refresh tokens per user per connected app; a 6th connection by the same user can revoke the oldest",
+      "applies_when": "The same Salesforce user connects the app repeatedly (e.g. several Composio connected accounts for one user)",
+      "how_to_lift": "Can't be lifted; reuse one connected account per Salesforce user.",
+      "sources": ["s19"]
+    }
+  ],
+  "blockers": [
+    {
+      "blocker": "Connected App creation disabled",
+      "symptom": "No 'New Connected App' option, or Metadata API deploys of ConnectedApp fail",
+      "fix": "Create an External Client App instead.",
+      "sources": ["s1", "s2"]
+    },
+    {
+      "blocker": "Freshly created ECA not usable yet",
+      "symptom": "Authorization fails for up to about 30 minutes after creation",
+      "fix": "Wait up to 30 minutes and retry.",
+      "sources": ["s12"]
+    },
+    {
+      "blocker": "User blocked from an uninstalled app",
+      "symptom": "OAUTH_APPROVAL_ERROR_GENERIC or 'We can't authorize you because of an OAuth error'; Composio reports the redirect carrying error=invalid_client&error_description=app must be installed into org",
+      "fix": "The customer admin installs the app (Connected Apps OAuth Usage > Install) or installs your ECA package, then grants access.",
+      "sources": ["s11", "s19"]
+    },
+    {
+      "blocker": "Org has no API access",
+      "symptom": "API_DISABLED_FOR_ORG",
+      "fix": "The customer needs Enterprise or above, or the API add-on for Professional, and users need API Enabled.",
+      "sources": ["s13"]
+    },
+    {
+      "blocker": "Pre-authorization cut users off",
+      "symptom": "Existing users lose access after Permitted Users is switched to admin-approved",
+      "fix": "Assign the ECA to the users' profiles or permission sets.",
+      "sources": ["s9"]
+    }
+  ],
+  "agent_handoff": {
+    "agent_can": [
+      "Generate the ECA metadata and a Salesforce DX project for a 2GP managed package",
+      "Prepare the callback URL list and scope set, including Composio's callback",
+      "Create the Composio auth config through its API and test record reads and token refresh",
+      "Write the customer-admin install guide (install link, permission sets, Permitted Users, refresh token policy)",
+      "Build a 30-day refresh keep-alive and handle re-authorization",
+      "Run Salesforce Code Analyzer and draft security review materials if you list on AgentExchange"
+    ],
+    "you_must": [
+      "Sign up for and log in to the Developer Edition and Dev Hub orgs (MFA)",
+      "Create the ECA in Setup or authorize the CLI to deploy it, and retrieve the consumer secret",
+      "Register the package namespace and promote package versions",
+      "Get each customer admin to install the package and grant user access",
+      "Enroll in the ISV Partner Program and pay any security review fee if you list publicly"
+    ]
+  },
+  "sources": [
+    {"id": "s1", "title": "Salesforce Platform: New Connected Apps Can No Longer Be Created in Spring '26", "url": "https://help.salesforce.com/s/articleView?id=005228017&type=1", "kind": "official-policy", "supports": "Connected App creation disabled in UI and API, Support exception being phased out, package installation still allowed, existing apps keep working, end of support coming"},
+    {"id": "s2", "title": "Spring '26 Release Architect Highlights", "url": "https://www.salesforce.com/blog/spring-26-release-architect-highlights/", "kind": "official-blog", "supports": "Connected App creation restricted by default, ECAs recommended, ECAs closed until installed"},
+    {"id": "s3", "title": "External Client Apps and Connected Apps (Mobile SDK guide), with the Create an External Client App page", "url": "https://developer.salesforce.com/docs/platform/mobile-sdk/guide/eca-create.html", "kind": "official-docs", "supports": "ECA creation steps, standard OAuth scopes (api, refresh_token, id), creation restriction note"},
+    {"id": "s4", "title": "Comparison of Connected Apps and External Client Apps Features", "url": "https://help.salesforce.com/s/articleView?id=xcloud.connected_apps_and_external_client_apps_features.htm&type=5", "kind": "official-docs", "supports": "2GP packaging for ECAs, ECAs can't be used without installation, no username-password flow"},
+    {"id": "s5", "title": "Create an External Client App", "url": "https://help.salesforce.com/s/articleView?id=xcloud.create_a_local_external_client_app.htm&type=5", "kind": "official-docs", "supports": "Supported editions, required permission, Local vs Packaged distribution state"},
+    {"id": "s6", "title": "Configure the External Client App OAuth Settings", "url": "https://help.salesforce.com/s/articleView?id=xcloud.configure_external_client_app_oauth_settings.htm&type=5", "kind": "official-docs", "supports": "Callback URL rules (HTTPS or custom scheme, 2,000 chars), require secret, PKCE, refresh token rotation"},
+    {"id": "s7", "title": "Limit the Idle Refresh Token TTL in External Client Apps", "url": "https://help.salesforce.com/s/articleView?id=xcloud.eca_limit_idle_refresh_token_ttl.htm&type=5", "kind": "official-docs", "supports": "30-day idle refresh token TTL enforced for ECAs, 'valid until revoked' no longer honored"},
+    {"id": "s8", "title": "Package an External Client App", "url": "https://help.salesforce.com/s/articleView?id=xcloud.configure_packageable_external_client_apps.htm&type=5", "kind": "official-docs", "supports": "Only packaged ECAs deploy to other orgs, 2GP with Dev Hub recommended, deleting from the source org breaks subscribers"},
+    {"id": "s9", "title": "Preauthorize User App Access Through External Client App Policies", "url": "https://help.salesforce.com/s/articleView?id=xcloud.preauth_user_app_access_through_eca.htm&type=5", "kind": "official-docs", "supports": "Admin approved users are pre-authorized vs self-authorize, Use Any API Client bypass"},
+    {"id": "s10", "title": "OAuth Endpoints", "url": "https://help.salesforce.com/s/articleView?id=xcloud.remoteaccess_oauth_endpoints.htm&type=5", "kind": "official-docs", "supports": "Authorize, token and discovery endpoints, login.salesforce.com or My Domain, test.salesforce.com for sandboxes, HTTPS required, PKCE generator"},
+    {"id": "s11", "title": "Prepare for Salesforce Connected App Usage Restrictions Change", "url": "https://help.salesforce.com/s/articleView?id=005132365&type=1", "kind": "official-policy", "supports": "September 2025 block on uninstalled connected apps, Approve Uninstalled Connected Apps permission, admin install path, Permitted Users options"},
+    {"id": "s12", "title": "Create an External Client App (Hosted MCP Servers guide)", "url": "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/create-external-client-app.html", "kind": "official-docs", "supports": "New ECA can take up to 30 minutes to become operational"},
+    {"id": "s13", "title": "Supported Editions and Required Permissions (REST API Developer Guide)", "url": "https://developer.salesforce.com/docs/platform/api-rest/guide/intro-rest-compatible-editions.html", "kind": "official-docs", "supports": "API access by edition, Professional add-on, API Enabled permission, API_DISABLED_FOR_ORG"},
+    {"id": "s14", "title": "How the AgentExchange Security Review Works", "url": "https://developer.salesforce.com/docs/platform/isvforce/guide/security-review-how-it-works.html", "kind": "official-docs", "supports": "Review required only to list on AgentExchange, prerequisites, typical durations, no fee for free solutions"},
+    {"id": "s15", "title": "Prepare Your App to Pass the AppExchange Security Review (Salesforce Developers Blog, 2023)", "url": "https://developer.salesforce.com/blogs/2023/04/prepare-your-app-to-pass-the-appexchange-security-review", "kind": "official-blog", "supports": "$999 per attempt fee for paid apps (as of 2023)"},
+    {"id": "s16", "title": "When to use your own developer credentials (Composio)", "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app", "kind": "composio", "supports": "Managed vs custom auth config, branding, shared quota, steps"},
+    {"id": "s17", "title": "White-labeling authentication (Composio)", "url": "https://docs.composio.dev/docs/authentication/white-labeling-authentication", "kind": "composio", "supports": "Composio callback https://backend.composio.dev/api/v3/toolkits/auth/callback"},
+    { "id": "s18", "title": "Programmatic auth configs (Composio)", "url": "https://docs.composio.dev/docs/authentication/programmatic-auth-configs", "kind": "composio", "supports": "Some toolkit defaults still use the legacy https://backend.composio.dev/api/v1/auth-apps/add redirect URI" },
+    { "id": "s19", "title": "Salesforce toolkit guide (Composio knowledge base)", "url": "https://docs.composio.dev/kb/guide/toolkits-salesforce", "kind": "composio", "supports": "Org admin may need to install/approve the connected app; app must be installed into org error; five active refresh tokens per user per connected app" }
+  ],
+  "uncertain": [
+    "We found no official statement on whether a privately distributed managed package (not listed on AgentExchange) can be installed in customer production orgs without security review. Salesforce docs tie review to public listing; confirm for your package type.",
+    "The 1-3 week time to production for multi-org distribution is our estimate. It depends on Dev Hub and namespace setup and on how fast customer admins install.",
+    "The $999 per-attempt security review fee comes from a 2023 Salesforce blog. The current ISVforce guide confirms there's a fee for paid solutions but we didn't find a current dollar amount.",
+    "Whether Composio's managed Salesforce app is a Connected App or an ECA is not stated in Composio's docs. Composio's Salesforce guide does say an org admin may need to install or approve the connected app before users can authenticate.",
+    "Salesforce says the 30-day idle TTL is enforced for ECAs; we couldn't confirm the exact enforcement date per org. Connected Apps have a parallel setting whose enforcement status we didn't verify.",
+    "The 30-minute propagation figure comes from Salesforce's Hosted MCP Servers guide. Third-party guides commonly cite up to 10 minutes.",
+    "We didn't confirm whether a Developer Edition org can act as the Dev Hub and namespace registry for a production 2GP managed package, or whether a Partner Business Org is preferable.",
+    "Composio's docs confirm that some toolkit defaults still use the legacy https://backend.composio.dev/api/v1/auth-apps/add callback, but not which one the SALESFORCE toolkit shows. Always copy the URI from the dashboard.",
+    "The 5-refresh-token-per-user limit is cited from Composio's Salesforce guide for connected apps; whether the same limit applies to External Client Apps was not verified."
+  ]
+}

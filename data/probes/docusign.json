@@ -1,0 +1,121 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://account-d.docusign.com/oauth/auth?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "info",
+    "result": "Endpoint is live (HTTP 200) but renders in the browser with JavaScript, so its client check can't be seen without a real browser session.",
+    "at": "2026-10-28T16:33:50.596Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://apps.docusign.com/dev-console/integrations",
+    "status": "pass",
+    "result": "Reachable (HTTP 200): \"Docusign\".",
+    "at": "2026-10-28T16:33:50.681Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://developers.docusign.com/platform/account/",
+    "status": "pass",
+    "result": "HTTP 200: \"Developer account | Platform 101 | Docusign\"",
+    "at": "2026-10-28T16:33:50.767Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://developers.docusign.com/platform/configure-app/",
+    "status": "pass",
+    "result": "HTTP 200: \"Configure your app | Docusign\"",
+    "at": "2026-10-28T16:33:50.770Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://developers.docusign.com/platform/auth/confidential-authcode-get-token/",
+    "status": "pass",
+    "result": "HTTP 200: \"How to get an access token with Confidential Authorization Code Grant | Docusign\"",
+    "at": "2026-10-28T16:33:50.787Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://developers.docusign.com/platform/auth/reference/scopes/",
+    "status": "pass",
+    "result": "HTTP 200: \"Authentication scopes | Docusign\"",
+    "at": "2026-10-28T16:33:50.770Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://developers.docusign.com/platform/auth/reference/user-info/",
+    "status": "pass",
+    "result": "HTTP 200: \"User info endpoint reference | Docusign\"",
+    "at": "2026-10-28T16:33:50.895Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://developers.docusign.com/platform/go-live/",
+    "status": "pass",
+    "result": "HTTP 200: \"Docusign Go-Live | Docusign\"",
+    "at": "2026-10-28T16:33:50.960Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://developers.docusign.com/docs/esign-rest-api/go-live/",
+    "status": "pass",
+    "result": "HTTP 200: \"Go-Live | Docusign\"",
+    "at": "2026-10-28T16:33:50.844Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://developers.docusign.com/platform/create-ik-developer-console/",
+    "status": "pass",
+    "result": "HTTP 200: \"How to create an IK and manage guest developers in the Developer Console | Docusign\"",
+    "at": "2026-10-28T16:33:50.846Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://developers.docusign.com/platform/go-live/after-go-live/",
+    "status": "pass",
+    "result": "HTTP 200: \"After Go-Live | Docusign\"",
+    "at": "2026-10-28T16:33:50.885Z"
+  },
+  {
+    "check": "Source [s10] still online",
+    "method": "GET https://developers.docusign.com/partner/go-live/",
+    "status": "pass",
+    "result": "HTTP 200: \"Go-Live for ISVs | Partner Integration | Docusign\"",
+    "at": "2026-10-28T16:33:50.859Z"
+  },
+  {
+    "check": "Source [s11] still online",
+    "method": "GET https://developers.docusign.com/platform/resource-limits/",
+    "status": "pass",
+    "result": "HTTP 200: \"API resource limits | Docusign\"",
+    "at": "2026-10-28T16:33:50.919Z"
+  },
+  {
+    "check": "Source [s12] still online",
+    "method": "GET https://developers.docusign.com/platform/api-guidelines/",
+    "status": "pass",
+    "result": "HTTP 200: \"API usage guidelines | Docusign\"",
+    "at": "2026-10-28T16:33:50.923Z"
+  },
+  {
+    "check": "Source [s13] still online",
+    "method": "GET https://community.docusign.com/go-live-70/questions-about-go-live-requirements-corporate-email-and-plan-eligibility-27277",
+    "status": "pass",
+    "result": "HTTP 200: \"Questions about Go-Live requirements — corporate email and plan eligibility | Community\"",
+    "at": "2026-10-28T16:33:51.546Z"
+  },
+  {
+    "check": "Source [s14] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:33:51.291Z"
+  },
+  {
+    "check": "Source [s15] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/white-labeling-authentication",
+    "status": "pass",
+    "result": "HTTP 200: \"White-labeling authentication | Composio\"",
+    "at": "2026-10-28T16:33:51.466Z"
+  }
+]

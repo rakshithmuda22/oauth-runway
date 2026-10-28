@@ -1,0 +1,100 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://github.com/login/oauth/authorize?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "pass",
+    "result": "Endpoint is live. It asks the user to sign in first (github.com); the client is only validated after login, so a bad client ID or redirect URI shows up as an error after sign-in.",
+    "at": "2026-10-28T16:33:52.006Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://github.com/settings/apps/new",
+    "status": "pass",
+    "result": "Reachable. Redirects to sign-in (github.com); you will need an account here.",
+    "at": "2026-10-28T16:33:51.949Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/differences-between-github-apps-and-oauth-apps",
+    "status": "pass",
+    "result": "HTTP 200: \"Differences between GitHub Apps and OAuth apps - GitHub Docs\"",
+    "at": "2026-10-28T16:33:51.671Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/deciding-when-to-build-a-github-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Deciding when to build a GitHub App - GitHub Docs\"",
+    "at": "2026-10-28T16:33:51.672Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Registering a GitHub App - GitHub Docs\"",
+    "at": "2026-10-28T16:33:51.675Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Generating a user access token for a GitHub App - GitHub Docs\"",
+    "at": "2026-10-28T16:33:51.674Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens",
+    "status": "pass",
+    "result": "HTTP 200: \"Refreshing user access tokens - GitHub Docs\"",
+    "at": "2026-10-28T16:33:51.691Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/making-a-github-app-public-or-private",
+    "status": "pass",
+    "result": "HTTP 200: \"Making a GitHub App public or private - GitHub Docs\"",
+    "at": "2026-10-28T16:33:51.695Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+    "status": "pass",
+    "result": "HTTP 200: \"Rate limits for the REST API - GitHub Docs\"",
+    "at": "2026-10-28T16:33:51.697Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/about-oauth-app-access-restrictions",
+    "status": "pass",
+    "result": "HTTP 200: \"About OAuth app access restrictions - GitHub Docs\"",
+    "at": "2026-10-28T16:33:51.693Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
+    "status": "pass",
+    "result": "HTTP 200: \"Authorizing OAuth apps - GitHub Docs\"",
+    "at": "2026-10-28T16:33:51.712Z"
+  },
+  {
+    "check": "Source [s10] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:33:51.984Z"
+  },
+  {
+    "check": "Source [s11] still online",
+    "method": "GET https://docs.composio.dev/docs/auth-configuration/programmatic-auth-configs",
+    "status": "pass",
+    "result": "HTTP 200: \"Programmatic auth configs | Composio\"",
+    "at": "2026-10-28T16:33:52.125Z"
+  },
+  {
+    "check": "Source [s12] still online",
+    "method": "GET https://docs.composio.dev/toolkits/github",
+    "status": "pass",
+    "result": "HTTP 200: \"GitHub - Composio Toolkit | Composio\"",
+    "at": "2026-10-28T16:33:55.364Z"
+  }
+]

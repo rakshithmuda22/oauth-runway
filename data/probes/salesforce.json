@@ -1,0 +1,156 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://login.salesforce.com/services/oauth2/authorize?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "pass",
+    "result": "Endpoint is live and rejects an unregistered client_id (HTTP 400): \"error=invalid_client_id&error_description=client%20identifier%20invalid\"",
+    "at": "2026-10-28T16:34:04.361Z"
+  },
+  {
+    "check": "OAuth / OIDC metadata document",
+    "method": "GET https://login.salesforce.com/.well-known/openid-configuration",
+    "status": "pass",
+    "result": "Metadata published. PKCE methods: S256. Grant types: authorization_code, refresh_token. Token auth: client_secret_post, client_secret_basic, private_key_jwt, tls_client_auth.",
+    "at": "2026-10-28T16:34:04.520Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://developer.salesforce.com/signup",
+    "status": "pass",
+    "result": "Reachable (HTTP 200): \"Developer Edition with Agentforce and Data 360 | Salesforce | Developer\".",
+    "at": "2026-10-28T16:34:04.440Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://help.salesforce.com/s/articleView?id=005228017&type=1",
+    "status": "pass",
+    "result": "HTTP 200: \"Salesforce Help\"",
+    "at": "2026-10-28T16:34:05.331Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://www.salesforce.com/blog/spring-26-release-architect-highlights/",
+    "status": "pass",
+    "result": "HTTP 200: \"Spring &#039;26 Release Architect Highlights\"",
+    "at": "2026-10-28T16:34:04.708Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://developer.salesforce.com/docs/platform/mobile-sdk/guide/eca-create.html",
+    "status": "pass",
+    "result": "HTTP 200: \"Create an External Client App | Getting Started With Mobile SDK for iOS and Android | Mob…\"",
+    "at": "2026-10-28T16:34:04.393Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://help.salesforce.com/s/articleView?id=xcloud.connected_apps_and_external_client_apps_features.htm&type=5",
+    "status": "pass",
+    "result": "HTTP 200: \"Salesforce Help\"",
+    "at": "2026-10-28T16:34:04.956Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://help.salesforce.com/s/articleView?id=xcloud.create_a_local_external_client_app.htm&type=5",
+    "status": "pass",
+    "result": "HTTP 200: \"Salesforce Help\"",
+    "at": "2026-10-28T16:34:05.037Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://help.salesforce.com/s/articleView?id=xcloud.configure_external_client_app_oauth_settings.htm&type=5",
+    "status": "pass",
+    "result": "HTTP 200: \"Salesforce Help\"",
+    "at": "2026-10-28T16:34:05.189Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://help.salesforce.com/s/articleView?id=xcloud.eca_limit_idle_refresh_token_ttl.htm&type=5",
+    "status": "pass",
+    "result": "HTTP 200: \"Salesforce Help\"",
+    "at": "2026-10-28T16:34:05.940Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://help.salesforce.com/s/articleView?id=xcloud.configure_packageable_external_client_apps.htm&type=5",
+    "status": "pass",
+    "result": "HTTP 200: \"Salesforce Help\"",
+    "at": "2026-10-28T16:34:05.346Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://help.salesforce.com/s/articleView?id=xcloud.preauth_user_app_access_through_eca.htm&type=5",
+    "status": "pass",
+    "result": "HTTP 200: \"Salesforce Help\"",
+    "at": "2026-10-28T16:34:06.149Z"
+  },
+  {
+    "check": "Source [s10] still online",
+    "method": "GET https://help.salesforce.com/s/articleView?id=xcloud.remoteaccess_oauth_endpoints.htm&type=5",
+    "status": "pass",
+    "result": "HTTP 200: \"Salesforce Help\"",
+    "at": "2026-10-28T16:34:05.915Z"
+  },
+  {
+    "check": "Source [s11] still online",
+    "method": "GET https://help.salesforce.com/s/articleView?id=005132365&type=1",
+    "status": "pass",
+    "result": "HTTP 200: \"Salesforce Help\"",
+    "at": "2026-10-28T16:34:06.104Z"
+  },
+  {
+    "check": "Source [s12] still online",
+    "method": "GET https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/create-external-client-app.html",
+    "status": "pass",
+    "result": "HTTP 200: \"Create an External Client App | Set Up Your Org | Hosted MCP Servers | Salesforce Develop…\"",
+    "at": "2026-10-28T16:34:05.395Z"
+  },
+  {
+    "check": "Source [s13] still online",
+    "method": "GET https://developer.salesforce.com/docs/platform/api-rest/guide/intro-rest-compatible-editions.html",
+    "status": "pass",
+    "result": "HTTP 200: \"Supported Editions and Required Permissions | Introduction to REST API | REST API Develop…\"",
+    "at": "2026-10-28T16:34:05.382Z"
+  },
+  {
+    "check": "Source [s14] still online",
+    "method": "GET https://developer.salesforce.com/docs/platform/isvforce/guide/security-review-how-it-works.html",
+    "status": "pass",
+    "result": "HTTP 200: \"How the AgentExchange Security Review Works | ISVforce Guide: Build and Distribute AgentE…\"",
+    "at": "2026-10-28T16:34:05.422Z"
+  },
+  {
+    "check": "Source [s15] still online",
+    "method": "GET https://developer.salesforce.com/blogs/2023/04/prepare-your-app-to-pass-the-appexchange-security-review",
+    "status": "pass",
+    "result": "HTTP 200: \"Prepare Your App to Pass the AppExchange Security Review | Salesforce Developers Blog\"",
+    "at": "2026-10-28T16:34:06.273Z"
+  },
+  {
+    "check": "Source [s16] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:34:05.699Z"
+  },
+  {
+    "check": "Source [s17] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/white-labeling-authentication",
+    "status": "pass",
+    "result": "HTTP 200: \"White-labeling authentication | Composio\"",
+    "at": "2026-10-28T16:34:05.926Z"
+  },
+  {
+    "check": "Source [s18] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/programmatic-auth-configs",
+    "status": "pass",
+    "result": "HTTP 200: \"Programmatic auth configs | Composio\"",
+    "at": "2026-10-28T16:34:06.166Z"
+  },
+  {
+    "check": "Source [s19] still online",
+    "method": "GET https://docs.composio.dev/kb/guide/toolkits-salesforce",
+    "status": "pass",
+    "result": "HTTP 200: \"Salesforce | Composio\"",
+    "at": "2026-10-28T16:34:06.081Z"
+  }
+]

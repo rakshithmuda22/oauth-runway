@@ -1,0 +1,121 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "https://{shop}.myshopify.com/admin/oauth/authorize",
+    "result": "Not probed: the URL is per-customer (it contains a placeholder such as a store or instance name).",
+    "status": "info",
+    "at": "2026-10-28T16:34:06.274Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://dev.shopify.com/dashboard",
+    "status": "pass",
+    "result": "Reachable. Redirects to sign-in (accounts.shopify.com); you will need an account here.",
+    "at": "2026-10-28T16:34:06.635Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://shopify.dev/docs/apps/launch/distribution",
+    "status": "pass",
+    "result": "HTTP 200: \"About app distribution\"",
+    "at": "2026-10-28T16:34:06.776Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://shopify.dev/docs/apps/launch/distribution/select-distribution-method",
+    "status": "pass",
+    "result": "HTTP 200: \"Select a distribution method\"",
+    "at": "2026-10-28T16:34:06.852Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://shopify.dev/docs/apps/build/authentication-authorization/access-tokens/authorization-code-grant",
+    "status": "pass",
+    "result": "HTTP 200: \"Authenticate a standalone or API-only app\"",
+    "at": "2026-10-28T16:34:07.727Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://shopify.dev/docs/apps/build/authentication-authorization/access-tokens/offline-access-tokens",
+    "status": "pass",
+    "result": "HTTP 200: \"Access tokens\"",
+    "at": "2026-10-28T16:34:07.319Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://shopify.dev/docs/api/usage/access-scopes",
+    "status": "pass",
+    "result": "HTTP 200: \"Shopify API access scopes\"",
+    "at": "2026-10-28T16:34:06.962Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://shopify.dev/docs/apps/launch/protected-customer-data",
+    "status": "pass",
+    "result": "HTTP 200: \"Work with protected customer data\"",
+    "at": "2026-10-28T16:34:07.289Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://shopify.dev/docs/apps/build/compliance/privacy-law-compliance",
+    "status": "pass",
+    "result": "HTTP 200: \"Privacy law compliance\"",
+    "at": "2026-10-28T16:34:07.417Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://shopify.dev/docs/apps/launch/shopify-app-store/app-store-requirements",
+    "status": "pass",
+    "result": "HTTP 200: \"App Store requirements\"",
+    "at": "2026-10-28T16:34:06.937Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://shopify.dev/docs/apps/launch/app-store-review/review-process",
+    "status": "pass",
+    "result": "HTTP 200: \"About the app review process\"",
+    "at": "2026-10-28T16:34:07.472Z"
+  },
+  {
+    "check": "Source [s10] still online",
+    "method": "GET https://shopify.dev/docs/apps/launch/distribution/revenue-share",
+    "status": "pass",
+    "result": "HTTP 200: \"Revenue share for Shopify App Store developers\"",
+    "at": "2026-10-28T16:34:07.091Z"
+  },
+  {
+    "check": "Source [s11] still online",
+    "method": "GET https://shopify.dev/docs/apps/build/dev-dashboard",
+    "status": "pass",
+    "result": "HTTP 200: \"Dev Dashboard\"",
+    "at": "2026-10-28T16:34:07.473Z"
+  },
+  {
+    "check": "Source [s12] still online",
+    "method": "GET https://community.shopify.dev/t/longer-app-store-review-times-what-you-need-to-know/31728",
+    "status": "pass",
+    "result": "HTTP 200: \"Longer App Store Review Times: What You Need to Know - Shopify App Store - Shopify Develo…\"",
+    "at": "2026-10-28T16:34:07.645Z"
+  },
+  {
+    "check": "Source [s13] still online",
+    "method": "GET https://community.shopify.dev/t/do-i-need-shopify-app-review-if-i-just-want-my-external-application-users-to-connect-their-shopify-stores/19060",
+    "status": "pass",
+    "result": "HTTP 200: \"Do I need Shopify App Review if I just want my external application users to connect thei…\"",
+    "at": "2026-10-28T16:34:07.590Z"
+  },
+  {
+    "check": "Source [s14] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:34:07.606Z"
+  },
+  {
+    "check": "Source [s15] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/white-labeling-authentication",
+    "status": "pass",
+    "result": "HTTP 200: \"White-labeling authentication | Composio\"",
+    "at": "2026-10-28T16:34:07.759Z"
+  }
+]

@@ -1,0 +1,107 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "pass",
+    "result": "Endpoint is live. It asks the user to sign in first (login.microsoftonline.com); the client is only validated after login, so a bad client ID or redirect URI shows up as an error after sign-in.",
+    "at": "2026-10-28T16:34:00.503Z"
+  },
+  {
+    "check": "OAuth / OIDC metadata document",
+    "method": "GET https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration",
+    "status": "pass",
+    "result": "Metadata published. PKCE methods: not advertised. Grant types: not advertised. Token auth: client_secret_post, private_key_jwt, client_secret_basic, self_signed_tls_client_auth.",
+    "at": "2026-10-28T16:34:00.483Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade",
+    "status": "pass",
+    "result": "Reachable (HTTP 200): \"Microsoft Entra admin center\".",
+    "at": "2026-10-28T16:34:00.273Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app",
+    "status": "pass",
+    "result": "HTTP 200: \"How to Register an App in Microsoft Entra ID&quot; - Microsoft identity platform | Micros…\"",
+    "at": "2026-10-28T16:34:00.386Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://learn.microsoft.com/en-us/entra/identity-platform/reply-url",
+    "status": "pass",
+    "result": "HTTP 200: \"Redirect URI (reply URL) best practices and limitations - Microsoft identity platform | M…\"",
+    "at": "2026-10-28T16:34:00.322Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://learn.microsoft.com/en-us/entra/identity-platform/publisher-verification-overview",
+    "status": "pass",
+    "result": "HTTP 200: \"Publisher verification overview - Microsoft identity platform | Microsoft Learn\"",
+    "at": "2026-10-28T16:34:00.341Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/configure-user-consent",
+    "status": "pass",
+    "result": "HTTP 200: \"Configure How Users Consent to Applications - Microsoft Entra ID | Microsoft Learn\"",
+    "at": "2026-10-28T16:34:00.417Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/manage-app-consent-policies",
+    "status": "pass",
+    "result": "HTTP 200: \"Manage app consent policies - Microsoft Entra ID | Microsoft Learn\"",
+    "at": "2026-10-28T16:34:00.538Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://learn.microsoft.com/en-us/entra/identity-platform/refresh-tokens",
+    "status": "pass",
+    "result": "HTTP 200: \"Refresh tokens in the Microsoft identity platform - Microsoft identity platform | Microso…\"",
+    "at": "2026-10-28T16:34:00.496Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://learn.microsoft.com/en-us/entra/identity-platform/how-to-add-credentials",
+    "status": "pass",
+    "result": "HTTP 200: \"Add and manage app credentials in Microsoft Entra ID - Microsoft identity platform | Micr…\"",
+    "at": "2026-10-28T16:34:00.568Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow",
+    "status": "pass",
+    "result": "HTTP 200: \"Microsoft identity platform and OAuth 2.0 authorization code flow - Microsoft identity pl…\"",
+    "at": "2026-10-28T16:34:00.574Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration",
+    "status": "pass",
+    "result": "HTTP 200",
+    "at": "2026-10-28T16:34:00.872Z"
+  },
+  {
+    "check": "Source [s10] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:34:00.869Z"
+  },
+  {
+    "check": "Source [s11] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/white-labeling-authentication",
+    "status": "pass",
+    "result": "HTTP 200: \"White-labeling authentication | Composio\"",
+    "at": "2026-10-28T16:34:00.801Z"
+  },
+  {
+    "check": "Source [s12] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/programmatic-auth-configs",
+    "status": "pass",
+    "result": "HTTP 200: \"Programmatic auth configs | Composio\"",
+    "at": "2026-10-28T16:34:00.726Z"
+  }
+]

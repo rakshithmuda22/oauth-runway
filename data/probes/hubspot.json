@@ -1,0 +1,128 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://app.hubspot.com/oauth/authorize?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "info",
+    "result": "Endpoint is live (HTTP 200) but renders in the browser with JavaScript, so its client check can't be seen without a real browser session.",
+    "at": "2026-10-28T16:33:59.213Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://app.hubspot.com/developer",
+    "status": "pass",
+    "result": "Reachable (HTTP 200): \"Developers | HubSpot\".",
+    "at": "2026-10-28T16:33:59.154Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://developers.hubspot.com/docs/apps/developer-platform/build-apps/authentication/oauth/working-with-oauth",
+    "status": "pass",
+    "result": "HTTP 200: \"Working with OAuth - HubSpot docs\"",
+    "at": "2026-10-28T16:33:59.386Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://developers.hubspot.com/docs/apps/developer-platform/build-apps/authentication/overview",
+    "status": "pass",
+    "result": "HTTP 200: \"Authentication overview - HubSpot docs\"",
+    "at": "2026-10-28T16:33:59.394Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://developers.hubspot.com/docs/apps/developer-platform/build-apps/app-configuration",
+    "status": "pass",
+    "result": "HTTP 200: \"App configuration - HubSpot docs\"",
+    "at": "2026-10-28T16:33:59.426Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://developers.hubspot.com/docs/apps/developer-platform/build-apps/create-an-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Create a new app using the CLI - HubSpot docs\"",
+    "at": "2026-10-28T16:33:59.383Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://developers.hubspot.com/changelog/new-marketplace-distribution-app-install-limits",
+    "status": "pass",
+    "result": "HTTP 200: \"New Marketplace Distribution App Install Limits\"",
+    "at": "2026-10-28T16:33:59.537Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://developers.hubspot.com/docs/api-reference/latest/authentication/manage-oauth-tokens",
+    "status": "pass",
+    "result": "HTTP 200: \"Manage OAuth access tokens with the 2026-09 API - HubSpot docs\"",
+    "at": "2026-10-28T16:33:59.490Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://developers.hubspot.com/changelog/v1-oauth-api-deprecation",
+    "status": "pass",
+    "result": "HTTP 200: \"v1 OAuth API Deprecation\"",
+    "at": "2026-10-28T16:33:59.653Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://developers.hubspot.com/blog/oauth-token-management-hubspot-integrations",
+    "status": "pass",
+    "result": "HTTP 200: \"Production-Ready OAuth Token Management for HubSpot Integrations\"",
+    "at": "2026-10-28T16:33:59.843Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://developers.hubspot.com/docs/apps/developer-platform/build-apps/authentication/scopes",
+    "status": "pass",
+    "result": "HTTP 200: \"Scopes - HubSpot docs\"",
+    "at": "2026-10-28T16:33:59.549Z"
+  },
+  {
+    "check": "Source [s10] still online",
+    "method": "GET https://developers.hubspot.com/docs/developer-tooling/platform/usage-guidelines",
+    "status": "pass",
+    "result": "HTTP 200: \"API usage guidelines and limits - HubSpot docs\"",
+    "at": "2026-10-28T16:33:59.509Z"
+  },
+  {
+    "check": "Source [s11] still online",
+    "method": "GET https://developers.hubspot.com/docs/apps/developer-platform/list-apps/listing-your-app/app-marketplace-listing-requirements",
+    "status": "pass",
+    "result": "HTTP 200: \"App listing requirements in the HubSpot Marketplace - HubSpot docs\"",
+    "at": "2026-10-28T16:33:59.626Z"
+  },
+  {
+    "check": "Source [s12] still online",
+    "method": "GET https://developers.hubspot.com/docs/apps/developer-platform/build-apps/overview",
+    "status": "pass",
+    "result": "HTTP 200: \"Developer platform - HubSpot docs\"",
+    "at": "2026-10-28T16:33:59.941Z"
+  },
+  {
+    "check": "Source [s13] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:33:59.690Z"
+  },
+  {
+    "check": "Source [s14] still online",
+    "method": "GET https://docs.composio.dev/docs/auth-configuration/programmatic-auth-configs",
+    "status": "pass",
+    "result": "HTTP 200: \"Programmatic auth configs | Composio\"",
+    "at": "2026-10-28T16:34:00.070Z"
+  },
+  {
+    "check": "Source [s15] still online",
+    "method": "GET https://developers.hubspot.com/docs/apps/developer-platform/build-apps/manage-apps-in-hubspot",
+    "status": "pass",
+    "result": "HTTP 200: \"Manage apps in HubSpot - HubSpot docs\"",
+    "at": "2026-10-28T16:33:59.820Z"
+  },
+  {
+    "check": "Source [s16] still online",
+    "method": "GET https://developers.hubspot.com/changelog/app-listing-and-app-certification-requirement-updates-for-may-2026",
+    "status": "pass",
+    "result": "HTTP 200: \"App Listing and App Certification Requirement Updates for May 2026\"",
+    "at": "2026-10-28T16:33:59.869Z"
+  }
+]

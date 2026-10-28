@@ -1,0 +1,135 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://slack.com/oauth/v2/authorize?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "info",
+    "result": "Endpoint is live (HTTP 200) but renders in the browser with JavaScript, so its client check can't be seen without a real browser session.",
+    "at": "2026-10-28T16:34:07.987Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://api.slack.com/apps",
+    "status": "pass",
+    "result": "Reachable (HTTP 200): \"Slack API: Applications | Slack\".",
+    "at": "2026-10-28T16:34:08.052Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://docs.slack.dev/authentication/installing-with-oauth",
+    "status": "pass",
+    "result": "HTTP 200: \"Installing via OAuth authorization code flow | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.130Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://docs.slack.dev/distribution",
+    "status": "pass",
+    "result": "HTTP 200: \"App lifecycle & distribution | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.276Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://docs.slack.dev/changelog/2025/05/29/rate-limit-changes-for-non-marketplace-apps",
+    "status": "pass",
+    "result": "HTTP 200: \"Rate limit changes for non-Marketplace apps | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.168Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://api.slack.com/changelog/2026-02-real-time-search-api",
+    "status": "pass",
+    "result": "HTTP 200: \"Changelog | Slack\"",
+    "at": "2026-10-28T16:34:08.298Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://docs.slack.dev/slack-marketplace/slack-marketplace-review-guide",
+    "status": "pass",
+    "result": "HTTP 200: \"Slack Marketplace review process | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.480Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://docs.slack.dev/authentication/using-token-rotation",
+    "status": "pass",
+    "result": "HTTP 200: \"Using token rotation | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.241Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://docs.slack.dev/app-manifests/configuring-apps-with-app-manifests",
+    "status": "pass",
+    "result": "HTTP 200: \"Configuring apps with app manifests | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.348Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://docs.slack.dev/reference/app-manifest",
+    "status": "pass",
+    "result": "HTTP 200: \"App manifest reference | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.415Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://docs.slack.dev/reference/methods/conversations.history",
+    "status": "pass",
+    "result": "HTTP 200: \"conversations.history method | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.493Z"
+  },
+  {
+    "check": "Source [s10] still online",
+    "method": "GET https://docs.slack.dev/reference/methods/chat.postMessage",
+    "status": "pass",
+    "result": "HTTP 200: \"chat.postMessage method | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.520Z"
+  },
+  {
+    "check": "Source [s11] still online",
+    "method": "GET https://docs.slack.dev/reference/methods/search.messages",
+    "status": "pass",
+    "result": "HTTP 200: \"search.messages method | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.587Z"
+  },
+  {
+    "check": "Source [s12] still online",
+    "method": "GET https://dev.to/helen_mireille_47b02db70c/slack-just-throttled-your-openclaw-agent-you-probably-havent-noticed-yet-d4",
+    "status": "pass",
+    "result": "HTTP 200: \"Slack Just Throttled Your OpenClaw Agent. You Probably Haven&#39;t Noticed Yet. - DEV Com…\"",
+    "at": "2026-10-28T16:34:08.452Z"
+  },
+  {
+    "check": "Source [s13] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:34:08.622Z"
+  },
+  {
+    "check": "Source [s14] still online",
+    "method": "GET https://docs.composio.dev/docs/auth-configuration/programmatic-auth-configs",
+    "status": "pass",
+    "result": "HTTP 200: \"Programmatic auth configs | Composio\"",
+    "at": "2026-10-28T16:34:08.749Z"
+  },
+  {
+    "check": "Source [s15] still online",
+    "method": "GET https://docs.slack.dev/apis/web-api/rate-limits",
+    "status": "pass",
+    "result": "HTTP 200: \"Rate limits | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.661Z"
+  },
+  {
+    "check": "Source [s16] still online",
+    "method": "GET https://docs.slack.dev/changelog/2026/09/01/slack-marketplace-install-requirement",
+    "status": "pass",
+    "result": "HTTP 200: \"Updated installation requirement for Slack Marketplace apps | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.730Z"
+  },
+  {
+    "check": "Source [s17] still online",
+    "method": "GET https://docs.slack.dev/changelog/2026/03/30/pkce",
+    "status": "pass",
+    "result": "HTTP 200: \"PKCE is now generally available! | Slack Developer Docs\"",
+    "at": "2026-10-28T16:34:08.953Z"
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://accounts.google.com/o/oauth2/v2/auth?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "pass",
+    "result": "Endpoint is live. It asks the user to sign in first (accounts.google.com); the client is only validated after login, so a bad client ID or redirect URI shows up as an error after sign-in.",
+    "at": "2026-10-28T16:33:56.470Z"
+  },
+  {
+    "check": "OAuth / OIDC metadata document",
+    "method": "GET https://accounts.google.com/.well-known/openid-configuration",
+    "status": "pass",
+    "result": "Metadata published. PKCE methods: plain, S256. Grant types: authorization_code, refresh_token, urn:ietf:params:oauth:grant-type:device_code, urn:ietf:params:oauth:grant-type:jwt-bearer. Token auth: client_secret_post, client_secret_basic.",
+    "at": "2026-10-28T16:33:55.798Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://console.cloud.google.com/auth/overview",
+    "status": "pass",
+    "result": "Reachable. Redirects to sign-in (accounts.google.com); you will need an account here.",
+    "at": "2026-10-28T16:33:56.336Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://developers.google.com/identity/protocols/oauth2",
+    "status": "pass",
+    "result": "HTTP 200: \"Google API&apos;lerine Erişmek için OAuth 2.0&apos;ı Kullanma &nbsp;|&nbsp; Authorization…\"",
+    "at": "2026-10-28T16:33:57.543Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://support.google.com/cloud/answer/15549945",
+    "status": "pass",
+    "result": "HTTP 200: \"Manage App Audience - Google Cloud Platform Console Help\"",
+    "at": "2026-10-28T16:33:56.206Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://support.google.com/cloud/answer/7454865",
+    "status": "pass",
+    "result": "HTTP 200: \"Unverified apps - Google Cloud Platform Console Help\"",
+    "at": "2026-10-28T16:33:56.299Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification",
+    "status": "pass",
+    "result": "HTTP 200: \"Sensitive scope verification &nbsp;|&nbsp; App verification to use Google Authorization A…\"",
+    "at": "2026-10-28T16:33:56.556Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification",
+    "status": "pass",
+    "result": "HTTP 200: \"受限制範圍驗證 &nbsp;|&nbsp; App verification to use Google Authorization APIs &nbsp;|&nbsp; Goo…\"",
+    "at": "2026-10-28T16:33:57.597Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://support.google.com/cloud/answer/13464325",
+    "status": "pass",
+    "result": "HTTP 200: \"Restricted Scopes - Google Cloud Platform Console Help\"",
+    "at": "2026-10-28T16:33:56.635Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://developers.google.com/workspace/gmail/api/auth/scopes",
+    "status": "pass",
+    "result": "HTTP 200: \"Choose Gmail API scopes &nbsp;|&nbsp; Google for Developers\"",
+    "at": "2026-10-28T16:33:57.346Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://developers.google.com/workspace/drive/api/guides/api-specific-auth",
+    "status": "pass",
+    "result": "HTTP 200: \"Choose Google Drive API scopes &nbsp;|&nbsp; Google for Developers\"",
+    "at": "2026-10-28T16:33:58.925Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://developers.google.com/identity/protocols/oauth2/web-server",
+    "status": "pass",
+    "result": "HTTP 200: \"將 OAuth 2.0 用於網路伺服器應用程式 &nbsp;|&nbsp; Authorization &nbsp;|&nbsp; Google for Developers\"",
+    "at": "2026-10-28T16:33:58.178Z"
+  },
+  {
+    "check": "Source [s10] still online",
+    "method": "GET https://developers.google.com/identity/protocols/oauth2/native-app",
+    "status": "pass",
+    "result": "HTTP 200: \"OAuth 2.0 cho ứng dụng dành cho máy tính &nbsp;|&nbsp; Google for Developers\"",
+    "at": "2026-10-28T16:33:57.760Z"
+  },
+  {
+    "check": "Source [s11] still online",
+    "method": "GET https://appdefensealliance.dev/casa/casa-tiering",
+    "status": "pass",
+    "result": "HTTP 200: \"Assurance Levels &nbsp;|&nbsp; App Defense Alliance\"",
+    "at": "2026-10-28T16:33:57.765Z"
+  },
+  {
+    "check": "Source [s12] still online",
+    "method": "GET https://nango.dev/docs/api-integrations/google-shared/google-security-review",
+    "status": "pass",
+    "result": "HTTP 200: \"Google App &amp; Security Review - Nango Docs\"",
+    "at": "2026-10-28T16:33:57.838Z"
+  },
+  {
+    "check": "Source [s13] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:33:57.927Z"
+  },
+  {
+    "check": "Source [s14] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/white-labeling-authentication",
+    "status": "pass",
+    "result": "HTTP 200: \"White-labeling authentication | Composio\"",
+    "at": "2026-10-28T16:33:58.130Z"
+  },
+  {
+    "check": "Source [s15] still online",
+    "method": "GET https://developers.google.com/workspace/guides/configure-oauth-consent",
+    "status": "pass",
+    "result": "HTTP 200: \"Configure the OAuth consent screen and choose scopes &nbsp;|&nbsp; Google Workspace &nbsp…\"",
+    "at": "2026-10-28T16:33:58.145Z"
+  },
+  {
+    "check": "Source [s16] still online",
+    "method": "GET https://support.google.com/cloud/answer/13463073",
+    "status": "pass",
+    "result": "HTTP 200: \"OAuth App Verification Help Center - Google Cloud Platform Console Help\"",
+    "at": "2026-10-28T16:33:58.123Z"
+  },
+  {
+    "check": "Source [s17] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/programmatic-auth-configs",
+    "status": "pass",
+    "result": "HTTP 200: \"Programmatic auth configs | Composio\"",
+    "at": "2026-10-28T16:33:58.216Z"
+  }
+]

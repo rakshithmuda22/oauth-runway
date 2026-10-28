@@ -1,0 +1,86 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://appcenter.intuit.com/connect/oauth2?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "pass",
+    "result": "Endpoint is live. It asks the user to sign in first (accounts.intuit.com); the client is only validated after login, so a bad client ID or redirect URI shows up as an error after sign-in.",
+    "at": "2026-10-28T16:34:03.281Z"
+  },
+  {
+    "check": "OAuth / OIDC metadata document",
+    "method": "GET https://developer.api.intuit.com/.well-known/openid_configuration",
+    "status": "pass",
+    "result": "Metadata published. PKCE methods: not advertised. Grant types: not advertised. Token auth: client_secret_post, client_secret_basic.",
+    "at": "2026-10-28T16:34:02.782Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://developer.intuit.com/app/developer/dashboard",
+    "status": "pass",
+    "result": "Reachable (HTTP 200): \"Intuit Developer\".",
+    "at": "2026-10-28T16:34:03.269Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0",
+    "status": "pass",
+    "result": "HTTP 200: \"Intuit Developer\"",
+    "at": "2026-10-28T16:34:03.196Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://developer.intuit.com/app/developer/qbo/docs/get-started/get-client-id-and-client-secret",
+    "status": "pass",
+    "result": "HTTP 200: \"Intuit Developer\"",
+    "at": "2026-10-28T16:34:04.068Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/set-redirect-uri",
+    "status": "pass",
+    "result": "HTTP 200: \"Intuit Developer\"",
+    "at": "2026-10-28T16:34:03.254Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://developer.intuit.com/app/developer/qbo/docs/go-live/publish-app/platform-requirements",
+    "status": "pass",
+    "result": "HTTP 200: \"Intuit Developer\"",
+    "at": "2026-10-28T16:34:03.280Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://developer.intuit.com/app/developer/qbo/docs/get-started/partner-faq",
+    "status": "pass",
+    "result": "HTTP 200: \"Intuit Developer\"",
+    "at": "2026-10-28T16:34:03.492Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://developer.api.intuit.com/.well-known/openid_configuration",
+    "status": "pass",
+    "result": "HTTP 200",
+    "at": "2026-10-28T16:34:03.307Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://docs.codat.io/integrations/accounting/quickbooksonline/qbo-app-assessment-questionnaire",
+    "status": "pass",
+    "result": "HTTP 200: \"QuickBooks Online app assessment questionnaire | Codat Docs\"",
+    "at": "2026-10-28T16:34:03.826Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:34:03.517Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/white-labeling-authentication",
+    "status": "pass",
+    "result": "HTTP 200: \"White-labeling authentication | Composio\"",
+    "at": "2026-10-28T16:34:03.461Z"
+  }
+]

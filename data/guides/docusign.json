@@ -1,0 +1,478 @@
+{
+  "slug": "docusign",
+  "app": {
+    "name": "Docusign eSignature",
+    "website": "https://www.docusign.com",
+    "category": "Documents & eSignature",
+    "developer_portal_url": "https://apps.docusign.com/dev-console/integrations",
+    "docs_url": "https://developers.docusign.com/platform/auth/confidential-authcode-get-token/"
+  },
+  "composio": {
+    "toolkit_slug": "DOCUSIGN",
+    "managed_oauth": "bring-your-own",
+    "note": "Composio has no managed Docusign app, so you must create your own integration key and give Composio its Client ID (integration key) and secret. The demo key only works against developer accounts. Real users can connect only after you take the key through Go-Live and re-add the secret and redirect URIs on the production version."
+  },
+  "verdict": {
+    "tier": "partner-only",
+    "difficulty": 4,
+    "headline": "Build and test free in a developer account in under an hour. For a product where customers connect their own Docusign accounts, join the Docusign Partner Program (allow weeks) and pass Go-Live into a paid or partner production account.",
+    "summary": "OAuth itself is standard: confidential Authorization Code Grant with optional PKCE, 8-hour access tokens and roughly 30-day refresh tokens. The friction is Go-Live. Demo envelopes are not legally binding, and the key must be promoted to production through automatic promotion or a review (manual reviews typically 24-48 hours). Promotion needs a paid or partner production account, an admin with a corporate email, and sometimes identity verification. Docusign classifies a multi-customer agent as a 'Public integration', which requires joining the Partner Program; Docusign says that 'can take several weeks'.",
+    "time_to_first_connection": "30-60 minutes",
+    "time_to_production": "About 1-6 weeks: up to several weeks for Partner Program acceptance, plus minutes (automatic promotion) to 24-48 hours (manual review) for Go-Live, plus production reconfiguration.",
+    "hands_on_effort": "4-8 hours: app setup, demo testing without polling violations, Go-Live submission, identity verification, and production reconfiguration.",
+    "approval_wait": "Go-Live: automatic promotion when eligible, otherwise 'Pending approval'. A Declined status means manual review, 'typically completed within 24–48 hours'. Partner Program for public integrations: Docusign says it 'can take several weeks'.",
+    "cost": "The developer account and Go-Live process are free. The production management account must be paid (enterprise or API plan per a Docusign employee), or a complimentary ISV partner account for accepted Referral Partners. Envelope billing depends on the integration classification and your production plan. Partner Program fees, if any, are not published on the pages fetched.",
+    "confidence": "medium"
+  },
+  "phases": [
+    {
+      "name": "Register in the developer environment",
+      "goal": "Have a free developer account and an integration key configured for Authorization Code Grant",
+      "duration": "20-30 minutes",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Create a free Docusign developer account",
+          "detail": "Sign up for a developer (demo) account. Envelopes sent from it are not legally binding. Use a shared team mailbox such as docusign@yourco.com so access survives staff changes.",
+          "owner": "you",
+          "agent_help": "",
+          "link": "https://developers.docusign.com/platform/account/",
+          "sources": ["s1", "s10"]
+        },
+        {
+          "title": "Create the integration (app and integration key)",
+          "detail": "In the Developer Console, click + Add, keep the toggle on Demo, and copy the Demo Client ID (integration key) and secret. On legacy setups, use Apps and Keys in the demo admin. Docusign recommends one integration key per integration.",
+          "owner": "you",
+          "agent_help": "",
+          "link": "https://apps.docusign.com/dev-console/integrations",
+          "sources": ["s8", "s2"]
+        },
+        {
+          "title": "Configure Confidential Authorization Code Grant and redirect URIs",
+          "detail": "Under User Application, answer Yes to 'can securely store a client secret' and add a secret key (shown only once; multiple keys allowed). Optionally tick 'Require PKCE'. Add the redirect URI https://backend.composio.dev/api/v3/toolkits/auth/callback; at least one is required. Redirect URIs must match exactly, including spaces and slashes. You do not need an RSA key pair unless you also use JWT Grant.",
+          "owner": "agent+you",
+          "agent_help": "Produce the exact redirect URI string from your Composio auth config and a checklist of the console fields to set. You click Save.",
+          "link": "https://developers.docusign.com/platform/configure-app/",
+          "sources": ["s2", "s3", "s15"]
+        }
+      ]
+    },
+    {
+      "name": "Connect to Composio and test in demo",
+      "goal": "Have your own developer account connected via Composio and a clean API history",
+      "duration": "1-3 hours",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Create a custom auth config for DOCUSIGN in Composio",
+          "detail": "In Composio, go to Auth Configs, click Create Auth Config, choose Docusign, and select OAuth2. Paste the integration key and secret and request scopes signature extended. Pass the auth config ID in your session's authConfigs. Register the redirect URI the dashboard shows, normally https://backend.composio.dev/api/v3/toolkits/auth/callback. Some toolkits still default to the legacy https://backend.composio.dev/api/v1/auth-apps/add, so copy whichever URI is displayed.",
+          "owner": "agent+you",
+          "agent_help": "Create the auth config via the Composio API from env vars, set the scopes, and confirm it targets the demo auth host (account-d.docusign.com).",
+          "link": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+          "sources": ["s14", "s15", "s4"]
+        },
+        {
+          "title": "Connect your developer account and resolve the base URI",
+          "detail": "Approve consent. Composio must exchange the authorization code within 2 minutes. Then call GET https://account-d.docusign.com/oauth/userinfo, pick the account (is_default or user choice) and build {base_uri}/restapi/v2.1/accounts/{account_id}. Cache this per user rather than hard-coding demo.docusign.net.",
+          "owner": "agent+you",
+          "agent_help": "Run the userinfo call after you consent and verify the agent's tools use the per-user base_uri.",
+          "link": "https://developers.docusign.com/platform/auth/reference/user-info/",
+          "sources": ["s3", "s5"]
+        },
+        {
+          "title": "Exercise the integration with clean, non-polling calls",
+          "detail": "Send test envelopes, list and get them. Do not call GET status for the same envelope more than once per 15 minutes per app, and stop polling after terminal states. Violations are flagged and 'can cause your app to fail' Go-Live review. Use Docusign Connect webhooks for status. Keep well under 3,000 calls per hour and 200 per 30 seconds in demo.",
+          "owner": "agent",
+          "agent_help": "Script a test run of a few dozen successful eSignature calls (create, send, list, download) with 20-minute polling or Connect, and check responses for errors before you submit Go-Live.",
+          "link": "https://developers.docusign.com/platform/api-guidelines/",
+          "sources": ["s11", "s12", "s10"]
+        }
+      ]
+    },
+    {
+      "name": "Production prerequisites",
+      "goal": "Have the right classification, partner status and production account in place",
+      "duration": "1 day to several weeks",
+      "is_wait": true,
+      "steps": [
+        {
+          "title": "Choose the integration classification",
+          "detail": "Choose Private custom (internal employees), Third-party integration key, Public (many Docusign customers authorize with their own accounts; requires the Partner Program) or Embedded (customers use your Docusign account; requires an ISV Embed license). Classification affects Go-Live and envelope billing. An agent product where each user connects their own Docusign is a Public integration.",
+          "owner": "agent+you",
+          "agent_help": "Map your product's account model to the classification table and explain the billing and partner implications. You decide.",
+          "link": "https://developers.docusign.com/docs/esign-rest-api/go-live/",
+          "sources": ["s7", "s6"]
+        },
+        {
+          "title": "Apply to the Docusign Partner Program (Public integrations)",
+          "detail": "Public integrations must join the Partner Program. Accepted ISV Referral Partners get a complimentary production account to manage their keys, but not to send production envelopes. Docusign: 'it can take several weeks to join the partner program'; apply early.",
+          "owner": "agent+you",
+          "agent_help": "Draft the partner application narrative (product, use case, expected customer volume). You submit it with your business identity.",
+          "link": "https://partners.docusign.com/s/",
+          "sources": ["s6", "s7", "s10"]
+        },
+        {
+          "title": "Secure a paid or partner production account with a corporate-email admin",
+          "detail": "The management account must be a paid or partner production account. Trial and freemium accounts cannot promote, and it needs access to every API you use. You must be an administrator or have the right developer role. A Docusign employee (Jun 2026) said the admin must use a corporate-domain email and that a Gmail-based admin gets declined.",
+          "owner": "you",
+          "agent_help": "",
+          "link": "https://developers.docusign.com/platform/go-live/",
+          "sources": ["s6", "s7", "s13"]
+        }
+      ]
+    },
+    {
+      "name": "Go-Live",
+      "goal": "Have the integration key promoted to production",
+      "duration": "Minutes (automatic) to 24-48 hours (manual review)",
+      "is_wait": true,
+      "steps": [
+        {
+          "title": "Submit for Go-Live",
+          "detail": "In the Developer Console, select the integration type, click Save and then Submit for Go-Live approval. On legacy setups, go to Apps and Keys > Actions > Select Go-Live account and log in to the production account.",
+          "owner": "you",
+          "agent_help": "Before you click, confirm recent API history has no errors or polling violations.",
+          "link": "https://apps.docusign.com/dev-console/integrations",
+          "sources": ["s8", "s7"]
+        },
+        {
+          "title": "Complete identity verification if prompted",
+          "detail": "If the status shows Declined with a 'Verification required' link, the production account must complete a one-time identity verification. After that, eligible keys promote automatically. A Docusign employee says IDV is mandatory where presented and must be done by the production account's admin.",
+          "owner": "you",
+          "agent_help": "",
+          "link": "https://developers.docusign.com/docs/esign-rest-api/go-live/",
+          "sources": ["s7", "s6", "s13"]
+        },
+        {
+          "title": "Wait for automatic promotion or review",
+          "detail": "Statuses go Ready to submit, then Pending approval, then App is live. 'Declined' means more manual review or information is needed; manual reviews are 'typically completed within 24–48 hours'. You get an email when the app is live.",
+          "owner": "provider",
+          "agent_help": "",
+          "link": "",
+          "sources": ["s6", "s7"]
+        }
+      ]
+    },
+    {
+      "name": "Configure production",
+      "goal": "Let arbitrary production Docusign users connect",
+      "duration": "30-60 minutes",
+      "is_wait": false,
+      "steps": [
+        {
+          "title": "Re-add secrets and redirect URIs on the production key",
+          "detail": "The key is copied (same GUID), not moved. Secrets and redirect URIs are not copied, so add them in production; in the Developer Console, switch the toggle to Production to get the production client ID and secret. Migrate Connect profiles, templates and settings separately.",
+          "owner": "you",
+          "agent_help": "Provide the exact list of redirect URIs and settings to replicate from demo.",
+          "link": "https://developers.docusign.com/platform/go-live/after-go-live/",
+          "sources": ["s9", "s7", "s8"]
+        },
+        {
+          "title": "Point Composio at production",
+          "detail": "Create or update a Composio auth config for production: the production secret, auth host https://account.docusign.com, and API calls to each user's base_uri from userinfo (for example na3.docusign.net), never demo.docusign.net.",
+          "owner": "agent+you",
+          "agent_help": "Update the auth config via API once you provide the production secret, then connect a production account and verify userinfo and one real API call.",
+          "link": "https://developers.docusign.com/platform/go-live/after-go-live/",
+          "sources": ["s9", "s5", "s7"]
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "item": "Docusign developer (demo) account",
+      "needed_for": "development",
+      "detail": "Free sandbox. Envelopes are not legally binding.",
+      "sources": ["s1"]
+    },
+    {
+      "item": "Integration key with secret key and at least one exact-match redirect URI",
+      "needed_for": "development",
+      "detail": "Needed for Confidential Authorization Code Grant. The secret is viewable only once.",
+      "sources": ["s2", "s3"]
+    },
+    {
+      "item": "Error-free, non-polling API history",
+      "needed_for": "production",
+      "detail": "Go-Live includes an automated technical check of your API usage. Envelope-status polling more than once per 15 minutes can fail review.",
+      "sources": ["s10", "s11", "s12"]
+    },
+    {
+      "item": "Paid or partner production management account, with admin access",
+      "needed_for": "production",
+      "detail": "Trial and freemium accounts cannot promote. The account must have access to every API used. The admin should use a corporate email.",
+      "sources": ["s6", "s7", "s13"]
+    },
+    {
+      "item": "Docusign Partner Program membership",
+      "needed_for": "production",
+      "detail": "Required for 'Public integration' (multiple customers using their own accounts). Can take several weeks.",
+      "sources": ["s6", "s7", "s10"]
+    },
+    {
+      "item": "One-time identity verification of the production account",
+      "needed_for": "production",
+      "detail": "Required when Go-Live shows 'Verification required'.",
+      "sources": ["s7", "s13"]
+    },
+    {
+      "item": "Production redirect URIs and secrets re-added",
+      "needed_for": "production",
+      "detail": "Not copied by Go-Live.",
+      "sources": ["s9", "s7"]
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "signature",
+      "purpose": "Call most eSignature REST API endpoints (create and send envelopes, read status, download documents)",
+      "sensitivity": "sensitive",
+      "review_impact": "Standard. Usage is checked at Go-Live (errors, polling) but the scope needs no separate approval.",
+      "sources": ["s4", "s7"]
+    },
+    {
+      "scope": "extended",
+      "purpose": "Each refresh returns a refresh token with a full lifetime (about 30 days), so agents stay connected indefinitely",
+      "sensitivity": "basic",
+      "review_impact": "No separate review. Without it, refreshed tokens keep the original expiry (about 30 days from first login).",
+      "sources": ["s4", "s3"]
+    },
+    {
+      "scope": "openid",
+      "purpose": "Used for granting consent to an external app on behalf of an organization's users (admin consent)",
+      "sensitivity": "basic",
+      "review_impact": "Only needed for org-wide admin consent flows",
+      "sources": ["s4"]
+    },
+    {
+      "scope": "impersonation",
+      "purpose": "JWT Grant: act as a user without interactive login (service integrations)",
+      "sensitivity": "admin",
+      "review_impact": "Needs per-user or org admin consent and an RSA key pair. Not needed for Composio's interactive Authorization Code flow.",
+      "sources": ["s4", "s2"]
+    },
+    {
+      "scope": "click.manage / click.send",
+      "purpose": "Elastic templates (clickwraps), only if the agent uses Docusign Click",
+      "sensitivity": "sensitive",
+      "review_impact": "Docusign APIs can have different Go-Live requirements",
+      "sources": ["s4", "s6"]
+    }
+  ],
+  "oauth": {
+    "authorize_url": "https://account-d.docusign.com/oauth/auth (demo); https://account.docusign.com/oauth/auth (production)",
+    "token_url": "https://account-d.docusign.com/oauth/token (demo); https://account.docusign.com/oauth/token (production)",
+    "discovery_url": "",
+    "pkce": "Supported. Optional for Confidential Authorization Code Grant ('Require PKCE' checkbox) and used by Public ACG. code_challenge_method must be S256 (the only supported value).",
+    "refresh_tokens": "Issued with the access token (expires_in 28800 = 8 hours). Refresh tokens last 'typically around 30 days'. Each refresh issues a new refresh token: with the extended scope it gets a full ~30-day lifetime, otherwise it keeps the original expiry. Docusign recommends refreshing about 30 minutes before access-token expiry. Authorization codes are valid for 2 minutes.",
+    "redirect_uri_rules": "At least one redirect URI must be registered per app, and multiple are allowed. The request's redirect_uri must match a registered one exactly, including spaces and slashes. Demo and production keys have separate redirect URI lists; re-add them after Go-Live. Localhost and http rules are documented only for CORS origins (localhost allowed in demo, not in production), not for redirect URIs.",
+    "sources": ["s3", "s2", "s4", "s9"]
+  },
+  "limits": [
+    {
+      "limit": "3,000 API requests per hour per account (all apps combined)",
+      "applies_when": "Default for every account, demo and production",
+      "how_to_lift": "The eSignature API limit can be raised via a Docusign feature if the account meets prerequisites",
+      "sources": ["s11", "s12"]
+    },
+    {
+      "limit": "Burst limit: 200 calls per 30 seconds (demo), 500 per 30 seconds (production)",
+      "applies_when": "All accounts",
+      "how_to_lift": "Back off until reset. Read the X-BurstLimit headers.",
+      "sources": ["s11"]
+    },
+    {
+      "limit": "One GET status request per unique envelope per 15 minutes per app",
+      "applies_when": "Apps that poll envelope status. Violations are flagged and can fail Go-Live review.",
+      "how_to_lift": "Use Docusign Connect webhooks or poll at 20-minute intervals",
+      "sources": ["s11", "s12"]
+    },
+    {
+      "limit": "/oauth/userinfo: 25,000 per hour per user, 50,000 per hour per integration key",
+      "applies_when": "All apps",
+      "how_to_lift": "Cache userinfo results per user session",
+      "sources": ["s11", "s5"]
+    },
+    {
+      "limit": "Demo-only: works with developer accounts only, and envelopes are not legally binding",
+      "applies_when": "Before Go-Live",
+      "how_to_lift": "Complete Go-Live and use the production key",
+      "sources": ["s1", "s7"]
+    }
+  ],
+  "blockers": [
+    {
+      "blocker": "Redirect URI mismatch",
+      "symptom": "Docusign reports that the redirect URI does not match any redirect URIs defined for the integration key",
+      "fix": "Register the exact Composio callback string, including trailing slash and no stray spaces. After Go-Live, add it again on the production key.",
+      "sources": ["s3", "s9"]
+    },
+    {
+      "blocker": "Authorization code expired",
+      "symptom": "The token exchange fails when more than 2 minutes pass after consent",
+      "fix": "Exchange immediately server-side (Composio does), and retry consent",
+      "sources": ["s3"]
+    },
+    {
+      "blocker": "Production users fail after Go-Live",
+      "symptom": "Auth or API calls fail because the production key has no secret or redirect URIs, or the code still targets account-d.docusign.com or demo.docusign.net",
+      "fix": "Add secrets and redirect URIs on the production key. Switch the auth host to account.docusign.com and use each user's base_uri from /oauth/userinfo.",
+      "sources": ["s9", "s7", "s5"]
+    },
+    {
+      "blocker": "Go-Live declined",
+      "symptom": "Status 'Declined', possibly with a 'Verification required' link",
+      "fix": "Complete identity verification as the production admin, using a corporate-domain email. Check for API errors and polling violations, and allow 24-48 hours for manual review.",
+      "sources": ["s6", "s7", "s13", "s11"]
+    },
+    {
+      "blocker": "Cannot select a production account",
+      "symptom": "No eligible account is offered, or promotion is refused for a trial or freemium account",
+      "fix": "Use a paid production account (enterprise or API plan) or a partner account, and make sure you are an admin on it",
+      "sources": ["s7", "s13"]
+    },
+    {
+      "blocker": "Envelope polling throttled",
+      "symptom": "Errors such as Hourly_Envelope_Polling_Limit_Exceeded or Burst_Envelope_Polling_Limit_Exceeded",
+      "fix": "Move to Connect webhooks and use 5 or fewer calls per envelope create or update",
+      "sources": ["s11"]
+    }
+  ],
+  "agent_handoff": {
+    "agent_can": [
+      "Generate exact redirect URI strings and a field-by-field checklist for the integration key settings",
+      "Create the Composio DOCUSIGN auth config via API with signature and extended scopes",
+      "Call /oauth/userinfo after you consent and wire per-user base_uri routing",
+      "Run a scripted batch of clean, non-polling demo API calls and check for errors before Go-Live",
+      "Recommend the integration classification and draft the Partner Program application",
+      "Switch the Composio config to production hosts and verify a real connection once you supply production secrets"
+    ],
+    "you_must": [
+      "Create the developer account and sign in to the Developer Console",
+      "Create the integration key and secret (secret shown once)",
+      "Approve the OAuth consent screen for test connections",
+      "Apply to the Partner Program with your business identity",
+      "Provide a paid or partner production account where you are admin, with a corporate email",
+      "Submit for Go-Live and complete identity verification if prompted",
+      "Add the production secret and redirect URIs on the promoted key"
+    ]
+  },
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Docusign: Developer account",
+      "url": "https://developers.docusign.com/platform/account/",
+      "kind": "official-docs",
+      "supports": "Free developer sandbox, demo envelopes not legally binding, Go-Live requires a production account"
+    },
+    {
+      "id": "s2",
+      "title": "Docusign: Configure your app",
+      "url": "https://developers.docusign.com/platform/configure-app/",
+      "kind": "official-docs",
+      "supports": "One integration key per app, secret keys (viewable once, multiple), at least one redirect URI, RSA key only for JWT, ACG and PKCE options, CORS origin localhost rules"
+    },
+    {
+      "id": "s3",
+      "title": "Docusign: Use Confidential Authorization Code Grant",
+      "url": "https://developers.docusign.com/platform/auth/confidential-authcode-get-token/",
+      "kind": "official-docs",
+      "supports": "account-d auth and token endpoints, optional PKCE (S256 only), expires_in 28800, ~30-day refresh tokens and extended behaviour, 2-minute code validity, exact redirect URI match, userinfo for base URI"
+    },
+    {
+      "id": "s4",
+      "title": "Docusign: Authentication scopes",
+      "url": "https://developers.docusign.com/platform/auth/reference/scopes/",
+      "kind": "official-docs",
+      "supports": "signature, extended, impersonation, openid, cors, click.* scope definitions"
+    },
+    {
+      "id": "s5",
+      "title": "Docusign: User Info endpoint",
+      "url": "https://developers.docusign.com/platform/auth/reference/user-info/",
+      "kind": "official-docs",
+      "supports": "GET /oauth/userinfo, base_uri and account_id, is_default, caching, demo vs production auth hosts, base path format"
+    },
+    {
+      "id": "s6",
+      "title": "Docusign: Go-Live (platform)",
+      "url": "https://developers.docusign.com/platform/go-live/",
+      "kind": "official-docs",
+      "supports": "Key copied not moved, paid production account, admin access, integration classifications, Public integration requires Partner Program, Embedded requires ISV Embed license, Go-Live statuses, manual review 24-48 hours, identity verification for automatic promotion"
+    },
+    {
+      "id": "s7",
+      "title": "Docusign eSignature REST API: Go-Live",
+      "url": "https://developers.docusign.com/docs/esign-rest-api/go-live/",
+      "kind": "official-docs",
+      "supports": "Automatic promotion vs review, Verification required, paid or partner production account, Select Go-Live account steps, classification affects billing, secrets and redirect URIs not duplicated, production base paths"
+    },
+    {
+      "id": "s8",
+      "title": "Docusign: Create integration keys in the Developer Console",
+      "url": "https://developers.docusign.com/platform/create-ik-developer-console/",
+      "kind": "official-docs",
+      "supports": "Developer Console (open beta) at apps.docusign.com/dev-console, + Add integration, Demo/Production toggle, Submit for Go-Live approval, developer roles"
+    },
+    {
+      "id": "s9",
+      "title": "Docusign: After Go-Live",
+      "url": "https://developers.docusign.com/platform/go-live/after-go-live/",
+      "kind": "official-docs",
+      "supports": "Separate production OAuth settings, re-add redirect URIs and secrets, switch to account.docusign.com, migrate settings, templates and Connect profiles"
+    },
+    {
+      "id": "s10",
+      "title": "Docusign: Go-Live for ISVs",
+      "url": "https://developers.docusign.com/partner/go-live/",
+      "kind": "official-docs",
+      "supports": "Automated technical check, complimentary ISV partner production account, Partner Program can take several weeks, shared team mailbox tip"
+    },
+    {
+      "id": "s11",
+      "title": "Docusign: Resource limits",
+      "url": "https://developers.docusign.com/platform/resource-limits/",
+      "kind": "official-docs",
+      "supports": "3,000/hour default, 200/500 burst, envelope polling errors, 1 GET status per envelope per 15 min with Go-Live review risk, userinfo limits"
+    },
+    {
+      "id": "s12",
+      "title": "Docusign: API guidelines",
+      "url": "https://developers.docusign.com/platform/api-guidelines/",
+      "kind": "official-docs",
+      "supports": "Polling restrictions (15 min, no polling after terminal state), 3,000/hour and 500 burst, Connect listener requirements"
+    },
+    {
+      "id": "s13",
+      "title": "Docusign Community: Questions about Go-Live requirements, corporate email and plan eligibility (Jun 2026)",
+      "url": "https://community.docusign.com/go-live-70/questions-about-go-live-requirements-corporate-email-and-plan-eligibility-27277",
+      "kind": "community",
+      "supports": "Docusign employee: admin must use a corporate-domain email, paid enterprise or API plan required, trial and freemium cannot promote, IDV mandatory where presented"
+    },
+    {
+      "id": "s14",
+      "title": "Composio: When to use your own developer credentials",
+      "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+      "kind": "composio",
+      "supports": "Custom auth config creation with own Client ID/Secret; the dashboard shows the redirect URI"
+    },
+    {
+      "id": "s15",
+      "title": "Composio: White-labeling authentication",
+      "url": "https://docs.composio.dev/docs/authentication/white-labeling-authentication",
+      "kind": "composio",
+      "supports": "Composio callback URL https://backend.composio.dev/api/v3/toolkits/auth/callback"
+    }
+  ],
+  "uncertain": [
+    "The long-cited Go-Live rule ('your 20 most recent API calls must complete without error') appears only in older Docusign blog and community material from search results. The current Go-Live pages fetched (2026-10-28) describe an 'automated technical check', automatic promotion and a 24-48 hour manual review, and do not state a call count. Making 20+ clean calls is a safe precaution, not a verified requirement.",
+    "Partner Program acceptance time is only described as 'several weeks', and its fees and criteria were not on the pages fetched. The 1-6 week time to production is an estimate.",
+    "Whether a small agent product could instead go live as a 'Private custom integration' is a business and billing question. Docusign's table says products used by many customers with their own accounts are Public integrations.",
+    "The minimum production plan is unclear. Docs say 'paid production account'. A Docusign employee (community, Jun 2026) says 'paid production enterprise or API plan'. Older blog posts in search results said Business Pro or higher.",
+    "The corporate-email and IDV-admin requirements come from a Docusign employee's community reply, not official docs.",
+    "The Developer Console is in open beta. Some accounts still use the legacy Apps and Keys flow, and step names may differ.",
+    "Whether Composio's DOCUSIGN toolkit lets you switch between the demo (account-d) and production (account) auth hosts on one auth config, or needs separate configs, was not verified.",
+    "Docusign's OIDC discovery document URL was not fetched, so discovery_url is left empty.",
+    "The developers.docusign.com pages are rendered client-side. Their content was read from the site's own page-data JSON for the same URLs, not from rendered HTML."
+  ]
+}

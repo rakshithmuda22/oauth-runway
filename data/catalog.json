@@ -1,0 +1,805 @@
+{
+ "description": "The 100 OAuth apps OAuth Runway targets, ordered by estimated demand from agent builders. managed_oauth is from Composio's managed-auth directory (captured 2026-10-28).",
+ "apps": [
+  {
+   "slug": "google-workspace",
+   "name": "Google Workspace",
+   "category": "Email & productivity",
+   "website": "https://workspace.google.com",
+   "composio_toolkit": "GMAIL",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "microsoft-365",
+   "name": "Microsoft 365",
+   "category": "Email & productivity",
+   "website": "https://microsoft.com",
+   "composio_toolkit": "OUTLOOK",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "slack",
+   "name": "Slack",
+   "category": "Communication",
+   "website": "https://slack.com",
+   "composio_toolkit": "SLACK",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "github",
+   "name": "GitHub",
+   "category": "Developer tools",
+   "website": "https://github.com",
+   "composio_toolkit": "GITHUB",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "notion",
+   "name": "Notion",
+   "category": "Docs & knowledge",
+   "website": "https://notion.so",
+   "composio_toolkit": "NOTION",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "hubspot",
+   "name": "HubSpot",
+   "category": "CRM",
+   "website": "https://hubspot.com",
+   "composio_toolkit": "HUBSPOT",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "salesforce",
+   "name": "Salesforce",
+   "category": "CRM",
+   "website": "https://salesforce.com",
+   "composio_toolkit": "SALESFORCE",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "shopify",
+   "name": "Shopify",
+   "category": "Commerce",
+   "website": "https://shopify.com",
+   "composio_toolkit": "SHOPIFY",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "xero",
+   "name": "Xero",
+   "category": "Accounting",
+   "website": "https://xero.com",
+   "composio_toolkit": "XERO",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "quickbooks",
+   "name": "QuickBooks",
+   "category": "Accounting",
+   "website": "https://quickbooks.intuit.com",
+   "composio_toolkit": "QUICKBOOKS",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "x-twitter",
+   "name": "X (Twitter)",
+   "category": "Social",
+   "website": "https://x.com",
+   "composio_toolkit": "TWITTER",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "spotify",
+   "name": "Spotify",
+   "category": "Media",
+   "website": "https://spotify.com",
+   "composio_toolkit": "SPOTIFY",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "docusign",
+   "name": "DocuSign",
+   "category": "E-signature",
+   "website": "https://docusign.com",
+   "composio_toolkit": "DOCUSIGN",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "zoom",
+   "name": "Zoom",
+   "category": "Meetings",
+   "website": "https://zoom.us",
+   "composio_toolkit": "ZOOM",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "atlassian-jira",
+   "name": "Atlassian Jira",
+   "category": "Project management",
+   "website": "https://atlassian.com",
+   "composio_toolkit": "JIRA",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "confluence",
+   "name": "Confluence",
+   "category": "Docs & knowledge",
+   "website": "https://atlassian.com",
+   "composio_toolkit": "CONFLUENCE",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "linear",
+   "name": "Linear",
+   "category": "Project management",
+   "website": "https://linear.app",
+   "composio_toolkit": "LINEAR",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "asana",
+   "name": "Asana",
+   "category": "Project management",
+   "website": "https://asana.com",
+   "composio_toolkit": "ASANA",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "trello",
+   "name": "Trello",
+   "category": "Project management",
+   "website": "https://trello.com",
+   "composio_toolkit": "TRELLO",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "monday-com",
+   "name": "Monday.com",
+   "category": "Project management",
+   "website": "https://monday.com",
+   "composio_toolkit": "MONDAY",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "clickup",
+   "name": "ClickUp",
+   "category": "Project management",
+   "website": "https://clickup.com",
+   "composio_toolkit": "CLICKUP",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "airtable",
+   "name": "Airtable",
+   "category": "Databases",
+   "website": "https://airtable.com",
+   "composio_toolkit": "AIRTABLE",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "dropbox",
+   "name": "Dropbox",
+   "category": "Files",
+   "website": "https://dropbox.com",
+   "composio_toolkit": "DROPBOX",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "box",
+   "name": "Box",
+   "category": "Files",
+   "website": "https://box.com",
+   "composio_toolkit": "BOX",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "microsoft-teams",
+   "name": "Microsoft Teams",
+   "category": "Communication",
+   "website": "https://microsoft.com",
+   "composio_toolkit": "MICROSOFT_TEAMS",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "discord",
+   "name": "Discord",
+   "category": "Communication",
+   "website": "https://discord.com",
+   "composio_toolkit": "DISCORD",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "intercom",
+   "name": "Intercom",
+   "category": "Support",
+   "website": "https://intercom.com",
+   "composio_toolkit": "INTERCOM",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "zendesk",
+   "name": "Zendesk",
+   "category": "Support",
+   "website": "https://zendesk.com",
+   "composio_toolkit": "ZENDESK",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "help-scout",
+   "name": "Help Scout",
+   "category": "Support",
+   "website": "https://helpscout.com",
+   "composio_toolkit": "HELP_SCOUT",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "front",
+   "name": "Front",
+   "category": "Support",
+   "website": "https://front.com",
+   "composio_toolkit": "FRONT",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "freshsales",
+   "name": "Freshsales",
+   "category": "CRM",
+   "website": "https://freshworks.com",
+   "composio_toolkit": "FRESHSALES",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "pipedrive",
+   "name": "Pipedrive",
+   "category": "CRM",
+   "website": "https://pipedrive.com",
+   "composio_toolkit": "PIPEDRIVE",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "attio",
+   "name": "Attio",
+   "category": "CRM",
+   "website": "https://attio.com",
+   "composio_toolkit": "ATTIO",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "zoho-crm",
+   "name": "Zoho CRM",
+   "category": "CRM",
+   "website": "https://zoho.com",
+   "composio_toolkit": "ZOHO",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "dynamics-365",
+   "name": "Dynamics 365",
+   "category": "CRM",
+   "website": "https://dynamics.microsoft.com",
+   "composio_toolkit": "DYNAMICS365",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "close",
+   "name": "Close",
+   "category": "CRM",
+   "website": "https://close.com",
+   "composio_toolkit": "CLOSE_MCP",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "follow-up-boss",
+   "name": "Follow Up Boss",
+   "category": "CRM",
+   "website": "https://followupboss.com",
+   "composio_toolkit": "FOLLOW_UP_BOSS",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "kommo",
+   "name": "Kommo",
+   "category": "CRM",
+   "website": "https://kommo.com",
+   "composio_toolkit": "KOMMO",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "highlevel",
+   "name": "HighLevel",
+   "category": "CRM",
+   "website": "https://gohighlevel.com",
+   "composio_toolkit": "HIGHLEVEL_AGENCY",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "mailchimp",
+   "name": "Mailchimp",
+   "category": "Marketing",
+   "website": "https://mailchimp.com",
+   "composio_toolkit": "MAILCHIMP",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "klaviyo",
+   "name": "Klaviyo",
+   "category": "Marketing",
+   "website": "https://klaviyo.com",
+   "composio_toolkit": "KLAVIYO",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "constant-contact",
+   "name": "Constant Contact",
+   "category": "Marketing",
+   "website": "https://constantcontact.com",
+   "composio_toolkit": "CONSTANT_CONTACT",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "brevo",
+   "name": "Brevo",
+   "category": "Marketing",
+   "website": "https://brevo.com",
+   "composio_toolkit": "BREVO",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "aweber",
+   "name": "AWeber",
+   "category": "Marketing",
+   "website": "https://aweber.com",
+   "composio_toolkit": "AWEBER",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "getresponse",
+   "name": "GetResponse",
+   "category": "Marketing",
+   "website": "https://getresponse.com",
+   "composio_toolkit": "GETRESPONSE",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "buffer",
+   "name": "Buffer",
+   "category": "Social",
+   "website": "https://buffer.com",
+   "composio_toolkit": "BUFFER",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "linkedin",
+   "name": "LinkedIn",
+   "category": "Social",
+   "website": "https://linkedin.com",
+   "composio_toolkit": "LINKEDIN",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "linkedin-ads",
+   "name": "LinkedIn Ads",
+   "category": "Advertising",
+   "website": "https://linkedin.com",
+   "composio_toolkit": "LINKEDIN_ADS",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "meta-ads",
+   "name": "Meta Ads",
+   "category": "Advertising",
+   "website": "https://facebook.com",
+   "composio_toolkit": "METAADS",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "instagram",
+   "name": "Instagram",
+   "category": "Social",
+   "website": "https://instagram.com",
+   "composio_toolkit": "INSTAGRAM",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "facebook-pages",
+   "name": "Facebook Pages",
+   "category": "Social",
+   "website": "https://facebook.com",
+   "composio_toolkit": "FACEBOOK",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "threads",
+   "name": "Threads",
+   "category": "Social",
+   "website": "https://threads.net",
+   "composio_toolkit": "THREADS",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "tiktok",
+   "name": "TikTok",
+   "category": "Social",
+   "website": "https://tiktok.com",
+   "composio_toolkit": "TIKTOK",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "snapchat",
+   "name": "Snapchat",
+   "category": "Advertising",
+   "website": "https://snapchat.com",
+   "composio_toolkit": "SNAPCHAT",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "pinterest",
+   "name": "Pinterest",
+   "category": "Social",
+   "website": "https://pinterest.com",
+   "composio_toolkit": "PINTEREST",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "reddit",
+   "name": "Reddit",
+   "category": "Social",
+   "website": "https://reddit.com",
+   "composio_toolkit": "REDDIT",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "youtube",
+   "name": "YouTube",
+   "category": "Media",
+   "website": "https://youtube.com",
+   "composio_toolkit": "YOUTUBE",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "vimeo",
+   "name": "Vimeo",
+   "category": "Media",
+   "website": "https://vimeo.com",
+   "composio_toolkit": "VIMEO",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "soundcloud",
+   "name": "SoundCloud",
+   "category": "Media",
+   "website": "https://soundcloud.com",
+   "composio_toolkit": "SOUNDCLOUD",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "twitch",
+   "name": "Twitch",
+   "category": "Media",
+   "website": "https://twitch.tv",
+   "composio_toolkit": "TWITCH",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "google-ads",
+   "name": "Google Ads",
+   "category": "Advertising",
+   "website": "https://ads.google.com",
+   "composio_toolkit": "GOOGLEADS",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "microsoft-advertising",
+   "name": "Microsoft Advertising",
+   "category": "Advertising",
+   "website": "https://ads.microsoft.com",
+   "composio_toolkit": "MICROSOFT_ADVERTISING",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "stripe",
+   "name": "Stripe",
+   "category": "Payments",
+   "website": "https://stripe.com",
+   "composio_toolkit": "STRIPE",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "paypal",
+   "name": "PayPal",
+   "category": "Payments",
+   "website": "https://paypal.com",
+   "composio_toolkit": "PAYPAL",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "square",
+   "name": "Square",
+   "category": "Payments",
+   "website": "https://squareup.com",
+   "composio_toolkit": "SQUARE",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "razorpay",
+   "name": "Razorpay",
+   "category": "Payments",
+   "website": "https://razorpay.com",
+   "composio_toolkit": "RAZORPAY",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "clover",
+   "name": "Clover",
+   "category": "Payments",
+   "website": "https://clover.com",
+   "composio_toolkit": "CLOVER",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "brex",
+   "name": "Brex",
+   "category": "Finance",
+   "website": "https://brex.com",
+   "composio_toolkit": "BREX",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "ramp",
+   "name": "Ramp",
+   "category": "Finance",
+   "website": "https://ramp.com",
+   "composio_toolkit": "RAMP",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "freshbooks",
+   "name": "FreshBooks",
+   "category": "Accounting",
+   "website": "https://freshbooks.com",
+   "composio_toolkit": "FRESHBOOKS",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "zoho-books",
+   "name": "Zoho Books",
+   "category": "Accounting",
+   "website": "https://zoho.com",
+   "composio_toolkit": "ZOHO_BOOKS",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "netsuite",
+   "name": "NetSuite",
+   "category": "ERP",
+   "website": "https://netsuite.com",
+   "composio_toolkit": "NETSUITE",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "gusto",
+   "name": "Gusto",
+   "category": "HR & payroll",
+   "website": "https://gusto.com",
+   "composio_toolkit": "GUSTO",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "deel",
+   "name": "Deel",
+   "category": "HR & payroll",
+   "website": "https://deel.com",
+   "composio_toolkit": "DEEL",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "bamboohr",
+   "name": "BambooHR",
+   "category": "HR & payroll",
+   "website": "https://bamboohr.com",
+   "composio_toolkit": "BAMBOOHR",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "personio",
+   "name": "Personio",
+   "category": "HR & payroll",
+   "website": "https://personio.com",
+   "composio_toolkit": "PERSONIO",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "workday",
+   "name": "Workday",
+   "category": "HR & payroll",
+   "website": "https://workday.com",
+   "composio_toolkit": "WORKDAY",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "greenhouse",
+   "name": "Greenhouse",
+   "category": "Recruiting",
+   "website": "https://greenhouse.io",
+   "composio_toolkit": "GREENHOUSE",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "lever",
+   "name": "Lever",
+   "category": "Recruiting",
+   "website": "https://lever.co",
+   "composio_toolkit": "LEVER",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "workable",
+   "name": "Workable",
+   "category": "Recruiting",
+   "website": "https://workable.com",
+   "composio_toolkit": "WORKABLE",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "calendly",
+   "name": "Calendly",
+   "category": "Scheduling",
+   "website": "https://calendly.com",
+   "composio_toolkit": "CALENDLY",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "cal-com",
+   "name": "Cal.com",
+   "category": "Scheduling",
+   "website": "https://cal.com",
+   "composio_toolkit": "CAL",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "typeform",
+   "name": "Typeform",
+   "category": "Forms",
+   "website": "https://typeform.com",
+   "composio_toolkit": "TYPEFORM",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "surveymonkey",
+   "name": "SurveyMonkey",
+   "category": "Forms",
+   "website": "https://surveymonkey.com",
+   "composio_toolkit": "SURVEY_MONKEY",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "tally",
+   "name": "Tally",
+   "category": "Forms",
+   "website": "https://tally.so",
+   "composio_toolkit": "TALLY",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "figma",
+   "name": "Figma",
+   "category": "Design",
+   "website": "https://figma.com",
+   "composio_toolkit": "FIGMA",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "canva",
+   "name": "Canva",
+   "category": "Design",
+   "website": "https://canva.com",
+   "composio_toolkit": "CANVA",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "miro",
+   "name": "Miro",
+   "category": "Design",
+   "website": "https://miro.com",
+   "composio_toolkit": "MIRO",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "webflow",
+   "name": "Webflow",
+   "category": "Websites",
+   "website": "https://webflow.com",
+   "composio_toolkit": "WEBFLOW",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "wix",
+   "name": "Wix",
+   "category": "Websites",
+   "website": "https://wix.com",
+   "composio_toolkit": "WIX",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "wordpress-com",
+   "name": "WordPress.com",
+   "category": "Websites",
+   "website": "https://wordpress.com",
+   "composio_toolkit": "WORDPRESS_COM",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "ebay",
+   "name": "eBay",
+   "category": "Commerce",
+   "website": "https://ebay.com",
+   "composio_toolkit": "EBAY",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "smartsheet",
+   "name": "Smartsheet",
+   "category": "Project management",
+   "website": "https://smartsheet.com",
+   "composio_toolkit": "SMARTSHEET",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "servicenow",
+   "name": "ServiceNow",
+   "category": "IT service management",
+   "website": "https://servicenow.com",
+   "composio_toolkit": "SERVICENOW",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "pagerduty",
+   "name": "PagerDuty",
+   "category": "Developer tools",
+   "website": "https://pagerduty.com",
+   "composio_toolkit": "PAGERDUTY",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "sentry",
+   "name": "Sentry",
+   "category": "Developer tools",
+   "website": "https://sentry.io",
+   "composio_toolkit": "SENTRY",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "gitlab",
+   "name": "GitLab",
+   "category": "Developer tools",
+   "website": "https://gitlab.com",
+   "composio_toolkit": "GITLAB",
+   "managed_oauth": "available"
+  },
+  {
+   "slug": "vercel",
+   "name": "Vercel",
+   "category": "Developer tools",
+   "website": "https://vercel.com",
+   "composio_toolkit": "VERCEL",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "datadog",
+   "name": "Datadog",
+   "category": "Developer tools",
+   "website": "https://datadoghq.com",
+   "composio_toolkit": "DATADOG",
+   "managed_oauth": "bring-your-own"
+  },
+  {
+   "slug": "snowflake",
+   "name": "Snowflake",
+   "category": "Data",
+   "website": "https://snowflake.com",
+   "composio_toolkit": "SNOWFLAKE",
+   "managed_oauth": "bring-your-own"
+  }
+ ]
+}

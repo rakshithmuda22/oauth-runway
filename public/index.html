@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OAuth Runway</title>
+  <meta name="description" content="How long until your users can connect an app? Guides to registering an OAuth app and getting it approved, with real wait times, blockers, and what an agent can do for you.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="top"><div class="wrap" id="topbar">
+    <nav><a href="#library">Library</a><a href="#how">How it works</a><a href="https://github.com/rakshithmuda22/oauth-runway" target="_blank" rel="noopener">GitHub</a></nav>
+  </div></header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1>How long until your users can connect it?</h1>
+      <p>Before your agent's users can connect an app, you may need to register an OAuth app with the provider and get it approved. Look up an app to see how hard that is, how long it takes, what could block you, and which steps an agent can do for you. Every claim is cited, and every endpoint is tested live.</p>
+
+      <div class="gen" id="gen">
+        <form id="gen-form" autocomplete="off">
+          <label for="q" class="hidden">App name or website</label>
+          <input id="q" name="q" placeholder="App name or website, e.g. Zoom or pipedrive.com" maxlength="120" required>
+          <button class="btn" id="go" type="submit">Get the guide</button>
+        </form>
+        <p class="hint">Apps in the library open instantly. Anything else is researched live by an agent (about 2–4 minutes). Try
+          <button type="button" data-try="Zoom">Zoom</button>,
+          <button type="button" data-try="Pipedrive">Pipedrive</button>,
+          <button type="button" data-try="Google Workspace">Gmail</button>.</p>
+        <div class="progress hidden" id="progress" aria-live="polite">
+          <div class="head"><span id="p-status"><span class="spinner"></span>Starting…</span><span id="p-time" class="mono">0:00</span></div>
+          <ul class="log" id="p-log"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="library">
+      <h2>Library</h2>
+      <div class="toolbar" id="filters">
+        <button class="chip" aria-pressed="true" data-tier="">All</button>
+        <button class="chip" aria-pressed="false" data-tier="self-serve">Self-serve</button>
+        <button class="chip" aria-pressed="false" data-tier="self-serve-with-review">Review to go wide</button>
+        <button class="chip" aria-pressed="false" data-tier="approval-gated">Approval-gated</button>
+        <button class="chip" aria-pressed="false" data-tier="partner-only">Partner / paid</button>
+        <input id="filter" type="search" placeholder="Filter" aria-label="Filter guides">
+      </div>
+      <div class="grid" id="grid"><p class="muted">Loading…</p></div>
+    </section>
+
+    <section id="recent-wrap" class="hidden">
+      <h2>Recently researched live</h2>
+      <div class="grid" id="recent"></div>
+    </section>
+
+    <section id="next">
+      <h2>The rest of the 100</h2>
+      <p class="muted small" id="next-intro"></p>
+      <div class="catalog" id="catalog"></div>
+    </section>
+
+    <section id="how">
+      <h2>How it works</h2>
+      <div class="how">
+        <div><h3>1. Research</h3><p>An agent searches and reads the provider's official developer docs, policies and changelogs, and cites every claim. Community sources are labelled as such.</p></div>
+        <div><h3>2. Test</h3><p>Code (not the model) hits the real authorize endpoint with an unregistered client, reads the OIDC metadata, opens the developer portal and re-checks every cited link. Those results appear under "Tested".</p></div>
+        <div><h3>3. Be honest</h3><p>Anything that couldn't be confirmed, conflicts between sources, or is an estimate is listed under "Uncertain". Each guide states its confidence.</p></div>
+        <div><h3>4. Split the work</h3><p>Every step is tagged as something an agent can do, something it can prepare for you, something only you can do (sign-in, legal, payment), or a wait on the provider.</p></div>
+      </div>
+      <div class="legend" id="legend"></div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">OAuth Runway, a take-home for Composio's APM (Integrations) role by Sai Rakshith Muda. Guides reflect provider docs as of the date shown on each one; check the cited sources before you rely on them. Not affiliated with any provider.</div></footer>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

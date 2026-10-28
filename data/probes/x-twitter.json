@@ -1,0 +1,79 @@
+[
+  {
+    "check": "Authorize endpoint responds to an unregistered client",
+    "method": "GET https://x.com/i/oauth2/authorize?client_id=oauth-runway-probe&response_type=code&redirect_uri=https%3A%2F%2Fbackend.composio.dev%2Fapi%2Fv3%2Ftoolkits%2Fauth%2Fcallback&state=oauth-runway-probe",
+    "status": "pass",
+    "result": "Endpoint is live. It asks the user to sign in first (x.com); the client is only validated after login, so a bad client ID or redirect URI shows up as an error after sign-in.",
+    "at": "2026-10-28T16:34:09.688Z"
+  },
+  {
+    "check": "Developer portal reachable",
+    "method": "GET https://console.x.com",
+    "status": "pass",
+    "result": "Reachable (HTTP 200): \"Developer Console\".",
+    "at": "2026-10-28T16:34:09.728Z"
+  },
+  {
+    "check": "Source [s1] still online",
+    "method": "GET https://docs.x.com/resources/fundamentals/authentication/oauth-2-0/authorization-code",
+    "status": "pass",
+    "result": "HTTP 200: \"OAuth 2.0 Authorization Code Flow with PKCE - X\"",
+    "at": "2026-10-28T16:34:09.905Z"
+  },
+  {
+    "check": "Source [s2] still online",
+    "method": "GET https://docs.x.com/x-api/getting-started/getting-access",
+    "status": "pass",
+    "result": "HTTP 200: \"Getting Access - X\"",
+    "at": "2026-10-28T16:34:09.752Z"
+  },
+  {
+    "check": "Source [s3] still online",
+    "method": "GET https://docs.x.com/x-api/getting-started/pricing",
+    "status": "pass",
+    "result": "HTTP 200: \"X API pay-per-usage pricing and credits - X\"",
+    "at": "2026-10-28T16:34:09.723Z"
+  },
+  {
+    "check": "Source [s4] still online",
+    "method": "GET https://docs.x.com/fundamentals/developer-apps",
+    "status": "pass",
+    "result": "HTTP 200: \"Apps - X\"",
+    "at": "2026-10-28T16:34:09.697Z"
+  },
+  {
+    "check": "Source [s5] still online",
+    "method": "GET https://docs.x.com/x-api/fundamentals/rate-limits",
+    "status": "pass",
+    "result": "HTTP 200: \"X API Rate Limits - X\"",
+    "at": "2026-10-28T16:34:09.883Z"
+  },
+  {
+    "check": "Source [s6] still online",
+    "method": "GET https://docs.x.com/changelog",
+    "status": "pass",
+    "result": "HTTP 200: \"X API changelog and release notes - X\"",
+    "at": "2026-10-28T16:34:09.796Z"
+  },
+  {
+    "check": "Source [s7] still online",
+    "method": "GET https://docs.x.com/developer-terms/policy",
+    "status": "pass",
+    "result": "HTTP 200: \"X Developer Policy - X\"",
+    "at": "2026-10-28T16:34:09.815Z"
+  },
+  {
+    "check": "Source [s8] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+    "status": "pass",
+    "result": "HTTP 200: \"Managed vs custom auth | Composio\"",
+    "at": "2026-10-28T16:34:09.930Z"
+  },
+  {
+    "check": "Source [s9] still online",
+    "method": "GET https://docs.composio.dev/docs/authentication/white-labeling-authentication",
+    "status": "pass",
+    "result": "HTTP 200: \"White-labeling authentication | Composio\"",
+    "at": "2026-10-28T16:34:10.054Z"
+  }
+]
